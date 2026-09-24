@@ -6,6 +6,8 @@ Application Android (nom provisoire : **Foteli**, ex « ABC – Bilan Photo ») 
 
 Le cahier des charges complet est dans `docs/cahier-des-charges.md`. Le lire avant toute réponse sur le projet et s'y conformer.
 
+Les références institutionnelles sont dans `references/` : programme officiel de maternelle (BO 2024, consolidé mai 2026), référentiel de compétences Foteli (`references/referentiel-competences.md` / `.csv`, 6 domaines, identifiants stables) et analyse des écarts. Le programme actuel compte 6 domaines ; « Explorer le monde » n'existe plus.
+
 ## Règles essentielles
 
 - **Phase actuelle : CONCEPTION.** Ne produire aucun code sauf demande explicite de l'utilisateur.

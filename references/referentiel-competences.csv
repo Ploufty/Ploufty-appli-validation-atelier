@@ -1,0 +1,494 @@
+﻿id;domaine_code;domaine;sous_domaine_code;sous_domaine;niveau;competence;origine
+LAN-VOC-PS-01;LAN;Le développement et la structuration du langage oral et écrit;VOC;Enrichir son vocabulaire;PS;Je comprends les nouveaux mots qu'on m'apprend à l'école.;enseignant
+LAN-VOC-PS-02;LAN;Le développement et la structuration du langage oral et écrit;VOC;Enrichir son vocabulaire;PS;Je retiens et j'utilise les nouveaux mots qu'on m'apprend à l'école.;enseignant
+LAN-VOC-PS-03;LAN;Le développement et la structuration du langage oral et écrit;VOC;Enrichir son vocabulaire;PS;Je sais regrouper les mots qui vont ensemble.;enseignant
+LAN-VOC-PS-04;LAN;Le développement et la structuration du langage oral et écrit;VOC;Enrichir son vocabulaire;PS;Je trouve l'intrus dans un groupe de mots.;enseignant
+LAN-VOC-MS-01;LAN;Le développement et la structuration du langage oral et écrit;VOC;Enrichir son vocabulaire;MS;Je continue d'apprendre de nouveaux mots plus précis pour décrire ce qui m'entoure et pour raconter des histoires.;enseignant
+LAN-VOC-MS-02;LAN;Le développement et la structuration du langage oral et écrit;VOC;Enrichir son vocabulaire;MS;J'organise les mots par catégories.;enseignant
+LAN-VOC-MS-03;LAN;Le développement et la structuration du langage oral et écrit;VOC;Enrichir son vocabulaire;MS;Je comprends que certains mots peuvent avoir plusieurs sens (comme glace).;enseignant
+LAN-VOC-MS-04;LAN;Le développement et la structuration du langage oral et écrit;VOC;Enrichir son vocabulaire;MS;Je m'appuie sur des mots que je connais pour comprendre un mot nouveau (animal / animalerie).;programme
+LAN-VOC-MS-05;LAN;Le développement et la structuration du langage oral et écrit;VOC;Enrichir son vocabulaire;MS;Je trouve des mots qui veulent dire la même chose (synonymes).;programme
+LAN-VOC-GS-01;LAN;Le développement et la structuration du langage oral et écrit;VOC;Enrichir son vocabulaire;GS;J'enrichis mon vocabulaire avec des mots sur les émotions.;enseignant
+LAN-VOC-GS-02;LAN;Le développement et la structuration du langage oral et écrit;VOC;Enrichir son vocabulaire;GS;Je sais relier les mots entre eux.;enseignant
+LAN-VOC-GS-03;LAN;Le développement et la structuration du langage oral et écrit;VOC;Enrichir son vocabulaire;GS;Je sais créer des mots dérivés.;enseignant
+LAN-VOC-GS-04;LAN;Le développement et la structuration du langage oral et écrit;VOC;Enrichir son vocabulaire;GS;Je sais deviner le sens de mots que je ne connais pas.;enseignant
+LAN-VOC-GS-05;LAN;Le développement et la structuration du langage oral et écrit;VOC;Enrichir son vocabulaire;GS;Je distingue le sens propre du sens figuré (dévorer un gâteau / dévorer un livre).;programme
+LAN-VOC-GS-06;LAN;Le développement et la structuration du langage oral et écrit;VOC;Enrichir son vocabulaire;GS;Je trouve le mot qui regroupe les autres (véhicule pour voiture, bus, vélo).;programme
+LAN-SYN-PS-01;LAN;Le développement et la structuration du langage oral et écrit;SYN;Développer sa syntaxe;PS;J'apprends à utiliser les pronoms il, elle, ils, elles et je.;enseignant
+LAN-SYN-PS-02;LAN;Le développement et la structuration du langage oral et écrit;SYN;Développer sa syntaxe;PS;Je sais parler au présent, au passé (passé composé) et au futur proche (je vais faire).;enseignant
+LAN-SYN-PS-03;LAN;Le développement et la structuration du langage oral et écrit;SYN;Développer sa syntaxe;PS;Je relie mes phrases simples avec et ou et puis.;enseignant
+LAN-SYN-MS-01;LAN;Le développement et la structuration du langage oral et écrit;SYN;Développer sa syntaxe;MS;J'utilise les pronoms tu et on.;enseignant
+LAN-SYN-MS-02;LAN;Le développement et la structuration du langage oral et écrit;SYN;Développer sa syntaxe;MS;J'utilise l'imparfait, le passé composé et le conditionnel.;enseignant
+LAN-SYN-MS-03;LAN;Le développement et la structuration du langage oral et écrit;SYN;Développer sa syntaxe;MS;J'utilise de nouveaux mots de liaison comme d'abord, ensuite, parce que, que ou qui pour construire mes phrases.;enseignant
+LAN-SYN-GS-01;LAN;Le développement et la structuration du langage oral et écrit;SYN;Développer sa syntaxe;GS;J'utilise maintenant les pronoms nous et vous.;enseignant
+LAN-SYN-GS-02;LAN;Le développement et la structuration du langage oral et écrit;SYN;Développer sa syntaxe;GS;Je maîtrise des temps plus complexes comme l'imparfait, le plus-que-parfait et le futur simple.;enseignant
+LAN-SYN-GS-03;LAN;Le développement et la structuration du langage oral et écrit;SYN;Développer sa syntaxe;GS;J'utilise le futur et le futur antérieur (quand on ira…, on aura déjà…).;programme
+LAN-SYN-GS-04;LAN;Le développement et la structuration du langage oral et écrit;SYN;Développer sa syntaxe;GS;J'utilise des mots de liaison pour exprimer le lieu, le temps, la cause ou la comparaison (où, quand, pour que, si, comme).;enseignant
+LAN-ARL-PS-01;LAN;Le développement et la structuration du langage oral et écrit;ARL;Articuler distinctement;PS;J'apprends à prononcer distinctement les couples de consonnes proches : t/k, f/s, m/n.;enseignant
+LAN-ARL-PS-02;LAN;Le développement et la structuration du langage oral et écrit;ARL;Articuler distinctement;PS;Je commence à percevoir les distinctions entre des mots proches phonologiquement.;enseignant
+LAN-ARL-PS-03;LAN;Le développement et la structuration du langage oral et écrit;ARL;Articuler distinctement;PS;À partir d'un imagier, je prononce correctement des mots qui se ressemblent : cour/tour, cube/tube, cassé/café, pouce/pouf, nain/main.;enseignant
+LAN-ARL-MS-01;LAN;Le développement et la structuration du langage oral et écrit;ARL;Articuler distinctement;MS;Je distingue et je produis correctement les sons é/in, a/an, o/on.;enseignant
+LAN-ARL-MS-02;LAN;Le développement et la structuration du langage oral et écrit;ARL;Articuler distinctement;MS;J'articule distinctement les couples de consonnes proches suivants : f/v, s/z, p/b, t/d, k/g.;enseignant
+LAN-ARL-MS-03;LAN;Le développement et la structuration du langage oral et écrit;ARL;Articuler distinctement;MS;À partir d'un imagier, je prononce correctement : ville/fil, dessert/désert, poison/poisson, pépé/bébé, doigt/toit, gare/car et les mots qui se ressemblent : boule/poule.;enseignant
+LAN-ARL-GS-01;LAN;Le développement et la structuration du langage oral et écrit;ARL;Articuler distinctement;GS;Je prononce correctement les couples de consonnes proches suivants : ch/s, ch/j, ch/z.;enseignant
+LAN-ARL-GS-02;LAN;Le développement et la structuration du langage oral et écrit;ARL;Articuler distinctement;GS;Je prononce correctement les doubles consonnes : br/cr/bl/pl/sl.;enseignant
+LAN-ARL-GS-03;LAN;Le développement et la structuration du langage oral et écrit;ARL;Articuler distinctement;GS;À partir d'un imagier, je prononce correctement : chaud/seau, mouche/mousse, bijou/bisou, manche/mange.;programme
+LAN-DIS-PS-01;LAN;Le développement et la structuration du langage oral et écrit;DIS;Produire des discours variés;PS;Je parle avec un adulte ou un autre élève.;enseignant
+LAN-DIS-PS-02;LAN;Le développement et la structuration du langage oral et écrit;DIS;Produire des discours variés;PS;Je dis ce que je fais.;enseignant
+LAN-DIS-PS-03;LAN;Le développement et la structuration du langage oral et écrit;DIS;Produire des discours variés;PS;Je dis ce que j'ai fait et, peu à peu, ce que je vais faire.;enseignant
+LAN-DIS-PS-04;LAN;Le développement et la structuration du langage oral et écrit;DIS;Produire des discours variés;PS;Je prends part à l'oralisation d'un court texte mémorisé.;enseignant
+LAN-DIS-MS-01;LAN;Le développement et la structuration du langage oral et écrit;DIS;Produire des discours variés;MS;Je dis ce que je vais faire.;enseignant
+LAN-DIS-MS-02;LAN;Le développement et la structuration du langage oral et écrit;DIS;Produire des discours variés;MS;Je dis comment j'ai fait ou comment je vais faire.;enseignant
+LAN-DIS-MS-03;LAN;Le développement et la structuration du langage oral et écrit;DIS;Produire des discours variés;MS;J'oralise un court texte mémorisé.;enseignant
+LAN-DIS-MS-04;LAN;Le développement et la structuration du langage oral et écrit;DIS;Produire des discours variés;MS;Je participe à des échanges en restant dans le propos.;enseignant
+LAN-DIS-GS-01;LAN;Le développement et la structuration du langage oral et écrit;DIS;Produire des discours variés;GS;Je décris une action ou une activité qui a été menée par un autre élève.;enseignant
+LAN-DIS-GS-02;LAN;Le développement et la structuration du langage oral et écrit;DIS;Produire des discours variés;GS;Je me fais comprendre, par le langage, d'un adulte qui ne connaît rien à la situation évoquée.;enseignant
+LAN-DIS-GS-03;LAN;Le développement et la structuration du langage oral et écrit;DIS;Produire des discours variés;GS;Je participe à une conversation avec un adulte ou mes camarades.;enseignant
+LAN-DIS-GS-04;LAN;Le développement et la structuration du langage oral et écrit;DIS;Produire des discours variés;GS;Je reformule mon propos s'il n'a pas été compris.;enseignant
+LAN-DIS-GS-05;LAN;Le développement et la structuration du langage oral et écrit;DIS;Produire des discours variés;GS;J'émets une hypothèse.;enseignant
+LAN-SON-PS-01;LAN;Le développement et la structuration du langage oral et écrit;SON;Écouter, identifier, discriminer et reproduire des sons;PS;Je reconnais des sons.;enseignant
+LAN-SON-PS-02;LAN;Le développement et la structuration du langage oral et écrit;SON;Écouter, identifier, discriminer et reproduire des sons;PS;Je reconnais un mot donné à l'oral dans une phrase, dans un texte.;enseignant
+LAN-SON-MS-01;LAN;Le développement et la structuration du langage oral et écrit;SON;Écouter, identifier, discriminer et reproduire des sons;MS;Je parle, je chante, j'imite, je découvre des sons, je les reproduis.;enseignant
+LAN-SON-MS-02;LAN;Le développement et la structuration du langage oral et écrit;SON;Écouter, identifier, discriminer et reproduire des sons;MS;Je reconnais des sons différents.;enseignant
+LAN-SON-MS-03;LAN;Le développement et la structuration du langage oral et écrit;SON;Écouter, identifier, discriminer et reproduire des sons;MS;J'entends et je distingue les sons de la langue (phonèmes).;programme
+LAN-SON-GS-01;LAN;Le développement et la structuration du langage oral et écrit;SON;Écouter, identifier, discriminer et reproduire des sons;GS;J'utilise les possibilités de ma voix.;enseignant
+LAN-SON-GS-02;LAN;Le développement et la structuration du langage oral et écrit;SON;Écouter, identifier, discriminer et reproduire des sons;GS;Je mémorise de plus en plus ce que j'entends.;enseignant
+LAN-SON-GS-03;LAN;Le développement et la structuration du langage oral et écrit;SON;Écouter, identifier, discriminer et reproduire des sons;GS;J'arrive à me concentrer.;enseignant
+LAN-SON-GS-04;LAN;Le développement et la structuration du langage oral et écrit;SON;Écouter, identifier, discriminer et reproduire des sons;GS;Je différencie des sons proches : on/en/un.;enseignant
+LAN-SYL-PS-01;LAN;Le développement et la structuration du langage oral et écrit;SYL;Manipuler des syllabes orales puis des phonèmes;PS;Je scande les syllabes d'un mot.;enseignant
+LAN-SYL-PS-02;LAN;Le développement et la structuration du langage oral et écrit;SYL;Manipuler des syllabes orales puis des phonèmes;PS;Je prononce mon prénom en scandant les syllabes.;enseignant
+LAN-SYL-PS-03;LAN;Le développement et la structuration du langage oral et écrit;SYL;Manipuler des syllabes orales puis des phonèmes;PS;Je dis des comptines courtes avec des sons qui se ressemblent.;enseignant
+LAN-SYL-MS-01;LAN;Le développement et la structuration du langage oral et écrit;SYL;Manipuler des syllabes orales puis des phonèmes;MS;Je scande les syllabes d'un mot.;enseignant
+LAN-SYL-MS-02;LAN;Le développement et la structuration du langage oral et écrit;SYL;Manipuler des syllabes orales puis des phonèmes;MS;Je manipule les syllabes d'un mot (ajouter, enlever, inverser, remplacer).;enseignant
+LAN-SYL-MS-03;LAN;Le développement et la structuration du langage oral et écrit;SYL;Manipuler des syllabes orales puis des phonèmes;MS;Je compte les syllabes.;enseignant
+LAN-SYL-MS-04;LAN;Le développement et la structuration du langage oral et écrit;SYL;Manipuler des syllabes orales puis des phonèmes;MS;Je compare les mots selon leur nombre de syllabes.;enseignant
+LAN-SYL-MS-05;LAN;Le développement et la structuration du langage oral et écrit;SYL;Manipuler des syllabes orales puis des phonèmes;MS;Je dis des comptines courtes avec des sons qui se ressemblent.;enseignant
+LAN-SYL-GS-01;LAN;Le développement et la structuration du langage oral et écrit;SYL;Manipuler des syllabes orales puis des phonèmes;GS;Je joue avec les syllabes.;enseignant
+LAN-SYL-GS-02;LAN;Le développement et la structuration du langage oral et écrit;SYL;Manipuler des syllabes orales puis des phonèmes;GS;Je repère des sons identiques.;enseignant
+LAN-SYL-GS-03;LAN;Le développement et la structuration du langage oral et écrit;SYL;Manipuler des syllabes orales puis des phonèmes;GS;Je trouve des intrus à l'initiale.;enseignant
+LAN-SYL-GS-04;LAN;Le développement et la structuration du langage oral et écrit;SYL;Manipuler des syllabes orales puis des phonèmes;GS;Je trouve des sons dans un mot.;enseignant
+LAN-SYL-GS-05;LAN;Le développement et la structuration du langage oral et écrit;SYL;Manipuler des syllabes orales puis des phonèmes;GS;Je produis des rimes.;enseignant
+LAN-SYL-GS-06;LAN;Le développement et la structuration du langage oral et écrit;SYL;Manipuler des syllabes orales puis des phonèmes;GS;J'entends, je discrimine, je manipule des sons.;enseignant
+LAN-NLE-PS-01;LAN;Le développement et la structuration du langage oral et écrit;NLE;Connaître le nom des lettres;PS;Je reconnais mon prénom parmi d'autres.;enseignant
+LAN-NLE-PS-02;LAN;Le développement et la structuration du langage oral et écrit;NLE;Connaître le nom des lettres;PS;Je nomme certaines lettres de mon prénom écrit en capitales.;enseignant
+LAN-NLE-PS-03;LAN;Le développement et la structuration du langage oral et écrit;NLE;Connaître le nom des lettres;PS;J'utilise l'étiquette de mon prénom.;enseignant
+LAN-NLE-MS-01;LAN;Le développement et la structuration du langage oral et écrit;NLE;Connaître le nom des lettres;MS;J'épelle mon prénom ou les lettres d'un mot connu.;enseignant
+LAN-NLE-MS-02;LAN;Le développement et la structuration du langage oral et écrit;NLE;Connaître le nom des lettres;MS;Je connais la correspondance entre les lettres scriptes majuscules et minuscules et les lettres cursives minuscules.;enseignant
+LAN-NLE-MS-03;LAN;Le développement et la structuration du langage oral et écrit;NLE;Connaître le nom des lettres;MS;Je respecte l'ordre des lettres.;enseignant
+LAN-NLE-GS-01;LAN;Le développement et la structuration du langage oral et écrit;NLE;Connaître le nom des lettres;GS;Je connais le nom des lettres de l'alphabet en capitale d'imprimerie, en scripte, en cursive.;enseignant
+LAN-NLE-GS-02;LAN;Le développement et la structuration du langage oral et écrit;NLE;Connaître le nom des lettres;GS;Je sais épeler les lettres d'un mot connu.;enseignant
+LAN-NLE-GS-03;LAN;Le développement et la structuration du langage oral et écrit;NLE;Connaître le nom des lettres;GS;"Je connais les différentes graphies d'une même lettre (majuscule lettre capitale ; minuscules scriptes ; cursives).";enseignant
+LAN-NLE-GS-04;LAN;Le développement et la structuration du langage oral et écrit;NLE;Connaître le nom des lettres;GS;Je distingue des lettres visuellement proches (b/d, c/e/o, p/q) en attaché et je les nomme correctement.;enseignant
+LAN-SLE-MS-01;LAN;Le développement et la structuration du langage oral et écrit;SLE;Connaître le son des lettres;MS;J'utilise le nom des lettres pour représenter les sons (voyelles).;enseignant
+LAN-SLE-MS-02;LAN;Le développement et la structuration du langage oral et écrit;SLE;Connaître le son des lettres;MS;Je connais le son de quelques lettres des mots que je connais.;programme
+LAN-SLE-GS-01;LAN;Le développement et la structuration du langage oral et écrit;SLE;Connaître le son des lettres;GS;Je connais le nom des lettres de l'alphabet et leur son.;enseignant
+LAN-SLE-GS-02;LAN;Le développement et la structuration du langage oral et écrit;SLE;Connaître le son des lettres;GS;Je reconnais des mots auditivement proches (poule/boule/roule).;enseignant
+LAN-DLI-PS-01;LAN;Le développement et la structuration du langage oral et écrit;DLI;S'éveiller à la diversité linguistique;PS;Je prends plaisir à écouter des chants, des comptines, des histoires connues en français et en langue étrangère.;enseignant
+LAN-DLI-MS-01;LAN;Le développement et la structuration du langage oral et écrit;DLI;S'éveiller à la diversité linguistique;MS;Je participe à des jeux dans une autre langue : jeux de doigts, rondes, jeux dansés, mimes, jeux de cour, jeux de cartes.;enseignant
+LAN-DLI-MS-02;LAN;Le développement et la structuration du langage oral et écrit;DLI;S'éveiller à la diversité linguistique;MS;Je mémorise des chants et des comptines dans une autre langue.;enseignant
+LAN-SUP-PS-01;LAN;Le développement et la structuration du langage oral et écrit;SUP;Découvrir les supports de l'écrit;PS;Je repère les outils utilisés en classe (étiquette du prénom, emploi du temps, affiches, etc.).;enseignant
+LAN-SUP-PS-02;LAN;Le développement et la structuration du langage oral et écrit;SUP;Découvrir les supports de l'écrit;PS;Je reconnais quelques écrits utilisés et produits en classe (comptines, recettes, carnet de lecteur).;enseignant
+LAN-SUP-MS-01;LAN;Le développement et la structuration du langage oral et écrit;SUP;Découvrir les supports de l'écrit;MS;Je reconnais, je nomme, je sais à quoi servent les écrits de la vie courante.;enseignant
+LAN-SUP-MS-02;LAN;Le développement et la structuration du langage oral et écrit;SUP;Découvrir les supports de l'écrit;MS;Je comprends à quoi servent une lettre, les étiquettes de la classe, les affichages.;enseignant
+LAN-SUP-MS-03;LAN;Le développement et la structuration du langage oral et écrit;SUP;Découvrir les supports de l'écrit;MS;J'utilise les livres de la classe.;enseignant
+LAN-SUP-MS-04;LAN;Le développement et la structuration du langage oral et écrit;SUP;Découvrir les supports de l'écrit;MS;J'utilise les outils de la classe pour me repérer, m'organiser et ranger.;enseignant
+LAN-SUP-GS-01;LAN;Le développement et la structuration du langage oral et écrit;SUP;Découvrir les supports de l'écrit;GS;Je différencie les types d'écrits.;enseignant
+LAN-SUP-GS-02;LAN;Le développement et la structuration du langage oral et écrit;SUP;Découvrir les supports de l'écrit;GS;Je reconnais les mises en page des différents écrits (lettre, recette, conte, documentaire, notice).;enseignant
+LAN-SUP-GS-03;LAN;Le développement et la structuration du langage oral et écrit;SUP;Découvrir les supports de l'écrit;GS;J'utilise le bon vocabulaire pour décrire les écrits et en parler : ponctuation, page, paragraphe, majuscule, ligne.;enseignant
+LAN-TXT-PS-01;LAN;Le développement et la structuration du langage oral et écrit;TXT;Comprendre des textes lus par le professeur;PS;Je reconnais un personnage, je le nomme et je le retrouve dans les illustrations.;programme
+LAN-TXT-PS-02;LAN;Le développement et la structuration du langage oral et écrit;TXT;Comprendre des textes lus par le professeur;PS;Je retrouve les livres dans lesquels se trouvent les mêmes personnages.;enseignant
+LAN-TXT-PS-03;LAN;Le développement et la structuration du langage oral et écrit;TXT;Comprendre des textes lus par le professeur;PS;Je raconte une histoire avec une marotte, un décor, des accessoires.;enseignant
+LAN-TXT-PS-04;LAN;Le développement et la structuration du langage oral et écrit;TXT;Comprendre des textes lus par le professeur;PS;Je comprends des histoires proches de ma vie de tous les jours (le bain, le coucher).;programme
+LAN-TXT-MS-01;LAN;Le développement et la structuration du langage oral et écrit;TXT;Comprendre des textes lus par le professeur;MS;J'identifie et je décris le personnage principal et les personnages secondaires.;enseignant
+LAN-TXT-MS-02;LAN;Le développement et la structuration du langage oral et écrit;TXT;Comprendre des textes lus par le professeur;MS;Je comprends des histoires où l'enchaînement des actions se répète.;enseignant
+LAN-TXT-MS-03;LAN;Le développement et la structuration du langage oral et écrit;TXT;Comprendre des textes lus par le professeur;MS;Je commence à comprendre les émotions et les sentiments des personnages.;enseignant
+LAN-TXT-MS-04;LAN;Le développement et la structuration du langage oral et écrit;TXT;Comprendre des textes lus par le professeur;MS;Je raconte une histoire entendue plusieurs fois, à l'aide d'une marotte, d'un décor, d'accessoires, en respectant l'enchaînement et les caractéristiques des personnages.;enseignant
+LAN-TXT-GS-01;LAN;Le développement et la structuration du langage oral et écrit;TXT;Comprendre des textes lus par le professeur;GS;Je sais expliquer les motivations des personnages, leurs émotions, leurs relations.;enseignant
+LAN-TXT-GS-02;LAN;Le développement et la structuration du langage oral et écrit;TXT;Comprendre des textes lus par le professeur;GS;Je construis les caractéristiques des personnages archétypaux (loup, princesse, ogre, sorcière, renard, fée, etc.).;enseignant
+LAN-TXT-GS-03;LAN;Le développement et la structuration du langage oral et écrit;TXT;Comprendre des textes lus par le professeur;GS;Je raconte une histoire connue en entier et sans support.;enseignant
+LAN-TXT-GS-04;LAN;Le développement et la structuration du langage oral et écrit;TXT;Comprendre des textes lus par le professeur;GS;Je comprends les émotions, les intentions et les sentiments des personnages.;enseignant
+LAN-TXT-GS-05;LAN;Le développement et la structuration du langage oral et écrit;TXT;Comprendre des textes lus par le professeur;GS;J'établis un lien entre mes lectures et mes expériences.;enseignant
+LAN-GES-PS-01;LAN;Le développement et la structuration du langage oral et écrit;GES;Apprendre le geste d'écriture;PS;J'entraîne mes doigts avec la pâte à modeler.;enseignant
+LAN-GES-PS-02;LAN;Le développement et la structuration du langage oral et écrit;GES;Apprendre le geste d'écriture;PS;Je réalise des traces et des tracés.;enseignant
+LAN-GES-PS-03;LAN;Le développement et la structuration du langage oral et écrit;GES;Apprendre le geste d'écriture;PS;Je dessine.;enseignant
+LAN-GES-PS-04;LAN;Le développement et la structuration du langage oral et écrit;GES;Apprendre le geste d'écriture;PS;Je réalise des traits verticaux, horizontaux, des points, des boucles, des cercles.;enseignant
+LAN-GES-PS-05;LAN;Le développement et la structuration du langage oral et écrit;GES;Apprendre le geste d'écriture;PS;Je prends des repères pour tracer.;enseignant
+LAN-GES-MS-01;LAN;Le développement et la structuration du langage oral et écrit;GES;Apprendre le geste d'écriture;MS;Je copie des lettres en capitales.;enseignant
+LAN-GES-MS-02;LAN;Le développement et la structuration du langage oral et écrit;GES;Apprendre le geste d'écriture;MS;Je copie mon prénom en lettres capitales.;enseignant
+LAN-GES-MS-03;LAN;Le développement et la structuration du langage oral et écrit;GES;Apprendre le geste d'écriture;MS;Je copie d'autres mots.;enseignant
+LAN-GES-MS-04;LAN;Le développement et la structuration du langage oral et écrit;GES;Apprendre le geste d'écriture;MS;J'adopte une posture adaptée au geste d'écriture.;enseignant
+LAN-GES-MS-05;LAN;Le développement et la structuration du langage oral et écrit;GES;Apprendre le geste d'écriture;MS;Je tiens correctement mon crayon et je m'entraîne à ne pas le lever en écrivant.;enseignant
+LAN-GES-MS-06;LAN;Le développement et la structuration du langage oral et écrit;GES;Apprendre le geste d'écriture;MS;Je m'initie aux tracés de l'écriture cursive.;enseignant
+LAN-GES-GS-01;LAN;Le développement et la structuration du langage oral et écrit;GES;Apprendre le geste d'écriture;GS;Je tiens correctement mon stylo par la pince des doigts et j'utilise de façon coordonnée les quatre articulations (épaule, coude, poignet, doigts).;enseignant
+LAN-GES-GS-02;LAN;Le développement et la structuration du langage oral et écrit;GES;Apprendre le geste d'écriture;GS;Je trace les lettres en cursive et je les enchaîne.;programme
+LAN-GES-GS-03;LAN;Le développement et la structuration du langage oral et écrit;GES;Apprendre le geste d'écriture;GS;J'écris mon prénom en cursive sans modèle.;enseignant
+LAN-GES-GS-04;LAN;Le développement et la structuration du langage oral et écrit;GES;Apprendre le geste d'écriture;GS;J'écris un mot simple en cursive avec modèle.;enseignant
+LAN-GES-GS-05;LAN;Le développement et la structuration du langage oral et écrit;GES;Apprendre le geste d'écriture;GS;J'écris un mot simple en cursive sans modèle.;enseignant
+LAN-ORE-PS-01;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;PS;Je comprends que ce qui est écrit se dit (l'écrit encode l'oral).;programme
+LAN-ORE-PS-02;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;PS;Je sais que l'écriture est différente du dessin.;programme
+LAN-ORE-MS-01;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;MS;Je comprends que lorsque l'adulte lit un même écrit plusieurs fois, ce qu'il lit est toujours identique.;enseignant
+LAN-ORE-MS-02;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;MS;Je comprends que l'écrit code des sons.;enseignant
+LAN-ORE-MS-03;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;MS;J'utilise le nom des lettres pour représenter des sons.;enseignant
+LAN-ORE-MS-04;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;MS;Je dicte à l'adulte un court message.;enseignant
+LAN-ORE-MS-05;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;MS;Je participe à la dictée à l'adulte et je fais des essais d'écriture.;enseignant
+LAN-ORE-MS-06;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;MS;Je compare la longueur d'un texte écrit et la durée du texte entendu.;enseignant
+LAN-ORE-MS-07;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;MS;Je sais que le sens de la lecture est de gauche à droite et de haut en bas.;enseignant
+LAN-ORE-GS-01;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;GS;Je segmente l'oral en mots.;enseignant
+LAN-ORE-GS-02;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;GS;Je segmente les mots en syllabes.;enseignant
+LAN-ORE-GS-03;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;GS;Je segmente quelques syllabes en phonèmes.;enseignant
+LAN-ORE-GS-04;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;GS;Je comprends que l'écrit encode l'oral.;enseignant
+LAN-ORE-GS-05;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;GS;Je comprends que les sons de la langue sont codés par des lettres.;enseignant
+LAN-ORE-GS-06;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;GS;Je suis la trace écrite des yeux lors d'une relecture par l'adulte d'un message produit lors d'une dictée à l'adulte.;enseignant
+LAN-ORE-GS-07;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;GS;Je repère un mot dans une phrase que l'adulte vient de lire.;enseignant
+LAN-ORE-GS-08;LAN;Le développement et la structuration du langage oral et écrit;ORE;Passer de l'oral à l'écrit;GS;Je repère un mot oublié par l'adulte quand il relit ma dictée.;enseignant
+LAN-PEC-PS-01;LAN;Le développement et la structuration du langage oral et écrit;PEC;Produire des écrits;PS;Je mime la posture et les gestes d'écriture quand j'apprends à laisser des traces.;enseignant
+LAN-PEC-PS-02;LAN;Le développement et la structuration du langage oral et écrit;PEC;Produire des écrits;PS;Je trace des signes en sachant que ce sont des lettres et non des dessins.;enseignant
+LAN-PEC-MS-01;LAN;Le développement et la structuration du langage oral et écrit;PEC;Produire des écrits;MS;J'écris un mot avec un modèle.;enseignant
+LAN-PEC-MS-02;LAN;Le développement et la structuration du langage oral et écrit;PEC;Produire des écrits;MS;Je cherche des modèles dans la classe pour m'aider à écrire.;programme
+LAN-PEC-MS-03;LAN;Le développement et la structuration du langage oral et écrit;PEC;Produire des écrits;MS;J'invente des mots à écrire.;enseignant
+LAN-PEC-GS-01;LAN;Le développement et la structuration du langage oral et écrit;PEC;Produire des écrits;GS;J'écris des mots avec tout ce que j'ai appris à utiliser (mémoire, affichages).;enseignant
+LAN-PEC-GS-02;LAN;Le développement et la structuration du langage oral et écrit;PEC;Produire des écrits;GS;Je sais expliquer ma stratégie pour écrire.;enseignant
+LAN-PEC-GS-03;LAN;Le développement et la structuration du langage oral et écrit;PEC;Produire des écrits;GS;Je me repère dans l'alphabet pour retrouver l'écriture d'une lettre nécessaire pour produire un écrit.;enseignant
+LAN-PEC-GS-04;LAN;Le développement et la structuration du langage oral et écrit;PEC;Produire des écrits;GS;Je mémorise l'écriture de mots transparents ou de syllabes connues pour les réutiliser dans une production d'écrit.;enseignant
+LAN-PEC-GS-05;LAN;Le développement et la structuration du langage oral et écrit;PEC;Produire des écrits;GS;Je comprends qu'il existe une norme pour écrire : ponctuation, majuscules, mise en page, etc.;enseignant
+LAN-PEC-GS-06;LAN;Le développement et la structuration du langage oral et écrit;PEC;Produire des écrits;GS;Je persévère jusqu'au bout de mon écrit (préparer, dire, relire).;programme
+EPS-DEP-PS-01;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;DEP;Se déplacer;PS;Je participe aux activités physiques.;enseignant
+EPS-DEP-PS-02;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;DEP;Se déplacer;PS;Je cours de différentes façons.;enseignant
+EPS-DEP-PS-03;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;DEP;Se déplacer;PS;Je saute un obstacle sans élan.;enseignant
+EPS-DEP-PS-04;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;DEP;Se déplacer;PS;Je manipule des objets.;enseignant
+EPS-DEP-PS-05;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;DEP;Se déplacer;PS;Je lance et fais rouler des objets.;enseignant
+EPS-DEP-PS-06;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;DEP;Se déplacer;PS;Je me repère dans un espace proche et connu.;enseignant
+EPS-DEP-MS-01;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;DEP;Se déplacer;MS;Je lance loin.;enseignant
+EPS-DEP-MS-02;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;DEP;Se déplacer;MS;Je cours vite en ligne droite.;enseignant
+EPS-DEP-MS-03;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;DEP;Se déplacer;MS;Je saute et enchaîne plusieurs obstacles.;enseignant
+EPS-DEP-MS-04;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;DEP;Se déplacer;MS;Je me repère dans l'espace grâce à des indices.;enseignant
+EPS-DEP-GS-01;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;DEP;Se déplacer;GS;Je lance loin et avec précision.;enseignant
+EPS-DEP-GS-02;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;DEP;Se déplacer;GS;Je cours longtemps sans m'arrêter.;enseignant
+EPS-DEP-GS-03;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;DEP;Se déplacer;GS;Je cours vite et je franchis un obstacle.;enseignant
+EPS-DEP-GS-04;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;DEP;Se déplacer;GS;Je coordonne mes actions pour lancer et sauter.;enseignant
+EPS-DEP-GS-05;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;DEP;Se déplacer;GS;Je me repère dans un espace moins familier.;enseignant
+EPS-EQU-PS-01;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EQU;Construire des équilibres;PS;Je me déplace de façons variées.;enseignant
+EPS-EQU-PS-02;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EQU;Construire des équilibres;PS;J'utilise des jeux roulants pour me propulser.;enseignant
+EPS-EQU-MS-01;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EQU;Construire des équilibres;MS;Je me déplace à reculons.;enseignant
+EPS-EQU-MS-02;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EQU;Construire des équilibres;MS;Je me suspends.;enseignant
+EPS-EQU-MS-03;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EQU;Construire des équilibres;MS;Je me déplace en équilibre sur des engins.;enseignant
+EPS-EQU-MS-04;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EQU;Construire des équilibres;MS;Je respecte les règles de sécurité.;enseignant
+EPS-EQU-GS-01;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EQU;Construire des équilibres;GS;J'enchaîne sauter, se déplacer, se suspendre, se balancer.;enseignant
+EPS-EQU-GS-02;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EQU;Construire des équilibres;GS;Je m'engage dans le milieu aquatique.;enseignant
+EPS-EQU-GS-03;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EQU;Construire des équilibres;GS;J'aide mes camarades en sécurité.;enseignant
+EPS-EXP-PS-01;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EXP;S'exprimer avec son corps;PS;Je participe aux rondes et jeux chantés avec les autres.;enseignant
+EPS-EXP-PS-02;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EXP;S'exprimer avec son corps;PS;Je bouge en répondant à une consigne.;enseignant
+EPS-EXP-PS-03;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EXP;S'exprimer avec son corps;PS;Je mime un animal ou un personnage.;enseignant
+EPS-EXP-MS-01;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EXP;S'exprimer avec son corps;MS;Je reproduis des gestes dansés.;enseignant
+EPS-EXP-MS-02;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EXP;S'exprimer avec son corps;MS;J'explore l'espace scénique.;enseignant
+EPS-EXP-MS-03;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EXP;S'exprimer avec son corps;MS;J'exprime des émotions par le mouvement.;enseignant
+EPS-EXP-MS-04;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EXP;S'exprimer avec son corps;MS;Je deviens un spectateur actif.;enseignant
+EPS-EXP-GS-01;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EXP;S'exprimer avec son corps;GS;Je danse seul ou avec les autres.;enseignant
+EPS-EXP-GS-02;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EXP;S'exprimer avec son corps;GS;Je pratique des activités de cirque.;enseignant
+EPS-EXP-GS-03;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;EXP;S'exprimer avec son corps;GS;Je suis spectateur actif et j'exprime mon ressenti.;enseignant
+EPS-COO-PS-01;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;COO;Coopérer et s'opposer;PS;J'accepte de participer à un jeu collectif.;enseignant
+EPS-COO-PS-02;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;COO;Coopérer et s'opposer;PS;Je respecte une règle simple dans un jeu.;enseignant
+EPS-COO-MS-01;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;COO;Coopérer et s'opposer;MS;Je joue et coopère.;enseignant
+EPS-COO-MS-02;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;COO;Coopérer et s'opposer;MS;Je joue différents rôles dans un jeu.;enseignant
+EPS-COO-MS-03;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;COO;Coopérer et s'opposer;MS;J'accepte la défaite.;enseignant
+EPS-COO-GS-01;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;COO;Coopérer et s'opposer;GS;J'élabore des stratégies pour gagner.;enseignant
+EPS-COO-GS-02;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;COO;Coopérer et s'opposer;GS;Je joue le rôle d'arbitre.;enseignant
+EPS-COO-GS-03;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;COO;Coopérer et s'opposer;GS;Je prends plaisir à coopérer et à m'opposer.;enseignant
+EPS-COO-GS-04;EPS;Agir, s'exprimer, comprendre à travers les activités physiques;COO;Coopérer et s'opposer;GS;Je respecte les règles.;enseignant
+ART-DES-PS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;DES;Dessiner;PS;Je trace des gestes sur grand format.;enseignant
+ART-DES-PS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;DES;Dessiner;PS;Je dessine avec une intention.;enseignant
+ART-DES-MS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;DES;Dessiner;MS;J'expérimente différents outils et supports.;enseignant
+ART-DES-MS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;DES;Dessiner;MS;Je dessine un personnage, un animal, un objet.;enseignant
+ART-DES-GS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;DES;Dessiner;GS;Je dessine en m'inspirant d'un modèle ou d'une œuvre.;enseignant
+ART-DES-GS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;DES;Dessiner;GS;Je dessine un personnage ou un événement.;enseignant
+ART-DES-GS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;DES;Dessiner;GS;Je participe à la réalisation d'une œuvre collective à partir d'une consigne.;enseignant
+ART-DES-GS-04;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;DES;Dessiner;GS;Je décris mon dessin avec le vocabulaire adapté.;enseignant
+ART-GRA-PS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;GRA;S'exercer au graphisme artistique;PS;J'explore des tracés variés sur différents supports.;enseignant
+ART-GRA-PS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;GRA;S'exercer au graphisme artistique;PS;Je repère des motifs dans mon environnement.;enseignant
+ART-GRA-PS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;GRA;S'exercer au graphisme artistique;PS;Je découvre des motifs dans des œuvres.;enseignant
+ART-GRA-PS-04;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;GRA;S'exercer au graphisme artistique;PS;Je reproduis des motifs.;enseignant
+ART-GRA-MS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;GRA;S'exercer au graphisme artistique;MS;Je développe ma motricité fine.;enseignant
+ART-GRA-MS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;GRA;S'exercer au graphisme artistique;MS;Je reproduis et crée des motifs.;enseignant
+ART-GRA-GS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;GRA;S'exercer au graphisme artistique;GS;Je transforme et détourne des motifs.;enseignant
+ART-GRA-GS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;GRA;S'exercer au graphisme artistique;GS;Je crée de nouveaux motifs.;enseignant
+ART-GRA-GS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;GRA;S'exercer au graphisme artistique;GS;Je réalise une composition avec des contraintes.;enseignant
+ART-COM-PS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;COM;Réaliser des compositions planes ou en volume;PS;Je découvre des outils, je les explore.;enseignant
+ART-COM-PS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;COM;Réaliser des compositions planes ou en volume;PS;J'utilise des supports et des outils différents pour laisser une trace.;enseignant
+ART-COM-PS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;COM;Réaliser des compositions planes ou en volume;PS;J'expérimente la résistance de certains matériaux (déchirer, écraser, aplatir).;programme
+ART-COM-PS-04;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;COM;Réaliser des compositions planes ou en volume;PS;Je réalise une composition seul ou avec les camarades.;enseignant
+ART-COM-MS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;COM;Réaliser des compositions planes ou en volume;MS;Je m'approprie les couleurs, les formes et les matières.;enseignant
+ART-COM-MS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;COM;Réaliser des compositions planes ou en volume;MS;Je réalise une composition en volume.;enseignant
+ART-COM-GS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;COM;Réaliser des compositions planes ou en volume;GS;Je choisis et combine des matériaux et des techniques.;enseignant
+ART-COM-GS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;COM;Réaliser des compositions planes ou en volume;GS;Je découvre différentes formes d'expression artistique.;enseignant
+ART-IMA-PS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;IMA;Observer, comprendre et transformer des images;PS;J'apprends à regarder.;enseignant
+ART-IMA-PS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;IMA;Observer, comprendre et transformer des images;PS;J'identifie des éléments dans une image.;enseignant
+ART-IMA-PS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;IMA;Observer, comprendre et transformer des images;PS;Je décris les illustrations d'un album.;enseignant
+ART-IMA-MS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;IMA;Observer, comprendre et transformer des images;MS;Je distingue une image fixe d'une image animée.;enseignant
+ART-IMA-MS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;IMA;Observer, comprendre et transformer des images;MS;Je fabrique des images à partir d'images existantes.;enseignant
+ART-IMA-MS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;IMA;Observer, comprendre et transformer des images;MS;Je décris une illustration.;enseignant
+ART-IMA-GS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;IMA;Observer, comprendre et transformer des images;GS;Je différencie des types d'images (portrait, nature morte, paysage).;enseignant
+ART-IMA-GS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;IMA;Observer, comprendre et transformer des images;GS;Je compare des illustrations.;enseignant
+ART-IMA-GS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;IMA;Observer, comprendre et transformer des images;GS;Je décris une œuvre avec un vocabulaire précis.;enseignant
+ART-VOI-PS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;VOI;Jouer avec sa voix et acquérir un répertoire de comptines et de chansons;PS;Je joue avec ma voix.;enseignant
+ART-VOI-PS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;VOI;Jouer avec sa voix et acquérir un répertoire de comptines et de chansons;PS;Je chante et me fais comprendre.;enseignant
+ART-VOI-PS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;VOI;Jouer avec sa voix et acquérir un répertoire de comptines et de chansons;PS;Je chante ou dis au moins 5 comptines, avec les gestes.;enseignant
+ART-VOI-MS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;VOI;Jouer avec sa voix et acquérir un répertoire de comptines et de chansons;MS;J'explore la richesse de ma voix (sons brefs, tenus, graves, aigus).;enseignant
+ART-VOI-MS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;VOI;Jouer avec sa voix et acquérir un répertoire de comptines et de chansons;MS;Je chante en exprimant une émotion.;enseignant
+ART-VOI-MS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;VOI;Jouer avec sa voix et acquérir un répertoire de comptines et de chansons;MS;Je chante au moins 8 comptines et chants.;enseignant
+ART-VOI-GS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;VOI;Jouer avec sa voix et acquérir un répertoire de comptines et de chansons;GS;J'imite des sons avec ma voix.;enseignant
+ART-VOI-GS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;VOI;Jouer avec sa voix et acquérir un répertoire de comptines et de chansons;GS;Je chante avec les autres en respectant le tempo.;enseignant
+ART-VOI-GS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;VOI;Jouer avec sa voix et acquérir un répertoire de comptines et de chansons;GS;Je chante seul et/ou avec les autres.;enseignant
+ART-VOI-GS-04;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;VOI;Jouer avec sa voix et acquérir un répertoire de comptines et de chansons;GS;Je connais au moins 10 comptines et chants de mémoire.;enseignant
+ART-INS-PS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;INS;Explorer des instruments, utiliser les sonorités du corps;PS;Je crée des sons avec mon corps, des objets, des instruments.;enseignant
+ART-INS-PS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;INS;Explorer des instruments, utiliser les sonorités du corps;PS;J'observe et je décris comment font les autres pour produire un son.;enseignant
+ART-INS-MS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;INS;Explorer des instruments, utiliser les sonorités du corps;MS;Je reproduis un rythme simple.;enseignant
+ART-INS-MS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;INS;Explorer des instruments, utiliser les sonorités du corps;MS;J'adapte mon geste pour produire un son.;enseignant
+ART-INS-GS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;INS;Explorer des instruments, utiliser les sonorités du corps;GS;Je crée un paysage sonore.;enseignant
+ART-INS-GS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;INS;Explorer des instruments, utiliser les sonorités du corps;GS;Je participe à une production musicale collective.;enseignant
+ART-ECO-PS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;ECO;Affiner son écoute;PS;J'écoute avec attention.;programme
+ART-ECO-PS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;ECO;Affiner son écoute;PS;Je traduis la musique par des mouvements.;enseignant
+ART-ECO-PS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;ECO;Affiner son écoute;PS;Je reconnais des sons du quotidien.;enseignant
+ART-ECO-MS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;ECO;Affiner son écoute;MS;Je traduis la musique en mouvements et en mots.;enseignant
+ART-ECO-MS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;ECO;Affiner son écoute;MS;J'exprime mes émotions après une écoute.;enseignant
+ART-ECO-MS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;ECO;Affiner son écoute;MS;Je découvre au moins 2 œuvres musicales patrimoniales.;enseignant
+ART-ECO-GS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;ECO;Affiner son écoute;GS;Je traduis la musique par un dessin.;enseignant
+ART-ECO-GS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;ECO;Affiner son écoute;GS;Je repère des éléments musicaux.;enseignant
+ART-ECO-GS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;ECO;Affiner son écoute;GS;Je connais au moins 3 œuvres musicales patrimoniales.;enseignant
+ART-PRA-PS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;PRA;Le spectacle vivant : pratiquer;PS;Je reproduis des gestes pour exprimer une émotion.;enseignant
+ART-PRA-PS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;PRA;Le spectacle vivant : pratiquer;PS;Je participe à une mise en scène collective.;enseignant
+ART-PRA-PS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;PRA;Le spectacle vivant : pratiquer;PS;Je joue un personnage d'une histoire.;enseignant
+ART-PRA-MS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;PRA;Le spectacle vivant : pratiquer;MS;J'exprime des émotions par le corps et la voix.;enseignant
+ART-PRA-MS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;PRA;Le spectacle vivant : pratiquer;MS;Je joue un rôle simple.;enseignant
+ART-PRA-MS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;PRA;Le spectacle vivant : pratiquer;MS;Je suis spectateur actif.;enseignant
+ART-PRA-GS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;PRA;Le spectacle vivant : pratiquer;GS;J'explore l'enchaînement des émotions par le corps et la voix (du rire à la peur, la surprise…).;enseignant
+ART-PRA-GS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;PRA;Le spectacle vivant : pratiquer;GS;Je joue des personnages variés seul et avec d'autres.;enseignant
+ART-PRA-GS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;PRA;Le spectacle vivant : pratiquer;GS;Je joue dans un espace scénique devant les autres.;enseignant
+ART-SPE-PS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;SPE;Fréquenter et devenir spectateur et spectatrice;PS;Je découvre des œuvres.;enseignant
+ART-SPE-PS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;SPE;Fréquenter et devenir spectateur et spectatrice;PS;Je découvre l'espace scénique.;enseignant
+ART-SPE-PS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;SPE;Fréquenter et devenir spectateur et spectatrice;PS;J'assiste à des représentations.;enseignant
+ART-SPE-MS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;SPE;Fréquenter et devenir spectateur et spectatrice;MS;Je participe à des représentations.;enseignant
+ART-SPE-MS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;SPE;Fréquenter et devenir spectateur et spectatrice;MS;Je rencontre des artistes.;enseignant
+ART-SPE-GS-01;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;SPE;Fréquenter et devenir spectateur et spectatrice;GS;Je joue des petits spectacles devant les autres.;enseignant
+ART-SPE-GS-02;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;SPE;Fréquenter et devenir spectateur et spectatrice;GS;Je deviens spectateur.;enseignant
+ART-SPE-GS-03;ART;Agir, s'exprimer, comprendre à travers les activités artistiques;SPE;Fréquenter et devenir spectateur et spectatrice;GS;Je rencontre des artistes.;enseignant
+MAT-QTE-PS-01;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;PS;Je comprends que la quantité d'objets reste la même, peu importe leur apparence ou leur disposition.;enseignant
+MAT-QTE-PS-02;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;PS;Je reconnais, je réalise des collections de 2 objets.;enseignant
+MAT-QTE-PS-03;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;PS;Je reconnais, je réalise des collections de 3 objets.;enseignant
+MAT-QTE-PS-04;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;PS;Je reconnais, je réalise des collections de 4 objets.;enseignant
+MAT-QTE-PS-05;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;PS;Je comprends que si on ajoute un objet à une collection, le nombre qui désigne sa quantité est le suivant dans la suite orale des noms des nombres.;enseignant
+MAT-QTE-PS-06;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;PS;Je sais compter des collections de petits objets (jusqu'à 3 ou 4).;enseignant
+MAT-QTE-PS-07;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;PS;Je sais créer des collections avec un nombre précis d'objets (jusqu'à 3 ou 4).;enseignant
+MAT-QTE-PS-08;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;PS;Je sais créer une collection contenant un objet de plus que…;enseignant
+MAT-QTE-PS-09;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;PS;Je nomme les nombres, avant et après l'ajout d'un élément.;enseignant
+MAT-QTE-PS-10;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;PS;J'utilise mes doigts pour compter.;enseignant
+MAT-QTE-PS-11;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;PS;Je peux comparer des quantités d'objets pour savoir où il y en a plus ou moins.;enseignant
+MAT-QTE-PS-12;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;PS;J'apprends à former et défaire les petits nombres (2, 3, 4) en combinant des quantités.;enseignant
+MAT-QTE-PS-13;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;PS;Je sais dire la composition du nombre (un et encore un…).;enseignant
+MAT-QTE-PS-14;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;PS;Je sais associer une quantité, le nom du nombre et son écriture.;enseignant
+MAT-QTE-PS-15;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;PS;Je peux lier une quantité à son nom et au chiffre qui la représente (jusqu'à 3 ou 4).;enseignant
+MAT-QTE-PS-16;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;PS;Je peux réciter les nombres jusqu'à six.;enseignant
+MAT-QTE-MS-01;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;MS;Je comprends que la quantité est indépendante de l'apparence des objets ou de leur arrangement (jusqu'à 6).;enseignant
+MAT-QTE-MS-02;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;MS;Je comprends que chaque nombre est le suivant du précédent en ajoutant une unité.;enseignant
+MAT-QTE-MS-03;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;MS;J'apprends à compter chaque objet d'une collection une seule fois et sans en oublier.;enseignant
+MAT-QTE-MS-04;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;MS;Je sais compter des collections d'objets jusqu'à six.;enseignant
+MAT-QTE-MS-05;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;MS;J'utilise mes doigts pour désigner une quantité.;enseignant
+MAT-QTE-MS-06;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;MS;Je sais créer des collections avec un nombre précis d'objets jusqu'à six.;enseignant
+MAT-QTE-MS-07;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;MS;Je compare des quantités d'objets, même si elles sont disposées différemment.;enseignant
+MAT-QTE-MS-08;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;MS;Je sais former et défaire les nombres jusqu'à six.;enseignant
+MAT-QTE-MS-09;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;MS;Je sais former et défaire les nombres jusqu'à six, avec mes deux mains, en utilisant les doigts.;enseignant
+MAT-QTE-MS-10;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;MS;Je peux lier une quantité à son nom et à son chiffre jusqu'à six.;enseignant
+MAT-QTE-MS-11;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;MS;Je représente une quantité jusqu'à 6.;enseignant
+MAT-QTE-MS-12;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;MS;Je commence à écrire les chiffres de un à six.;enseignant
+MAT-QTE-MS-13;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;MS;Je peux réciter les nombres jusqu'à douze.;enseignant
+MAT-QTE-GS-01;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;GS;Je comprends que la quantité est fixe, peu importe l'apparence ou l'arrangement des objets (jusqu'à 10 et au-delà).;enseignant
+MAT-QTE-GS-02;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;GS;Je réalise des collections jusqu'à 10 objets.;enseignant
+MAT-QTE-GS-03;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;GS;Je deviens très efficace pour compter des objets en les pointant un par un sans erreur.;enseignant
+MAT-QTE-GS-04;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;GS;Je suis capable de compter des collections d'objets jusqu'à dix et au-delà.;enseignant
+MAT-QTE-GS-05;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;GS;Je comprends « un de plus », « un de moins ».;enseignant
+MAT-QTE-GS-06;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;GS;Je peux réaliser des collections avec un nombre d'objets précis, y compris en réunissant des petites collections.;enseignant
+MAT-QTE-GS-07;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;GS;Je compare efficacement des quantités, même celles représentées par des chiffres.;enseignant
+MAT-QTE-GS-08;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;GS;Je maîtrise la composition et la décomposition des nombres jusqu'à dix, y compris les doubles (ex : 2+2, 3+3).;enseignant
+MAT-QTE-GS-09;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;GS;Pour ajouter deux nombres, je surcompte à partir du plus grand.;programme
+MAT-QTE-GS-10;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;GS;J'associe facilement une quantité, son nom et son écriture chiffrée jusqu'à dix et au-delà.;enseignant
+MAT-QTE-GS-11;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;GS;Je sais écrire les chiffres de un à dix.;enseignant
+MAT-QTE-GS-12;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;GS;Je peux réciter les nombres jusqu'à trente.;enseignant
+MAT-QTE-GS-13;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;GS;Je sais réciter les nombres à rebours en partant de 10.;enseignant
+MAT-QTE-GS-14;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;GS;Je sais réciter les nombres à partir d'un nombre donné.;enseignant
+MAT-QTE-GS-15;MAT;L'acquisition des premiers outils mathématiques;QTE;Exprimer une quantité par un nombre;GS;Je sais réciter la comptine numérique de 2 en 2.;enseignant
+MAT-RAN-MS-01;MAT;L'acquisition des premiers outils mathématiques;RAN;Exprimer un rang ou une position par un nombre;MS;J'apprends à comprendre l'ordre (premier, deuxième, etc.) dans une suite d'objets ou de personnes.;enseignant
+MAT-RAN-MS-02;MAT;L'acquisition des premiers outils mathématiques;RAN;Exprimer un rang ou une position par un nombre;MS;Je peux prévoir où je vais atterrir sur un jeu en avançant ou reculant de quelques cases.;enseignant
+MAT-RAN-MS-03;MAT;L'acquisition des premiers outils mathématiques;RAN;Exprimer un rang ou une position par un nombre;MS;J'apprends à placer et reconnaître les nombres jusqu'à six sur une ligne numérique.;enseignant
+MAT-RAN-MS-04;MAT;L'acquisition des premiers outils mathématiques;RAN;Exprimer un rang ou une position par un nombre;MS;Je complète la bande numérique « à trous ».;enseignant
+MAT-RAN-GS-01;MAT;L'acquisition des premiers outils mathématiques;RAN;Exprimer un rang ou une position par un nombre;GS;Je repère le premier, le dernier, le 2e et l'avant-dernier.;enseignant
+MAT-RAN-GS-02;MAT;L'acquisition des premiers outils mathématiques;RAN;Exprimer un rang ou une position par un nombre;GS;J'identifie le rang d'un objet dans une série jusqu'à dix, même si le point de départ change.;enseignant
+MAT-RAN-GS-03;MAT;L'acquisition des premiers outils mathématiques;RAN;Exprimer un rang ou une position par un nombre;GS;Je comprends le lien entre ajouter/retirer et avancer/reculer sur une bande numérique.;enseignant
+MAT-RAN-GS-04;MAT;L'acquisition des premiers outils mathématiques;RAN;Exprimer un rang ou une position par un nombre;GS;Je peux positionner les nombres et leurs représentations sur une bande numérique jusqu'à dix.;enseignant
+MAT-RAN-GS-05;MAT;L'acquisition des premiers outils mathématiques;RAN;Exprimer un rang ou une position par un nombre;GS;Je sais compléter une bande numérique « à trous ».;enseignant
+MAT-PBM-PS-01;MAT;L'acquisition des premiers outils mathématiques;PBM;Utiliser les nombres pour résoudre des problèmes;PS;J'apprends à trouver un total ou une partie manquante dans des situations simples (ex : combien reste-t-il si on en retire).;enseignant
+MAT-PBM-MS-01;MAT;L'acquisition des premiers outils mathématiques;PBM;Utiliser les nombres pour résoudre des problèmes;MS;Je résous des problèmes où il faut trouver le tout ou une partie, en manipulant des objets et en comptant.;enseignant
+MAT-PBM-MS-02;MAT;L'acquisition des premiers outils mathématiques;PBM;Utiliser les nombres pour résoudre des problèmes;MS;J'utilise mes doigts pour résoudre un problème.;enseignant
+MAT-PBM-MS-03;MAT;L'acquisition des premiers outils mathématiques;PBM;Utiliser les nombres pour résoudre des problèmes;MS;Je sais calculer ma position finale dans un jeu après un déplacement, même en reculant.;enseignant
+MAT-PBM-MS-04;MAT;L'acquisition des premiers outils mathématiques;PBM;Utiliser les nombres pour résoudre des problèmes;MS;Je trouve le total quand des objets sont regroupés en paquets égaux.;programme
+MAT-PBM-MS-05;MAT;L'acquisition des premiers outils mathématiques;PBM;Utiliser les nombres pour résoudre des problèmes;MS;Je sais distribuer des objets équitablement entre plusieurs personnes.;enseignant
+MAT-PBM-GS-01;MAT;L'acquisition des premiers outils mathématiques;PBM;Utiliser les nombres pour résoudre des problèmes;GS;Je suis capable de résoudre des problèmes plus complexes où il faut trouver un total ou une partie, même avec plusieurs éléments.;enseignant
+MAT-PBM-GS-02;MAT;L'acquisition des premiers outils mathématiques;PBM;Utiliser les nombres pour résoudre des problèmes;GS;Je sais utiliser une représentation sur papier pour résoudre le problème.;enseignant
+MAT-PBM-GS-03;MAT;L'acquisition des premiers outils mathématiques;PBM;Utiliser les nombres pour résoudre des problèmes;GS;Je peux déterminer combien d'objets ont été ajoutés ou retirés pour arriver à une nouvelle quantité.;enseignant
+MAT-PBM-GS-04;MAT;L'acquisition des premiers outils mathématiques;PBM;Utiliser les nombres pour résoudre des problèmes;GS;Je sais calculer les positions de départ ou d'arrivée après des déplacements sur une piste numérique.;enseignant
+MAT-PBM-GS-05;MAT;L'acquisition des premiers outils mathématiques;PBM;Utiliser les nombres pour résoudre des problèmes;GS;Je peux comparer deux collections pour trouver la différence de quantité.;enseignant
+MAT-PBM-GS-06;MAT;L'acquisition des premiers outils mathématiques;PBM;Utiliser les nombres pour résoudre des problèmes;GS;Je peux calculer le total d'objets répartis en groupes égaux.;enseignant
+MAT-PBM-GS-07;MAT;L'acquisition des premiers outils mathématiques;PBM;Utiliser les nombres pour résoudre des problèmes;GS;Je résous des problèmes de partage.;enseignant
+MAT-FOR-PS-01;MAT;L'acquisition des premiers outils mathématiques;FOR;Explorer les solides et les formes planes;PS;Je sais reconnaître et trier des objets selon leur forme.;enseignant
+MAT-FOR-PS-02;MAT;L'acquisition des premiers outils mathématiques;FOR;Explorer les solides et les formes planes;PS;Je reconnais la même forme même quand l'objet est tourné ou déplacé.;programme
+MAT-FOR-PS-03;MAT;L'acquisition des premiers outils mathématiques;FOR;Explorer les solides et les formes planes;PS;Je sais encastrer des objets.;enseignant
+MAT-FOR-PS-04;MAT;L'acquisition des premiers outils mathématiques;FOR;Explorer les solides et les formes planes;PS;Je peux reproduire des constructions simples avec des blocs ou des pièces (jusqu'à 4 éléments).;enseignant
+MAT-FOR-MS-01;MAT;L'acquisition des premiers outils mathématiques;FOR;Explorer les solides et les formes planes;MS;Je reconnais des solides (cube, boule, pyramide, cylindre) et des formes planes (triangle, carré, disque).;enseignant
+MAT-FOR-MS-02;MAT;L'acquisition des premiers outils mathématiques;FOR;Explorer les solides et les formes planes;MS;Je classe des solides (cube, boule, pyramide, cylindre) et des formes planes (triangle, carré, disque).;enseignant
+MAT-FOR-MS-03;MAT;L'acquisition des premiers outils mathématiques;FOR;Explorer les solides et les formes planes;MS;Je peux reproduire des constructions avec des solides ou des formes.;enseignant
+MAT-FOR-MS-04;MAT;L'acquisition des premiers outils mathématiques;FOR;Explorer les solides et les formes planes;MS;Je reproduis des modèles (puzzles, pavages) jusqu'à 5 éléments.;enseignant
+MAT-FOR-MS-05;MAT;L'acquisition des premiers outils mathématiques;FOR;Explorer les solides et les formes planes;MS;J'associe une empreinte à un objet.;enseignant
+MAT-FOR-MS-06;MAT;L'acquisition des premiers outils mathématiques;FOR;Explorer les solides et les formes planes;MS;Je découvre que les objets peuvent laisser des empreintes de formes différentes.;enseignant
+MAT-FOR-GS-01;MAT;L'acquisition des premiers outils mathématiques;FOR;Explorer les solides et les formes planes;GS;Je sais décrire des solides simples (cube, pavé, boule, pyramide, cylindre, cône).;enseignant
+MAT-FOR-GS-02;MAT;L'acquisition des premiers outils mathématiques;FOR;Explorer les solides et les formes planes;GS;Je reconnais et trie les formes géométriques de base (carré, triangle, disque, rectangle).;enseignant
+MAT-FOR-GS-03;MAT;L'acquisition des premiers outils mathématiques;FOR;Explorer les solides et les formes planes;GS;Je sais nommer et décrire des formes comme le carré, le rectangle, le triangle ou le disque.;enseignant
+MAT-FOR-GS-04;MAT;L'acquisition des premiers outils mathématiques;FOR;Explorer les solides et les formes planes;GS;Je peux reproduire des constructions avec des solides et des formes planes.;enseignant
+MAT-FOR-GS-05;MAT;L'acquisition des premiers outils mathématiques;FOR;Explorer les solides et les formes planes;GS;Je reproduis un modèle (puzzle, pavage, assemblage de solides), à une échelle différente.;enseignant
+MAT-FOR-GS-06;MAT;L'acquisition des premiers outils mathématiques;FOR;Explorer les solides et les formes planes;GS;Je commence à utiliser la règle pour tracer des lignes.;enseignant
+MAT-GRD-PS-01;MAT;L'acquisition des premiers outils mathématiques;GRD;Explorer des grandeurs : la longueur, la masse;PS;Je reconnais des objets de même longueur.;enseignant
+MAT-GRD-PS-02;MAT;L'acquisition des premiers outils mathématiques;GRD;Explorer des grandeurs : la longueur, la masse;PS;Je peux comparer des objets pour savoir lequel est le plus long ou le plus court.;enseignant
+MAT-GRD-MS-01;MAT;L'acquisition des premiers outils mathématiques;GRD;Explorer des grandeurs : la longueur, la masse;MS;Je compare directement des longueurs et j'explique lequel est le plus long ou le plus court.;enseignant
+MAT-GRD-MS-02;MAT;L'acquisition des premiers outils mathématiques;GRD;Explorer des grandeurs : la longueur, la masse;MS;Je classe des objets selon leur longueur.;enseignant
+MAT-GRD-MS-03;MAT;L'acquisition des premiers outils mathématiques;GRD;Explorer des grandeurs : la longueur, la masse;MS;J'utilise les expressions « plus long que… », « plus court que… ».;enseignant
+MAT-GRD-MS-04;MAT;L'acquisition des premiers outils mathématiques;GRD;Explorer des grandeurs : la longueur, la masse;MS;J'ordonne des objets selon leur taille et j'explique comment j'ai fait.;enseignant
+MAT-GRD-MS-05;MAT;L'acquisition des premiers outils mathématiques;GRD;Explorer des grandeurs : la longueur, la masse;MS;Je sais superposer 6 objets en ordre décroissant.;enseignant
+MAT-GRD-MS-06;MAT;L'acquisition des premiers outils mathématiques;GRD;Explorer des grandeurs : la longueur, la masse;MS;Je compare la masse de deux objets.;enseignant
+MAT-GRD-MS-07;MAT;L'acquisition des premiers outils mathématiques;GRD;Explorer des grandeurs : la longueur, la masse;MS;J'utilise les expressions « plus lourd que… », « plus léger que… ».;enseignant
+MAT-GRD-GS-01;MAT;L'acquisition des premiers outils mathématiques;GRD;Explorer des grandeurs : la longueur, la masse;GS;Je compare des longueurs en utilisant un outil comme une bande de papier.;enseignant
+MAT-GRD-GS-02;MAT;L'acquisition des premiers outils mathématiques;GRD;Explorer des grandeurs : la longueur, la masse;GS;J'ordonne jusqu'à cinq objets selon leur longueur.;enseignant
+MAT-GRD-GS-03;MAT;L'acquisition des premiers outils mathématiques;GRD;Explorer des grandeurs : la longueur, la masse;GS;Je crée un objet de la même longueur qu'un modèle donné.;enseignant
+MAT-GRD-GS-04;MAT;L'acquisition des premiers outils mathématiques;GRD;Explorer des grandeurs : la longueur, la masse;GS;J'utilise une balance pour comparer.;enseignant
+MAT-GRD-GS-05;MAT;L'acquisition des premiers outils mathématiques;GRD;Explorer des grandeurs : la longueur, la masse;GS;J'ordonne trois objets selon leur masse.;enseignant
+MAT-GRD-GS-06;MAT;L'acquisition des premiers outils mathématiques;GRD;Explorer des grandeurs : la longueur, la masse;GS;Je reconnais quand deux objets ont la même masse et je peux l'expliquer.;enseignant
+MAT-GRD-GS-07;MAT;L'acquisition des premiers outils mathématiques;GRD;Explorer des grandeurs : la longueur, la masse;GS;J'utilise les expressions « plus lourd que… », « plus léger que… », « de même masse que… ».;enseignant
+MAT-MOT-PS-01;MAT;L'acquisition des premiers outils mathématiques;MOT;Se familiariser avec les motifs organisés;PS;Je me souviens d'un motif très simple qui se répète.;enseignant
+MAT-MOT-PS-02;MAT;L'acquisition des premiers outils mathématiques;MOT;Se familiariser avec les motifs organisés;PS;Je reproduis un motif qui se répète.;enseignant
+MAT-MOT-PS-03;MAT;L'acquisition des premiers outils mathématiques;MOT;Se familiariser avec les motifs organisés;PS;Je complète un motif qui se répète.;enseignant
+MAT-MOT-MS-01;MAT;L'acquisition des premiers outils mathématiques;MOT;Se familiariser avec les motifs organisés;MS;Je me souviens d'un motif simple qui se répète.;enseignant
+MAT-MOT-MS-02;MAT;L'acquisition des premiers outils mathématiques;MOT;Se familiariser avec les motifs organisés;MS;J'identifie les éléments qui se répètent dans un motif.;enseignant
+MAT-MOT-MS-03;MAT;L'acquisition des premiers outils mathématiques;MOT;Se familiariser avec les motifs organisés;MS;Je décris des motifs répétitifs avec mes propres mots.;enseignant
+MAT-MOT-MS-04;MAT;L'acquisition des premiers outils mathématiques;MOT;Se familiariser avec les motifs organisés;MS;Je peux continuer une suite logique et expliquer sa règle.;enseignant
+MAT-MOT-GS-01;MAT;L'acquisition des premiers outils mathématiques;MOT;Se familiariser avec les motifs organisés;GS;Je reconnais et décris des motifs qui évoluent, par exemple avec un nombre croissant d'éléments.;enseignant
+MAT-MOT-GS-02;MAT;L'acquisition des premiers outils mathématiques;MOT;Se familiariser avec les motifs organisés;GS;Je reconnais la structure d'un motif, quels que soient ses éléments.;enseignant
+MAT-MOT-GS-03;MAT;L'acquisition des premiers outils mathématiques;MOT;Se familiariser avec les motifs organisés;GS;J'invente mes propres motifs visuels, sonores ou gestuels.;enseignant
+MAT-MOT-GS-04;MAT;L'acquisition des premiers outils mathématiques;MOT;Se familiariser avec les motifs organisés;GS;Je décris des motifs répétitifs en utilisant un vocabulaire plus précis.;enseignant
+MAT-MOT-GS-05;MAT;L'acquisition des premiers outils mathématiques;MOT;Se familiariser avec les motifs organisés;GS;Je représente un motif en utilisant des symboles différents du modèle.;enseignant
+MAT-MOT-GS-06;MAT;L'acquisition des premiers outils mathématiques;MOT;Se familiariser avec les motifs organisés;GS;Je traduis un motif sonore en mouvement ou en dessin, et inversement.;enseignant
+TES-REP-PS-01;TES;Se repérer dans le temps et l'espace;REP;Se repérer dans le temps;PS;Je distingue le matin, le soir, le jour et la nuit.;enseignant
+TES-REP-PS-02;TES;Se repérer dans le temps et l'espace;REP;Se repérer dans le temps;PS;Je repère les moments de la journée.;enseignant
+TES-REP-PS-03;TES;Se repérer dans le temps et l'espace;REP;Se repérer dans le temps;PS;Je comprends et j'utilise avant, après, tout à l'heure…;enseignant
+TES-REP-PS-04;TES;Se repérer dans le temps et l'espace;REP;Se repérer dans le temps;PS;Je remarque les changements de la nature au fil des saisons.;programme
+TES-REP-MS-01;TES;Se repérer dans le temps et l'espace;REP;Se repérer dans le temps;MS;Je nomme les jours de la semaine.;enseignant
+TES-REP-MS-02;TES;Se repérer dans le temps et l'espace;REP;Se repérer dans le temps;MS;Je me repère dans la journée.;enseignant
+TES-REP-MS-03;TES;Se repérer dans le temps et l'espace;REP;Se repérer dans le temps;MS;Je me repère dans la semaine.;enseignant
+TES-REP-MS-04;TES;Se repérer dans le temps et l'espace;REP;Se repérer dans le temps;MS;J'utilise les temps verbaux à bon escient.;enseignant
+TES-REP-MS-05;TES;Se repérer dans le temps et l'espace;REP;Se repérer dans le temps;MS;Je nomme l'hiver et l'été et je connais leurs caractéristiques.;enseignant
+TES-REP-GS-01;TES;Se repérer dans le temps et l'espace;REP;Se repérer dans le temps;GS;Je sais dire la date du jour.;enseignant
+TES-REP-GS-02;TES;Se repérer dans le temps et l'espace;REP;Se repérer dans le temps;GS;Je situe un événement dans la semaine.;enseignant
+TES-REP-GS-03;TES;Se repérer dans le temps et l'espace;REP;Se repérer dans le temps;GS;Je nomme les mois de l'année.;enseignant
+TES-REP-GS-04;TES;Se repérer dans le temps et l'espace;REP;Se repérer dans le temps;GS;Je me repère dans le mois et dans l'année.;enseignant
+TES-REP-GS-05;TES;Se repérer dans le temps et l'espace;REP;Se repérer dans le temps;GS;Je connais les saisons.;enseignant
+TES-CHR-PS-01;TES;Se repérer dans le temps et l'espace;CHR;S'approprier la notion de chronologie;PS;J'ordonne des moments vécus.;enseignant
+TES-CHR-PS-02;TES;Se repérer dans le temps et l'espace;CHR;S'approprier la notion de chronologie;PS;Je raconte le déroulement d'une histoire simple.;enseignant
+TES-CHR-PS-03;TES;Se repérer dans le temps et l'espace;CHR;S'approprier la notion de chronologie;PS;Je commence à planifier deux activités.;enseignant
+TES-CHR-MS-01;TES;Se repérer dans le temps et l'espace;CHR;S'approprier la notion de chronologie;MS;Je restitue la chronologie d'une histoire.;enseignant
+TES-CHR-MS-02;TES;Se repérer dans le temps et l'espace;CHR;S'approprier la notion de chronologie;MS;J'utilise des connecteurs : d'abord, ensuite, enfin…;enseignant
+TES-CHR-GS-01;TES;Se repérer dans le temps et l'espace;CHR;S'approprier la notion de chronologie;GS;Je repère et j'ordonne les étapes d'un événement.;enseignant
+TES-CHR-GS-02;TES;Se repérer dans le temps et l'espace;CHR;S'approprier la notion de chronologie;GS;J'utilise les notions d'avant, après, en même temps pour raconter.;enseignant
+TES-DUR-PS-01;TES;Se repérer dans le temps et l'espace;DUR;Construire la notion de durée;PS;J'attends mon tour et repère début et fin d'une activité.;enseignant
+TES-DUR-PS-02;TES;Se repérer dans le temps et l'espace;DUR;Construire la notion de durée;PS;Je comprends : longtemps, déjà, attendre…;enseignant
+TES-DUR-MS-01;TES;Se repérer dans le temps et l'espace;DUR;Construire la notion de durée;MS;Je perçois que certaines durées sont stables.;enseignant
+TES-DUR-MS-02;TES;Se repérer dans le temps et l'espace;DUR;Construire la notion de durée;MS;Je comprends : pendant, court, long…;enseignant
+TES-DUR-GS-01;TES;Se repérer dans le temps et l'espace;DUR;Construire la notion de durée;GS;Je commence à gérer mon temps pour m'organiser.;enseignant
+TES-DUR-GS-02;TES;Se repérer dans le temps et l'espace;DUR;Construire la notion de durée;GS;Je compare des durées.;enseignant
+TES-DUR-GS-03;TES;Se repérer dans le temps et l'espace;DUR;Construire la notion de durée;GS;Je comprends que certains événements sont passés avant ma naissance.;enseignant
+TES-ESP-PS-01;TES;Se repérer dans le temps et l'espace;ESP;Faire l'expérience de l'espace;PS;Je réalise des constructions simples.;enseignant
+TES-ESP-PS-02;TES;Se repérer dans le temps et l'espace;ESP;Faire l'expérience de l'espace;PS;Je fais des encastrements.;enseignant
+TES-ESP-PS-03;TES;Se repérer dans le temps et l'espace;ESP;Faire l'expérience de l'espace;PS;J'oriente un livre dans le bon sens.;programme
+TES-ESP-PS-04;TES;Se repérer dans le temps et l'espace;ESP;Faire l'expérience de l'espace;PS;Je réalise un trajet ou un parcours simple dans l'école.;enseignant
+TES-ESP-PS-05;TES;Se repérer dans le temps et l'espace;ESP;Faire l'expérience de l'espace;PS;J'utilise : dedans, dehors, devant, derrière…;enseignant
+TES-ESP-MS-01;TES;Se repérer dans le temps et l'espace;ESP;Faire l'expérience de l'espace;MS;Je situe des objets entre eux et par rapport à moi.;enseignant
+TES-ESP-MS-02;TES;Se repérer dans le temps et l'espace;ESP;Faire l'expérience de l'espace;MS;Je me situe par rapport aux autres.;enseignant
+TES-ESP-MS-03;TES;Se repérer dans le temps et l'espace;ESP;Faire l'expérience de l'espace;MS;J'oriente et utilise correctement une feuille de papier.;enseignant
+TES-ESP-MS-04;TES;Se repérer dans le temps et l'espace;ESP;Faire l'expérience de l'espace;MS;J'utilise : à droite, à gauche, au milieu…;enseignant
+TES-ESP-GS-01;TES;Se repérer dans le temps et l'espace;ESP;Faire l'expérience de l'espace;GS;Je réalise des assemblages complexes.;enseignant
+TES-ESP-GS-02;TES;Se repérer dans le temps et l'espace;ESP;Faire l'expérience de l'espace;GS;Je situe des objets dans un ensemble ordonné.;enseignant
+TES-ESP-GS-03;TES;Se repérer dans le temps et l'espace;ESP;Faire l'expérience de l'espace;GS;Je distingue ma gauche de ma droite.;enseignant
+TES-ESP-GS-04;TES;Se repérer dans le temps et l'espace;ESP;Faire l'expérience de l'espace;GS;Je réalise un trajet ou un parcours dans un environnement connu.;enseignant
+TES-ESP-GS-05;TES;Se repérer dans le temps et l'espace;ESP;Faire l'expérience de l'espace;GS;Je reconnais des espaces sur un planisphère.;enseignant
+TES-ESP-GS-06;TES;Se repérer dans le temps et l'espace;ESP;Faire l'expérience de l'espace;GS;J'utilise les termes appropriés relatifs au globe ou au planisphère.;enseignant
+TES-ESP-GS-07;TES;Se repérer dans le temps et l'espace;ESP;Faire l'expérience de l'espace;GS;Je sais utiliser une page pour écrire.;enseignant
+TES-RES-PS-01;TES;Se repérer dans le temps et l'espace;RES;Représenter l'espace;PS;Je reproduis un parcours simple.;enseignant
+TES-RES-PS-02;TES;Se repérer dans le temps et l'espace;RES;Représenter l'espace;PS;Je raconte un déplacement.;enseignant
+TES-RES-MS-01;TES;Se repérer dans le temps et l'espace;RES;Représenter l'espace;MS;Je représente un espace connu par une maquette (exemple : la classe).;enseignant
+TES-RES-MS-02;TES;Se repérer dans le temps et l'espace;RES;Représenter l'espace;MS;Je raconte un déplacement à partir d'une représentation.;enseignant
+TES-RES-MS-03;TES;Se repérer dans le temps et l'espace;RES;Représenter l'espace;MS;Je dessine un déplacement à partir d'une représentation.;enseignant
+TES-RES-GS-01;TES;Se repérer dans le temps et l'espace;RES;Représenter l'espace;GS;Je reproduis un parcours sur un plan.;enseignant
+TES-RES-GS-02;TES;Se repérer dans le temps et l'espace;RES;Représenter l'espace;GS;Je représente mon environnement.;enseignant
+TES-RES-GS-03;TES;Se repérer dans le temps et l'espace;RES;Représenter l'espace;GS;Je code un déplacement sur un quadrillage.;enseignant
+TES-RES-GS-04;TES;Se repérer dans le temps et l'espace;RES;Représenter l'espace;GS;Je raconte un déplacement que j'ai mémorisé.;enseignant
+TES-ENV-PS-01;TES;Se repérer dans le temps et l'espace;ENV;Découvrir l'environnement proche;PS;J'explore les différents lieux de l'école, je les reconnais.;enseignant
+TES-ENV-MS-01;TES;Se repérer dans le temps et l'espace;ENV;Découvrir l'environnement proche;MS;Je reconnais et identifie l'environnement extérieur proche.;enseignant
+TES-ENV-MS-02;TES;Se repérer dans le temps et l'espace;ENV;Découvrir l'environnement proche;MS;Je découvre de nouveaux espaces.;enseignant
+TES-ENV-GS-01;TES;Se repérer dans le temps et l'espace;ENV;Découvrir l'environnement proche;GS;Je reconnais les espaces proches et leurs usages.;enseignant
+TES-ENV-GS-02;TES;Se repérer dans le temps et l'espace;ENV;Découvrir l'environnement proche;GS;Je reconnais des espaces moins familiers de l'école.;enseignant
+TES-ENV-GS-03;TES;Se repérer dans le temps et l'espace;ENV;Découvrir l'environnement proche;GS;J'observe l'habitat proche de l'école.;enseignant
+VIV-ANI-PS-01;VIV;Découvrir le monde du vivant, de la matière et des objets;ANI;Découvrir les animaux et les végétaux;PS;Je nomme les parties d'un animal ou d'une plante.;enseignant
+VIV-ANI-PS-02;VIV;Découvrir le monde du vivant, de la matière et des objets;ANI;Découvrir les animaux et les végétaux;PS;J'associe le mâle, la femelle, le jeune et l'adulte d'une même espèce.;enseignant
+VIV-ANI-PS-03;VIV;Découvrir le monde du vivant, de la matière et des objets;ANI;Découvrir les animaux et les végétaux;PS;J'assure les soins aux plantes ou aux animaux.;enseignant
+VIV-ANI-MS-01;VIV;Découvrir le monde du vivant, de la matière et des objets;ANI;Découvrir les animaux et les végétaux;MS;Je reconnais des étapes du cycle de vie.;enseignant
+VIV-ANI-MS-02;VIV;Découvrir le monde du vivant, de la matière et des objets;ANI;Découvrir les animaux et les végétaux;MS;Je connais les besoins des animaux et des plantes.;enseignant
+VIV-ANI-MS-03;VIV;Découvrir le monde du vivant, de la matière et des objets;ANI;Découvrir les animaux et les végétaux;MS;Je nomme le mode de déplacement des animaux.;enseignant
+VIV-ANI-MS-04;VIV;Découvrir le monde du vivant, de la matière et des objets;ANI;Découvrir les animaux et les végétaux;MS;Je respecte la vie, je n'écrase pas les animaux.;enseignant
+VIV-ANI-GS-01;VIV;Découvrir le monde du vivant, de la matière et des objets;ANI;Découvrir les animaux et les végétaux;GS;Je reconnais des animaux, des plantes et leurs éléments morphologiques.;enseignant
+VIV-ANI-GS-02;VIV;Découvrir le monde du vivant, de la matière et des objets;ANI;Découvrir les animaux et les végétaux;GS;Je reconnais les étapes de la vie d'une plante ou d'un animal.;enseignant
+VIV-ANI-GS-03;VIV;Découvrir le monde du vivant, de la matière et des objets;ANI;Découvrir les animaux et les végétaux;GS;Je participe à une action pour la biodiversité.;enseignant
+VIV-CRP-PS-01;VIV;Découvrir le monde du vivant, de la matière et des objets;CRP;Découvrir le corps humain et la santé;PS;Je nomme quelques parties du corps.;enseignant
+VIV-CRP-PS-02;VIV;Découvrir le monde du vivant, de la matière et des objets;CRP;Découvrir le corps humain et la santé;PS;Je représente quelques parties du corps.;enseignant
+VIV-CRP-PS-03;VIV;Découvrir le monde du vivant, de la matière et des objets;CRP;Découvrir le corps humain et la santé;PS;Je découvre mes sens.;enseignant
+VIV-CRP-PS-04;VIV;Découvrir le monde du vivant, de la matière et des objets;CRP;Découvrir le corps humain et la santé;PS;Je respecte des règles d'hygiène avec l'adulte.;enseignant
+VIV-CRP-MS-01;VIV;Découvrir le monde du vivant, de la matière et des objets;CRP;Découvrir le corps humain et la santé;MS;Je nomme les parties du corps sur moi.;enseignant
+VIV-CRP-MS-02;VIV;Découvrir le monde du vivant, de la matière et des objets;CRP;Découvrir le corps humain et la santé;MS;Je nomme les organes utiles à mes sens.;enseignant
+VIV-CRP-MS-03;VIV;Découvrir le monde du vivant, de la matière et des objets;CRP;Découvrir le corps humain et la santé;MS;J'associe les sens à leurs organes.;enseignant
+VIV-CRP-MS-04;VIV;Découvrir le monde du vivant, de la matière et des objets;CRP;Découvrir le corps humain et la santé;MS;J'observe les changements liés à ma croissance.;programme
+VIV-CRP-MS-05;VIV;Découvrir le monde du vivant, de la matière et des objets;CRP;Découvrir le corps humain et la santé;MS;Je connais des règles d'hygiène et les applique tout seul.;enseignant
+VIV-CRP-GS-01;VIV;Découvrir le monde du vivant, de la matière et des objets;CRP;Découvrir le corps humain et la santé;GS;Je nomme des articulations et segments du corps.;enseignant
+VIV-CRP-GS-02;VIV;Découvrir le monde du vivant, de la matière et des objets;CRP;Découvrir le corps humain et la santé;GS;Je me représente les articulations de mon corps.;enseignant
+VIV-CRP-GS-03;VIV;Découvrir le monde du vivant, de la matière et des objets;CRP;Découvrir le corps humain et la santé;GS;Je connais quelques étapes du développement de l'enfant.;enseignant
+VIV-OBJ-PS-01;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;PS;Je me sers de mes sens pour reconnaître et comparer des matériaux.;enseignant
+VIV-OBJ-PS-02;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;PS;J'agis sur les matériaux : transvase, mélange, découpe…;enseignant
+VIV-OBJ-PS-03;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;PS;Je réalise une construction avec un guidage pas à pas.;enseignant
+VIV-OBJ-PS-04;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;PS;Je reconnais des matériaux selon leurs propriétés.;enseignant
+VIV-OBJ-PS-05;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;PS;Je nomme les objets que j'utilise, je sais à quoi ils servent.;enseignant
+VIV-OBJ-MS-01;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;MS;Je différencie des matériaux selon leurs propriétés.;enseignant
+VIV-OBJ-MS-02;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;MS;Je choisis l'outil adapté.;enseignant
+VIV-OBJ-MS-03;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;MS;Je réalise une construction à partir d'un modèle.;enseignant
+VIV-OBJ-MS-04;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;MS;Je distingue solides et liquides.;enseignant
+VIV-OBJ-MS-05;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;MS;Je respecte l'environnement, j'y suis attentif.;enseignant
+VIV-OBJ-GS-01;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;GS;Je comprends la fonction d'un objet technique.;enseignant
+VIV-OBJ-GS-02;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;GS;Je fabrique un objet en exploitant les matériaux.;enseignant
+VIV-OBJ-GS-03;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;GS;Je distingue ce qui se dissout dans l'eau.;enseignant
+VIV-OBJ-GS-04;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;GS;J'explore la flottabilité.;enseignant
+VIV-OBJ-GS-05;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;GS;Je suis une fiche technique pour construire ou faire une recette.;enseignant
+VIV-OBJ-GS-06;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;GS;Je choisis et organise 3 à 5 instructions pour réaliser quelque chose.;enseignant
+VIV-OBJ-GS-07;VIV;Découvrir le monde du vivant, de la matière et des objets;OBJ;Découvrir les objets et les matériaux;GS;J'identifie les risques liés à certains objets.;enseignant
+VIV-ETA-PS-01;VIV;Découvrir le monde du vivant, de la matière et des objets;ETA;Découvrir les états de la matière et les mélanges;PS;J'explore les solides et les liquides.;enseignant
+VIV-ETA-PS-02;VIV;Découvrir le monde du vivant, de la matière et des objets;ETA;Découvrir les états de la matière et les mélanges;PS;J'explore les effets de l'air.;enseignant
+VIV-ETA-PS-03;VIV;Découvrir le monde du vivant, de la matière et des objets;ETA;Découvrir les états de la matière et les mélanges;PS;Je réalise des mélanges, j'observe.;enseignant
+VIV-ETA-PS-04;VIV;Découvrir le monde du vivant, de la matière et des objets;ETA;Découvrir les états de la matière et les mélanges;PS;J'observe l'eau qui gèle et la glace qui fond.;programme
+VIV-ETA-MS-01;VIV;Découvrir le monde du vivant, de la matière et des objets;ETA;Découvrir les états de la matière et les mélanges;MS;J'identifie les conditions pour faire fondre la glace.;enseignant
+VIV-ETA-MS-02;VIV;Découvrir le monde du vivant, de la matière et des objets;ETA;Découvrir les états de la matière et les mélanges;MS;J'identifie l'air en mouvement.;enseignant
+VIV-ETA-MS-03;VIV;Découvrir le monde du vivant, de la matière et des objets;ETA;Découvrir les états de la matière et les mélanges;MS;J'explore la dissolution dans l'eau.;enseignant
+VIV-ETA-GS-01;VIV;Découvrir le monde du vivant, de la matière et des objets;ETA;Découvrir les états de la matière et les mélanges;GS;J'identifie et nomme les différents états de l'eau.;enseignant
+VIV-ETA-GS-02;VIV;Découvrir le monde du vivant, de la matière et des objets;ETA;Découvrir les états de la matière et les mélanges;GS;J'identifie la présence de l'air.;enseignant
+VIV-ETA-GS-03;VIV;Découvrir le monde du vivant, de la matière et des objets;ETA;Découvrir les états de la matière et les mélanges;GS;Je distingue les solides qui peuvent se dissoudre.;enseignant
+VIV-ETA-GS-04;VIV;Découvrir le monde du vivant, de la matière et des objets;ETA;Découvrir les états de la matière et les mélanges;GS;Je respecte l'environnement, même seul.;enseignant
+VIV-ETA-GS-05;VIV;Découvrir le monde du vivant, de la matière et des objets;ETA;Découvrir les états de la matière et les mélanges;GS;Je connais quelques risques dans l'environnement familier.;enseignant

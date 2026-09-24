@@ -5,4 +5,5 @@ Application Android pour la maternelle : les élèves photographient eux-mêmes 
 Local-first : aucune donnée ne quitte la tablette sans action volontaire de l'enseignant.
 
 - Cahier des charges : [`docs/cahier-des-charges.md`](docs/cahier-des-charges.md)
+- Références institutionnelles et référentiel de compétences : [`references/`](references/)
 - Statut : phase de conception.
