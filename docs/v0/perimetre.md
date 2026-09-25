@@ -35,7 +35,7 @@ La V0 est un prototype : une seule tablette, une seule classe, quelques semaines
 | Compétences | Référentiel officiel embarqué (493 compétences), **en lecture seule**. Choix par domaine → sous-domaine → niveau. |
 | Photos par élève | Toutes les traces d'un élève, groupées par atelier. |
 | Photos par atelier | Liste de la classe : élève ✓ avec sa photo, ou — sans trace. |
-| Supprimer une photo | Avec confirmation. |
+| Trier les photos | **Le tri est à la charge de l'enseignant** : il supprime les photos ratées ou prises par erreur (avec confirmation). Les enfants ne peuvent rien supprimer. |
 
 ### Principes techniques non négociables (dès la V0)
 
@@ -67,11 +67,13 @@ Quatre éléments arrivent plus tôt que prévu, parce que le test en classe en 
 1. **Plusieurs ateliers actifs et choix de l'atelier par l'enfant — mode B** (prévus en V1). C'est l'hypothèse la plus risquée : il faut la tester dès la V0.
 2. **Protection de l'espace enseignant** (prévue en V1). Sans elle, un enfant pourrait modifier ou supprimer des données pendant le test.
 3. **Référentiel embarqué** (bibliothèque prévue en V1). Il existe déjà (`references/`), et il évite la saisie libre.
-4. **Supprimer une photo** (prévu en V1). Une photo floue, prise par erreur ou montrant un autre enfant doit pouvoir disparaître : c'est le minimum RGPD.
+4. **Supprimer une photo** (prévu en V1). Le tri des photos revient à l'enseignant : une photo floue, prise par erreur ou montrant un autre enfant doit pouvoir disparaître. C'est aussi le minimum RGPD.
 
-## Risque accepté
+## Stockage et sauvegarde
 
-**Pas de sauvegarde en V0.** Si la tablette casse pendant le test, les photos sont perdues. C'est acceptable pour un prototype d'essai de quelques semaines, mais il faut le dire clairement aux personnes qui testent.
+- **Tout reste en local**, sur la tablette. **Aucune sauvegarde en ligne**, ni en V0 ni plus tard sans décision explicite.
+- Sauvegarde locale manuelle (fichier que l'enseignant copie lui-même, par exemple sur clé USB ou ordinateur) : **à décider** pour la V0 ; prévue au plus tard en V1.
+- Tant qu'il n'y a pas de sauvegarde locale, si la tablette casse pendant le test, les photos sont perdues. Il faut le dire aux personnes qui testent.
 
 ## Critères de réussite du test en classe
 
@@ -95,3 +97,5 @@ La V0 est réussie si, sur quelques semaines d'essai :
 | 4 | Élève représenté par une photo ou un avatar ; avatar par défaut. |
 | 5 | Gros bouton retour ; retour automatique à l'accueil après 1 minute d'inactivité. |
 | 6 | Une seule classe, sans groupes. |
+| 7 | Le tri des photos (suppression) est à la charge de l'enseignant. |
+| 8 | Données uniquement en local ; aucune sauvegarde en ligne. |
