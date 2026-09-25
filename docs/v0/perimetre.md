@@ -18,7 +18,7 @@ La V0 est un prototype : une seule tablette, une seule classe, quelques semaines
 | Fonction | Détail |
 |---|---|
 | Accueil | Grille des élèves : photo ou avatar, prénom en petit dessous. |
-| Choix de l'atelier | **Automatique** : un seul atelier actif → appareil photo directement ; plusieurs → grandes cartes avec la photo modèle. |
+| Choix de l'atelier | **Mode B uniquement** : l'enfant voit toujours les grandes cartes des ateliers actifs (photo modèle) et touche le sien, même s'il n'y a qu'un atelier actif. |
 | Prise de photo | Écran caméra plein écran, très gros bouton déclencheur. |
 | Vérification | La photo s'affiche, avec ✅ (garder) et ↻ (recommencer). Rien d'autre. |
 | Retour positif | Une coche animée brève, puis retour à l'accueil. |
@@ -48,6 +48,7 @@ La V0 est un prototype : une seule tablette, une seule classe, quelques semaines
 
 | Fonction | Prévue en |
 |---|---|
+| Mode A (atelier imposé, appareil photo direct) | V1 |
 | Groupes d'élèves, plusieurs classes | V1 |
 | Dupliquer un atelier | V1 |
 | Réattribuer une photo à un autre élève ou atelier | V1 |
@@ -63,7 +64,7 @@ La V0 est un prototype : une seule tablette, une seule classe, quelques semaines
 
 Quatre éléments arrivent plus tôt que prévu, parce que le test en classe en a besoin :
 
-1. **Plusieurs ateliers actifs** (prévu en V1). Sans ça, on ne peut pas tester le choix de l'atelier par l'enfant, qui est l'hypothèse la plus risquée.
+1. **Plusieurs ateliers actifs et choix de l'atelier par l'enfant — mode B** (prévus en V1). C'est l'hypothèse la plus risquée : il faut la tester dès la V0.
 2. **Protection de l'espace enseignant** (prévue en V1). Sans elle, un enfant pourrait modifier ou supprimer des données pendant le test.
 3. **Référentiel embarqué** (bibliothèque prévue en V1). Il existe déjà (`references/`), et il évite la saisie libre.
 4. **Supprimer une photo** (prévu en V1). Une photo floue, prise par erreur ou montrant un autre enfant doit pouvoir disparaître : c'est le minimum RGPD.
@@ -88,7 +89,7 @@ La V0 est réussie si, sur quelques semaines d'essai :
 
 | # | Décision |
 |---|---|
-| 1 | Le mode (atelier imposé ou choix) se déduit du nombre d'ateliers actifs. Pas de réglage. |
+| 1 | **Mode B uniquement** en V0 : l'enfant choisit toujours son atelier parmi les cartes, même s'il n'y en a qu'un. Parcours identique à chaque fois. Le mode A (appareil photo direct) est reporté en V1. |
 | 2 | Accès enseignant : appui long 3 s + PIN 4 chiffres. |
 | 3 | Référentiel de compétences embarqué, en lecture seule. |
 | 4 | Élève représenté par une photo ou un avatar ; avatar par défaut. |
