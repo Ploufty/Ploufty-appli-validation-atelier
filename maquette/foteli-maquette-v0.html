@@ -1,0 +1,615 @@
+<title>Maquette Foteli V0</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Fredoka:wght@500;600;700&display=swap">
+<style>
+:root{
+  --page:#E9EEF4; --panel:#FFFFFF; --ink:#1B2433; --muted:#5A6576; --line:#D3DAE4; --accent:#2C5FD6; --accent-soft:#E3EBFB; --bezel:#1B2230;
+  color-scheme:light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --page:#121720; --panel:#1B2230; --ink:#E6EBF2; --muted:#9AA6B8; --line:#2E3746; --accent:#7EA2F5; --accent-soft:#223050; --bezel:#05070B; color-scheme:dark; }
+}
+:root[data-theme="dark"]{ --page:#121720; --panel:#1B2230; --ink:#E6EBF2; --muted:#9AA6B8; --line:#2E3746; --accent:#7EA2F5; --accent-soft:#223050; --bezel:#05070B; color-scheme:dark; }
+
+body{background:var(--page);color:var(--ink);font-family:"Atkinson Hyperlegible",system-ui,sans-serif;font-size:15px;line-height:1.5;padding-inline:16px;padding-block:20px 32px}
+.wrap{max-width:1400px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+.top h1{font-family:"Fredoka","Atkinson Hyperlegible",sans-serif;font-weight:600;font-size:26px;margin:0;text-wrap:balance}
+.top p{margin:4px 0 0;color:var(--muted);max-width:75ch}
+.stage{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:20px;align-items:start}
+@media (max-width:980px){.stage{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------- tablette ---------- */
+.tablet{background:var(--bezel);border-radius:28px;padding:18px;box-shadow:0 18px 40px rgba(10,20,40,.25);max-width:100%}
+.screen{position:relative;aspect-ratio:16/10;width:100%;overflow:hidden;border-radius:12px;background:#EEF3F9;container-type:inline-size;color:#1B2433;font-family:"Atkinson Hyperlegible",system-ui,sans-serif;user-select:none;-webkit-user-select:none;touch-action:manipulation}
+.view{position:absolute;inset:0;display:flex;flex-direction:column}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid #2C5FD6;outline-offset:2px}
+
+/* accueil */
+.home{background:linear-gradient(180deg,#F4F8FC,#E6EEF7);padding:3cqw 3cqw 2cqw}
+.grid{flex:1;display:grid;grid-template-columns:repeat(6,1fr);grid-auto-rows:1fr;gap:1.6cqw;align-content:center}
+.kid{border:none;background:#fff;border-radius:2cqw;box-shadow:0 .4cqw 0 #CFDAE8;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.4cqw;padding:1cqw;transition:transform .12s}
+.kid:active{transform:scale(.96)}
+.kid svg,.kid .ph{width:12.5cqw;height:12.5cqw}
+.kid .nm{font-family:"Fredoka",sans-serif;font-weight:600;font-size:2cqw;color:#3B4658}
+.kid .big{font-family:"Fredoka",sans-serif;font-weight:700;font-size:4.4cqw;color:#2C5FD6;height:12.5cqw;display:flex;align-items:center}
+.kid[disabled]{opacity:.35;cursor:default}
+.moon{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1cqw;pointer-events:none}
+.moon svg{width:16cqw;height:16cqw;filter:drop-shadow(0 .6cqw 1cqw rgba(30,40,80,.25))}
+.corner{position:absolute;top:0;right:0;width:7cqw;height:7cqw;border:none;background:transparent;padding:0}
+.corner .ring{position:absolute;inset:1.5cqw;border-radius:50%;border:.4cqw solid rgba(44,95,214,.5);opacity:0;transform:scale(.4)}
+.corner.hold .ring{opacity:1;transform:scale(1);transition:transform 3s linear,opacity .2s}
+
+/* barre enfant */
+.kbar{display:flex;align-items:center;gap:2cqw;padding:2cqw 3cqw 0}
+.back{width:9cqw;height:9cqw;border-radius:50%;border:none;background:#fff;box-shadow:0 .4cqw 0 #CFDAE8;display:grid;place-items:center}
+.back svg{width:5cqw;height:5cqw}
+.me{width:8cqw;height:8cqw;border-radius:50%;background:#fff;display:grid;place-items:center;overflow:hidden;box-shadow:0 0 0 .5cqw #fff,0 0 0 .8cqw #2C5FD6}
+.me svg,.me .ph{width:7cqw;height:7cqw}
+.me .big{font-family:"Fredoka",sans-serif;font-weight:700;font-size:1.6cqw;color:#2C5FD6}
+
+.choose{background:linear-gradient(180deg,#F4F8FC,#E6EEF7)}
+.cards{flex:1;display:flex;gap:2.5cqw;align-items:center;justify-content:center;padding:2cqw 3cqw 3cqw;flex-wrap:wrap}
+.card{border:none;background:#fff;border-radius:2.4cqw;padding:1.2cqw;box-shadow:0 .6cqw 0 #CFDAE8;display:flex;flex-direction:column;gap:.6cqw;width:28cqw;transition:transform .12s}
+.card:active{transform:scale(.97)}
+.card .pic{border-radius:1.6cqw;overflow:hidden;aspect-ratio:4/3;background:#C9A77C}
+.card .pic svg{width:100%;height:100%;display:block}
+.card .tt{font-size:1.3cqw;color:#8A94A6;text-align:left;padding-inline:.4cqw}
+.cards.n4 .card,.cards.n5 .card,.cards.n6 .card{width:20cqw}
+
+/* caméra */
+.cam{background:#0D1117}
+.finder{position:absolute;inset:0}
+.finder svg{width:100%;height:100%;display:block}
+.finder .sway{transform-origin:50% 60%;animation:sway 6s ease-in-out infinite}
+@keyframes sway{0%,100%{transform:rotate(-1.2deg) translate(0,0)}50%{transform:rotate(1.2deg) translate(1%,-1%)}}
+.frame{position:absolute;inset:6% 22% 6% 12%;border:.3cqw solid rgba(255,255,255,.75);border-radius:1.5cqw;pointer-events:none}
+.shutter{position:absolute;right:5cqw;top:50%;transform:translateY(-50%);width:15cqw;height:15cqw;border-radius:50%;border:1.2cqw solid #fff;background:#F2F4F7;box-shadow:0 0 0 .5cqw rgba(0,0,0,.25)}
+.shutter:active{background:#fff;transform:translateY(-50%) scale(.94)}
+.cam .back{position:absolute;left:3cqw;top:3cqw;background:rgba(255,255,255,.92)}
+.flash{position:absolute;inset:0;background:#fff;opacity:0;pointer-events:none}
+.flash.go{animation:flash .35s ease-out}
+@keyframes flash{0%{opacity:.9}100%{opacity:0}}
+
+/* aperçu */
+.preview{background:#0D1117;flex-direction:row;align-items:center;gap:3cqw;padding:3cqw}
+.shot{flex:1;height:100%;border-radius:1.6cqw;overflow:hidden;background:#C9A77C}
+.shot svg{width:100%;height:100%;display:block}
+.pv-actions{display:flex;flex-direction:column;gap:3cqw}
+.bigbtn{width:18cqw;height:18cqw;border-radius:50%;border:none;display:grid;place-items:center;box-shadow:0 .8cqw 0 rgba(0,0,0,.35)}
+.bigbtn svg{width:10cqw;height:10cqw}
+.ok{background:#22A55B}.redo{background:#F08A3C}
+.bigbtn:active{transform:translateY(.4cqw);box-shadow:0 .4cqw 0 rgba(0,0,0,.35)}
+.preview .back{position:absolute;left:3cqw;top:3cqw;background:rgba(255,255,255,.92);z-index:2}
+
+/* bravo */
+.done{background:#22A55B;align-items:center;justify-content:center}
+.done svg{width:26cqw;height:26cqw}
+.done circle{stroke-dasharray:300;stroke-dashoffset:300;animation:draw .6s ease-out forwards}
+.done path{stroke-dasharray:120;stroke-dashoffset:120;animation:draw .45s .45s ease-out forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+
+/* PIN */
+.pin{background:#1F2A44;color:#fff;align-items:center;justify-content:center;gap:2cqw}
+.pin h2{font-size:2.2cqw;font-weight:700;margin:0}
+.dots{display:flex;gap:1.5cqw}
+.dots i{width:2cqw;height:2cqw;border-radius:50%;border:.25cqw solid #fff}
+.dots i.on{background:#fff}
+.dots.bad{animation:shake .35s}
+@keyframes shake{25%{transform:translateX(-1.5cqw)}75%{transform:translateX(1.5cqw)}}
+.pad{display:grid;grid-template-columns:repeat(3,8cqw);gap:1.2cqw}
+.pad button{height:6.5cqw;border-radius:1.2cqw;border:none;background:rgba(255,255,255,.12);font-size:2.6cqw;font-weight:700;color:#fff}
+.pad button:active{background:rgba(255,255,255,.3)}
+.pin .link{background:none;border:none;color:#BFD0F5;font-size:1.6cqw;text-decoration:underline}
+
+/* espace enseignant */
+.teach{background:#F3F5F8;font-size:clamp(11px,1.45cqw,17px)}
+.tbar{display:flex;align-items:center;gap:1.5cqw;background:#1F2A44;color:#fff;padding:1cqw 2cqw}
+.tbar .cls{font-weight:700;margin-right:auto;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.tabs{display:flex;gap:.5cqw}
+.tabs button{border:none;background:transparent;color:#C9D4EA;padding:.6em 1em;border-radius:.6em;font-weight:700}
+.tabs button.on{background:#fff;color:#1F2A44}
+.exit{border:none;background:#FFC53D;color:#1F2A44;font-weight:700;padding:.6em 1em;border-radius:.6em;white-space:nowrap}
+.tbody{flex:1;overflow:auto;padding:1.6cqw 2cqw;display:flex;flex-direction:column;gap:1.2cqw}
+.row{display:flex;align-items:center;gap:1em;flex-wrap:wrap}
+.h{font-weight:700;font-size:1.25em;margin:0}
+.sub{color:#5A6576;margin:0}
+.btn{border:1px solid #C6CFDC;background:#fff;border-radius:.6em;padding:.45em .9em;font-weight:700}
+.btn.primary{background:#2C5FD6;border-color:#2C5FD6;color:#fff}
+.btn.danger{color:#C23B32;border-color:#E7B7B2}
+.btn.sm{padding:.3em .7em;font-size:.92em}
+.list{display:grid;grid-template-columns:repeat(auto-fill,minmax(15em,1fr));gap:.8em}
+.item{background:#fff;border:1px solid #DDE3EC;border-radius:.8em;padding:.7em;display:flex;align-items:center;gap:.8em}
+.item .rep{width:3.2em;height:3.2em;flex:none;display:grid;place-items:center}
+.item .rep svg,.item .rep .ph{width:3.2em;height:3.2em}
+.item .rep .big{font-family:"Fredoka",sans-serif;font-weight:700;color:#2C5FD6;font-size:.95em}
+.item .grow{flex:1;min-width:0}
+.item .nm{font-weight:700}
+.item .meta{color:#5A6576;font-size:.88em}
+.acards{display:grid;grid-template-columns:repeat(auto-fill,minmax(17em,1fr));gap:1em}
+.acard{background:#fff;border:1px solid #DDE3EC;border-radius:.9em;overflow:hidden;display:flex;flex-direction:column}
+.acard .pic{aspect-ratio:16/9;background:#C9A77C}
+.acard .pic svg{width:100%;height:100%;display:block}
+.acard .in{padding:.7em .8em;display:flex;flex-direction:column;gap:.4em}
+.acard.off .pic{filter:grayscale(1) opacity(.55)}
+.tag{display:inline-block;background:#E3EBFB;color:#1F3F8F;border-radius:999px;padding:.1em .7em;font-size:.85em;font-weight:700}
+.switch{display:flex;align-items:center;gap:.6em;background:none;border:none;padding:0;font-weight:700}
+.switch i{width:2.8em;height:1.6em;border-radius:999px;background:#C6CFDC;position:relative;transition:background .15s}
+.switch i::after{content:"";position:absolute;top:.2em;left:.2em;width:1.2em;height:1.2em;border-radius:50%;background:#fff;transition:transform .15s}
+.switch.on i{background:#22A55B}.switch.on i::after{transform:translateX(1.2em)}
+.form{background:#fff;border:1px solid #DDE3EC;border-radius:.9em;padding:1em;display:flex;flex-direction:column;gap:.9em}
+.form label{font-weight:700;display:flex;flex-direction:column;gap:.3em}
+.form input[type=text]{font:inherit;padding:.5em .7em;border:1px solid #C6CFDC;border-radius:.5em;max-width:28em}
+.chips{display:flex;flex-wrap:wrap;gap:.4em}
+.chip{border:1px solid #C6CFDC;background:#fff;border-radius:999px;padding:.3em .8em;font-weight:700;font-size:.92em}
+.chip.on{background:#1F2A44;border-color:#1F2A44;color:#fff}
+.robots{display:grid;grid-template-columns:repeat(auto-fill,minmax(3.6em,1fr));gap:.4em;max-width:40em}
+.robots button{border:2px solid transparent;background:#F3F5F8;border-radius:.6em;padding:.2em;aspect-ratio:1}
+.robots button svg{width:100%;height:100%}
+.robots button.on{border-color:#2C5FD6;background:#E3EBFB}
+.robots button[disabled]{opacity:.2;cursor:default}
+.models{display:flex;gap:.6em;flex-wrap:wrap}
+.models button{width:8em;border:3px solid transparent;border-radius:.6em;padding:0;overflow:hidden;background:#C9A77C;aspect-ratio:4/3}
+.models button.on{border-color:#2C5FD6}
+.models button svg{width:100%;height:100%;display:block}
+.clist{display:flex;flex-direction:column;gap:.3em;max-height:14em;overflow:auto;border:1px solid #DDE3EC;border-radius:.6em;padding:.5em}
+.clist label{flex-direction:row;font-weight:400;align-items:flex-start;gap:.6em}
+.clist code,.sel code{font-size:.8em;color:#5A6576}
+.sel{display:flex;flex-direction:column;gap:.3em}
+.sel div{display:flex;gap:.6em;align-items:center;background:#F3F5F8;border-radius:.5em;padding:.3em .6em}
+.sel div span{flex:1}
+table.who{border-collapse:collapse;width:100%;background:#fff;border:1px solid #DDE3EC;border-radius:.8em;overflow:hidden}
+table.who td{padding:.45em .8em;border-top:1px solid #EEF1F5;vertical-align:middle}
+table.who tr:first-child td{border-top:none}
+.mini{display:inline-flex;align-items:center;justify-content:center;width:2.8em;height:2.8em;vertical-align:middle}
+.mini svg,.mini .ph{width:2.8em;height:2.8em}
+.mini .big{font-family:"Fredoka",sans-serif;font-weight:700;color:#2C5FD6;font-size:.8em}
+.thumbs{display:flex;gap:.4em;flex-wrap:wrap;align-items:center}
+.thumb{width:5.5em;aspect-ratio:4/3;border:none;padding:0;border-radius:.4em;overflow:hidden;background:#C9A77C}
+.thumb svg{width:100%;height:100%;display:block}
+.ok-mark{color:#1E8E4E;font-weight:700}.no-mark{color:#9AA3B2;font-weight:700}
+.bigphoto{display:flex;gap:1.2em;align-items:flex-start;flex-wrap:wrap}
+.bigphoto .shotbox{width:min(100%,34em);aspect-ratio:4/3;border-radius:.8em;overflow:hidden;background:#C9A77C}
+.bigphoto .shotbox svg{width:100%;height:100%;display:block}
+.bigphoto dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.3em 1em;flex:1;min-width:14em}
+.bigphoto dt{font-weight:700;color:#5A6576}.bigphoto dd{margin:0}
+.note{background:#FFF6DC;border:1px solid #F1D98A;border-radius:.7em;padding:.6em .8em;color:#5B4A12}
+.setting{background:#fff;border:1px solid #DDE3EC;border-radius:.8em;padding:.8em 1em;display:flex;align-items:center;gap:1em;flex-wrap:wrap}
+.setting .grow{flex:1;min-width:14em}
+
+/* modale */
+.modal{position:absolute;inset:0;background:rgba(15,22,35,.55);display:grid;place-items:center;z-index:20;font-size:clamp(12px,1.6cqw,18px)}
+.modal .box{background:#fff;border-radius:1em;padding:1.3em 1.5em;max-width:60%;display:flex;flex-direction:column;gap:1em;box-shadow:0 1em 3em rgba(0,0,0,.3)}
+.modal .box p{margin:0;font-size:1.1em}
+.modal .row{justify-content:flex-end}
+.sheet{position:absolute;left:0;right:0;bottom:0;background:#fff;border-radius:1.2em 1.2em 0 0;padding:1.2em 1.5em;z-index:21;font-size:clamp(12px,1.5cqw,17px);box-shadow:0 -1em 3em rgba(0,0,0,.3);display:flex;flex-direction:column;gap:.7em}
+.sheet .loc{display:flex;gap:.8em;flex-wrap:wrap}
+
+/* premier lancement */
+.setup{background:#1F2A44;color:#fff;align-items:center;justify-content:center;gap:1.6cqw;text-align:center;padding:3cqw}
+.setup h2{font-family:"Fredoka",sans-serif;font-size:3.4cqw;margin:0}
+.setup p{font-size:1.7cqw;margin:0;color:#D5DEEF;max-width:60cqw}
+.setup input{font:inherit;font-size:1.9cqw;padding:.5em .8em;border-radius:.5em;border:none;width:44cqw;color:#1B2433}
+.setup .btn{font-size:1.7cqw}
+.android{background:#fff;color:#1B2433;border-radius:1.2cqw;padding:2cqw 2.4cqw;max-width:46cqw;text-align:left;display:flex;flex-direction:column;gap:1.2cqw;font-size:1.6cqw}
+.android .row{justify-content:flex-end}
+.android .row button{border:none;background:none;color:#2C5FD6;font-weight:700;font-size:1.5cqw;padding:.4em .8em}
+
+/* guide */
+.guide{background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:16px 18px;display:flex;flex-direction:column;gap:14px}
+.guide h2{font-family:"Fredoka","Atkinson Hyperlegible",sans-serif;font-weight:600;font-size:19px;margin:0}
+.guide h3{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:0}
+.guide ol,.guide ul{margin:0;padding-left:1.2em;display:flex;flex-direction:column;gap:6px}
+.guide .code{font-family:ui-monospace,Menlo,monospace;background:var(--accent-soft);color:var(--ink);padding:1px 6px;border-radius:4px}
+.guide .status{background:var(--accent-soft);border-radius:10px;padding:10px 12px;font-variant-numeric:tabular-nums}
+.guide .gbtns{display:flex;flex-direction:column;gap:8px}
+.guide button{border:1px solid var(--line);background:var(--page);color:var(--ink);border-radius:8px;padding:8px 12px;font-weight:700;text-align:left}
+.guide button:hover{border-color:var(--accent)}
+.guide small{color:var(--muted)}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<div class="wrap">
+  <header class="top">
+    <h1>Maquette Foteli V0</h1>
+    <p>Écran de tablette cliquable pour essayer les parcours avant de construire l'APK. Rien n'est enregistré : les photos sont simulées et tout revient à zéro quand on recharge la page.</p>
+  </header>
+  <div class="stage">
+    <div class="tablet"><div class="screen" id="screen"></div></div>
+    <aside class="guide">
+      <h2>Mode d'emploi</h2>
+      <div>
+        <h3>Côté enfant</h3>
+        <ol>
+          <li>Touchez un robot (par exemple Adem).</li>
+          <li>Touchez la carte d'un atelier.</li>
+          <li>Touchez le gros bouton blanc pour prendre la photo.</li>
+          <li>Touchez ✅ pour garder, ou ↻ pour recommencer.</li>
+        </ol>
+      </div>
+      <div>
+        <h3>Côté enseignant</h3>
+        <ul>
+          <li>Sur l'accueil, <b>appui long de 3 s</b> dans le coin <b>en haut à droite</b>.</li>
+          <li>Code de la maquette : <span class="code">1234</span></li>
+          <li>Essayez : Photos → Par atelier, activer un atelier, créer un atelier avec ses compétences.</li>
+        </ul>
+      </div>
+      <div class="status" id="status">Accueil enfant.</div>
+      <div class="gbtns">
+        <button type="button" id="g-setup">Voir le premier lancement</button>
+        <button type="button" id="g-reset">Remettre la maquette à zéro</button>
+      </div>
+      <small>Dans l'APK : vraie caméra, photos gardées dans l'espace privé de l'appli, blocage de la sortie de l'appli (épinglage ou mode kiosque), sauvegarde réelle.</small>
+    </aside>
+  </div>
+</div>
+
+<script>
+const REF = {"d":[["LAN","Le développement et la structuration du langage oral et écrit"],["EPS","Agir, s'exprimer, comprendre à travers les activités physiques"],["ART","Agir, s'exprimer, comprendre à travers les activités artistiques"],["MAT","L'acquisition des premiers outils mathématiques"],["TES","Se repérer dans le temps et l'espace"],["VIV","Découvrir le monde du vivant, de la matière et des objets"]],"s":[["LAN-VOC","Enrichir son vocabulaire"],["LAN-SYN","Développer sa syntaxe"],["LAN-ARL","Articuler distinctement"],["LAN-DIS","Produire des discours variés"],["LAN-SON","Écouter, identifier, discriminer et reproduire des sons"],["LAN-SYL","Manipuler des syllabes orales puis des phonèmes"],["LAN-NLE","Connaître le nom des lettres"],["LAN-SLE","Connaître le son des lettres"],["LAN-DLI","S'éveiller à la diversité linguistique"],["LAN-SUP","Découvrir les supports de l'écrit"],["LAN-TXT","Comprendre des textes lus par le professeur"],["LAN-GES","Apprendre le geste d'écriture"],["LAN-ORE","Passer de l'oral à l'écrit"],["LAN-PEC","Produire des écrits"],["EPS-DEP","Se déplacer"],["EPS-EQU","Construire des équilibres"],["EPS-EXP","S'exprimer avec son corps"],["EPS-COO","Coopérer et s'opposer"],["ART-DES","Dessiner"],["ART-GRA","S'exercer au graphisme artistique"],["ART-COM","Réaliser des compositions planes ou en volume"],["ART-IMA","Observer, comprendre et transformer des images"],["ART-VOI","Jouer avec sa voix et acquérir un répertoire de comptines et de chansons"],["ART-INS","Explorer des instruments, utiliser les sonorités du corps"],["ART-ECO","Affiner son écoute"],["ART-PRA","Le spectacle vivant : pratiquer"],["ART-SPE","Fréquenter et devenir spectateur et spectatrice"],["MAT-QTE","Exprimer une quantité par un nombre"],["MAT-RAN","Exprimer un rang ou une position par un nombre"],["MAT-PBM","Utiliser les nombres pour résoudre des problèmes"],["MAT-FOR","Explorer les solides et les formes planes"],["MAT-GRD","Explorer des grandeurs : la longueur, la masse"],["MAT-MOT","Se familiariser avec les motifs organisés"],["TES-REP","Se repérer dans le temps"],["TES-CHR","S'approprier la notion de chronologie"],["TES-DUR","Construire la notion de durée"],["TES-ESP","Faire l'expérience de l'espace"],["TES-RES","Représenter l'espace"],["TES-ENV","Découvrir l'environnement proche"],["VIV-ANI","Découvrir les animaux et les végétaux"],["VIV-CRP","Découvrir le corps humain et la santé"],["VIV-OBJ","Découvrir les objets et les matériaux"],["VIV-ETA","Découvrir les états de la matière et les mélanges"]],"c":[["LAN-VOC-PS-01","Je comprends les nouveaux mots qu'on m'apprend à l'école."],["LAN-VOC-PS-02","Je retiens et j'utilise les nouveaux mots qu'on m'apprend à l'école."],["LAN-VOC-PS-03","Je sais regrouper les mots qui vont ensemble."],["LAN-VOC-PS-04","Je trouve l'intrus dans un groupe de mots."],["LAN-VOC-MS-01","Je continue d'apprendre de nouveaux mots plus précis pour décrire ce qui m'entoure et pour raconter des histoires."],["LAN-VOC-MS-02","J'organise les mots par catégories."],["LAN-VOC-MS-03","Je comprends que certains mots peuvent avoir plusieurs sens (comme glace)."],["LAN-VOC-MS-04","Je m'appuie sur des mots que je connais pour comprendre un mot nouveau (animal / animalerie)."],["LAN-VOC-MS-05","Je trouve des mots qui veulent dire la même chose (synonymes)."],["LAN-VOC-GS-01","J'enrichis mon vocabulaire avec des mots sur les émotions."],["LAN-VOC-GS-02","Je sais relier les mots entre eux."],["LAN-VOC-GS-03","Je sais créer des mots dérivés."],["LAN-VOC-GS-04","Je sais deviner le sens de mots que je ne connais pas."],["LAN-VOC-GS-05","Je distingue le sens propre du sens figuré (dévorer un gâteau / dévorer un livre)."],["LAN-VOC-GS-06","Je trouve le mot qui regroupe les autres (véhicule pour voiture, bus, vélo)."],["LAN-SYN-PS-01","J'apprends à utiliser les pronoms il, elle, ils, elles et je."],["LAN-SYN-PS-02","Je sais parler au présent, au passé (passé composé) et au futur proche (je vais faire)."],["LAN-SYN-PS-03","Je relie mes phrases simples avec et ou et puis."],["LAN-SYN-MS-01","J'utilise les pronoms tu et on."],["LAN-SYN-MS-02","J'utilise l'imparfait, le passé composé et le conditionnel."],["LAN-SYN-MS-03","J'utilise de nouveaux mots de liaison comme d'abord, ensuite, parce que, que ou qui pour construire mes phrases."],["LAN-SYN-GS-01","J'utilise maintenant les pronoms nous et vous."],["LAN-SYN-GS-02","Je maîtrise des temps plus complexes comme l'imparfait, le plus-que-parfait et le futur simple."],["LAN-SYN-GS-03","J'utilise le futur et le futur antérieur (quand on ira…, on aura déjà…)."],["LAN-SYN-GS-04","J'utilise des mots de liaison pour exprimer le lieu, le temps, la cause ou la comparaison (où, quand, pour que, si, comme)."],["LAN-ARL-PS-01","J'apprends à prononcer distinctement les couples de consonnes proches : t/k, f/s, m/n."],["LAN-ARL-PS-02","Je commence à percevoir les distinctions entre des mots proches phonologiquement."],["LAN-ARL-PS-03","À partir d'un imagier, je prononce correctement des mots qui se ressemblent : cour/tour, cube/tube, cassé/café, pouce/pouf, nain/main."],["LAN-ARL-MS-01","Je distingue et je produis correctement les sons é/in, a/an, o/on."],["LAN-ARL-MS-02","J'articule distinctement les couples de consonnes proches suivants : f/v, s/z, p/b, t/d, k/g."],["LAN-ARL-MS-03","À partir d'un imagier, je prononce correctement : ville/fil, dessert/désert, poison/poisson, pépé/bébé, doigt/toit, gare/car et les mots qui se ressemblent : boule/poule."],["LAN-ARL-GS-01","Je prononce correctement les couples de consonnes proches suivants : ch/s, ch/j, ch/z."],["LAN-ARL-GS-02","Je prononce correctement les doubles consonnes : br/cr/bl/pl/sl."],["LAN-ARL-GS-03","À partir d'un imagier, je prononce correctement : chaud/seau, mouche/mousse, bijou/bisou, manche/mange."],["LAN-DIS-PS-01","Je parle avec un adulte ou un autre élève."],["LAN-DIS-PS-02","Je dis ce que je fais."],["LAN-DIS-PS-03","Je dis ce que j'ai fait et, peu à peu, ce que je vais faire."],["LAN-DIS-PS-04","Je prends part à l'oralisation d'un court texte mémorisé."],["LAN-DIS-MS-01","Je dis ce que je vais faire."],["LAN-DIS-MS-02","Je dis comment j'ai fait ou comment je vais faire."],["LAN-DIS-MS-03","J'oralise un court texte mémorisé."],["LAN-DIS-MS-04","Je participe à des échanges en restant dans le propos."],["LAN-DIS-GS-01","Je décris une action ou une activité qui a été menée par un autre élève."],["LAN-DIS-GS-02","Je me fais comprendre, par le langage, d'un adulte qui ne connaît rien à la situation évoquée."],["LAN-DIS-GS-03","Je participe à une conversation avec un adulte ou mes camarades."],["LAN-DIS-GS-04","Je reformule mon propos s'il n'a pas été compris."],["LAN-DIS-GS-05","J'émets une hypothèse."],["LAN-SON-PS-01","Je reconnais des sons."],["LAN-SON-PS-02","Je reconnais un mot donné à l'oral dans une phrase, dans un texte."],["LAN-SON-MS-01","Je parle, je chante, j'imite, je découvre des sons, je les reproduis."],["LAN-SON-MS-02","Je reconnais des sons différents."],["LAN-SON-MS-03","J'entends et je distingue les sons de la langue (phonèmes)."],["LAN-SON-GS-01","J'utilise les possibilités de ma voix."],["LAN-SON-GS-02","Je mémorise de plus en plus ce que j'entends."],["LAN-SON-GS-03","J'arrive à me concentrer."],["LAN-SON-GS-04","Je différencie des sons proches : on/en/un."],["LAN-SYL-PS-01","Je scande les syllabes d'un mot."],["LAN-SYL-PS-02","Je prononce mon prénom en scandant les syllabes."],["LAN-SYL-PS-03","Je dis des comptines courtes avec des sons qui se ressemblent."],["LAN-SYL-MS-01","Je scande les syllabes d'un mot."],["LAN-SYL-MS-02","Je manipule les syllabes d'un mot (ajouter, enlever, inverser, remplacer)."],["LAN-SYL-MS-03","Je compte les syllabes."],["LAN-SYL-MS-04","Je compare les mots selon leur nombre de syllabes."],["LAN-SYL-MS-05","Je dis des comptines courtes avec des sons qui se ressemblent."],["LAN-SYL-GS-01","Je joue avec les syllabes."],["LAN-SYL-GS-02","Je repère des sons identiques."],["LAN-SYL-GS-03","Je trouve des intrus à l'initiale."],["LAN-SYL-GS-04","Je trouve des sons dans un mot."],["LAN-SYL-GS-05","Je produis des rimes."],["LAN-SYL-GS-06","J'entends, je discrimine, je manipule des sons."],["LAN-NLE-PS-01","Je reconnais mon prénom parmi d'autres."],["LAN-NLE-PS-02","Je nomme certaines lettres de mon prénom écrit en capitales."],["LAN-NLE-PS-03","J'utilise l'étiquette de mon prénom."],["LAN-NLE-MS-01","J'épelle mon prénom ou les lettres d'un mot connu."],["LAN-NLE-MS-02","Je connais la correspondance entre les lettres scriptes majuscules et minuscules et les lettres cursives minuscules."],["LAN-NLE-MS-03","Je respecte l'ordre des lettres."],["LAN-NLE-GS-01","Je connais le nom des lettres de l'alphabet en capitale d'imprimerie, en scripte, en cursive."],["LAN-NLE-GS-02","Je sais épeler les lettres d'un mot connu."],["LAN-NLE-GS-03","Je connais les différentes graphies d'une même lettre (majuscule lettre capitale ; minuscules scriptes ; cursives)."],["LAN-NLE-GS-04","Je distingue des lettres visuellement proches (b/d, c/e/o, p/q) en attaché et je les nomme correctement."],["LAN-SLE-MS-01","J'utilise le nom des lettres pour représenter les sons (voyelles)."],["LAN-SLE-MS-02","Je connais le son de quelques lettres des mots que je connais."],["LAN-SLE-GS-01","Je connais le nom des lettres de l'alphabet et leur son."],["LAN-SLE-GS-02","Je reconnais des mots auditivement proches (poule/boule/roule)."],["LAN-DLI-PS-01","Je prends plaisir à écouter des chants, des comptines, des histoires connues en français et en langue étrangère."],["LAN-DLI-MS-01","Je participe à des jeux dans une autre langue : jeux de doigts, rondes, jeux dansés, mimes, jeux de cour, jeux de cartes."],["LAN-DLI-MS-02","Je mémorise des chants et des comptines dans une autre langue."],["LAN-SUP-PS-01","Je repère les outils utilisés en classe (étiquette du prénom, emploi du temps, affiches, etc.)."],["LAN-SUP-PS-02","Je reconnais quelques écrits utilisés et produits en classe (comptines, recettes, carnet de lecteur)."],["LAN-SUP-MS-01","Je reconnais, je nomme, je sais à quoi servent les écrits de la vie courante."],["LAN-SUP-MS-02","Je comprends à quoi servent une lettre, les étiquettes de la classe, les affichages."],["LAN-SUP-MS-03","J'utilise les livres de la classe."],["LAN-SUP-MS-04","J'utilise les outils de la classe pour me repérer, m'organiser et ranger."],["LAN-SUP-GS-01","Je différencie les types d'écrits."],["LAN-SUP-GS-02","Je reconnais les mises en page des différents écrits (lettre, recette, conte, documentaire, notice)."],["LAN-SUP-GS-03","J'utilise le bon vocabulaire pour décrire les écrits et en parler : ponctuation, page, paragraphe, majuscule, ligne."],["LAN-TXT-PS-01","Je reconnais un personnage, je le nomme et je le retrouve dans les illustrations."],["LAN-TXT-PS-02","Je retrouve les livres dans lesquels se trouvent les mêmes personnages."],["LAN-TXT-PS-03","Je raconte une histoire avec une marotte, un décor, des accessoires."],["LAN-TXT-PS-04","Je comprends des histoires proches de ma vie de tous les jours (le bain, le coucher)."],["LAN-TXT-MS-01","J'identifie et je décris le personnage principal et les personnages secondaires."],["LAN-TXT-MS-02","Je comprends des histoires où l'enchaînement des actions se répète."],["LAN-TXT-MS-03","Je commence à comprendre les émotions et les sentiments des personnages."],["LAN-TXT-MS-04","Je raconte une histoire entendue plusieurs fois, à l'aide d'une marotte, d'un décor, d'accessoires, en respectant l'enchaînement et les caractéristiques des personnages."],["LAN-TXT-GS-01","Je sais expliquer les motivations des personnages, leurs émotions, leurs relations."],["LAN-TXT-GS-02","Je construis les caractéristiques des personnages archétypaux (loup, princesse, ogre, sorcière, renard, fée, etc.)."],["LAN-TXT-GS-03","Je raconte une histoire connue en entier et sans support."],["LAN-TXT-GS-04","Je comprends les émotions, les intentions et les sentiments des personnages."],["LAN-TXT-GS-05","J'établis un lien entre mes lectures et mes expériences."],["LAN-GES-PS-01","J'entraîne mes doigts avec la pâte à modeler."],["LAN-GES-PS-02","Je réalise des traces et des tracés."],["LAN-GES-PS-03","Je dessine."],["LAN-GES-PS-04","Je réalise des traits verticaux, horizontaux, des points, des boucles, des cercles."],["LAN-GES-PS-05","Je prends des repères pour tracer."],["LAN-GES-MS-01","Je copie des lettres en capitales."],["LAN-GES-MS-02","Je copie mon prénom en lettres capitales."],["LAN-GES-MS-03","Je copie d'autres mots."],["LAN-GES-MS-04","J'adopte une posture adaptée au geste d'écriture."],["LAN-GES-MS-05","Je tiens correctement mon crayon et je m'entraîne à ne pas le lever en écrivant."],["LAN-GES-MS-06","Je m'initie aux tracés de l'écriture cursive."],["LAN-GES-GS-01","Je tiens correctement mon stylo par la pince des doigts et j'utilise de façon coordonnée les quatre articulations (épaule, coude, poignet, doigts)."],["LAN-GES-GS-02","Je trace les lettres en cursive et je les enchaîne."],["LAN-GES-GS-03","J'écris mon prénom en cursive sans modèle."],["LAN-GES-GS-04","J'écris un mot simple en cursive avec modèle."],["LAN-GES-GS-05","J'écris un mot simple en cursive sans modèle."],["LAN-ORE-PS-01","Je comprends que ce qui est écrit se dit (l'écrit encode l'oral)."],["LAN-ORE-PS-02","Je sais que l'écriture est différente du dessin."],["LAN-ORE-MS-01","Je comprends que lorsque l'adulte lit un même écrit plusieurs fois, ce qu'il lit est toujours identique."],["LAN-ORE-MS-02","Je comprends que l'écrit code des sons."],["LAN-ORE-MS-03","J'utilise le nom des lettres pour représenter des sons."],["LAN-ORE-MS-04","Je dicte à l'adulte un court message."],["LAN-ORE-MS-05","Je participe à la dictée à l'adulte et je fais des essais d'écriture."],["LAN-ORE-MS-06","Je compare la longueur d'un texte écrit et la durée du texte entendu."],["LAN-ORE-MS-07","Je sais que le sens de la lecture est de gauche à droite et de haut en bas."],["LAN-ORE-GS-01","Je segmente l'oral en mots."],["LAN-ORE-GS-02","Je segmente les mots en syllabes."],["LAN-ORE-GS-03","Je segmente quelques syllabes en phonèmes."],["LAN-ORE-GS-04","Je comprends que l'écrit encode l'oral."],["LAN-ORE-GS-05","Je comprends que les sons de la langue sont codés par des lettres."],["LAN-ORE-GS-06","Je suis la trace écrite des yeux lors d'une relecture par l'adulte d'un message produit lors d'une dictée à l'adulte."],["LAN-ORE-GS-07","Je repère un mot dans une phrase que l'adulte vient de lire."],["LAN-ORE-GS-08","Je repère un mot oublié par l'adulte quand il relit ma dictée."],["LAN-PEC-PS-01","Je mime la posture et les gestes d'écriture quand j'apprends à laisser des traces."],["LAN-PEC-PS-02","Je trace des signes en sachant que ce sont des lettres et non des dessins."],["LAN-PEC-MS-01","J'écris un mot avec un modèle."],["LAN-PEC-MS-02","Je cherche des modèles dans la classe pour m'aider à écrire."],["LAN-PEC-MS-03","J'invente des mots à écrire."],["LAN-PEC-GS-01","J'écris des mots avec tout ce que j'ai appris à utiliser (mémoire, affichages)."],["LAN-PEC-GS-02","Je sais expliquer ma stratégie pour écrire."],["LAN-PEC-GS-03","Je me repère dans l'alphabet pour retrouver l'écriture d'une lettre nécessaire pour produire un écrit."],["LAN-PEC-GS-04","Je mémorise l'écriture de mots transparents ou de syllabes connues pour les réutiliser dans une production d'écrit."],["LAN-PEC-GS-05","Je comprends qu'il existe une norme pour écrire : ponctuation, majuscules, mise en page, etc."],["LAN-PEC-GS-06","Je persévère jusqu'au bout de mon écrit (préparer, dire, relire)."],["EPS-DEP-PS-01","Je participe aux activités physiques."],["EPS-DEP-PS-02","Je cours de différentes façons."],["EPS-DEP-PS-03","Je saute un obstacle sans élan."],["EPS-DEP-PS-04","Je manipule des objets."],["EPS-DEP-PS-05","Je lance et fais rouler des objets."],["EPS-DEP-PS-06","Je me repère dans un espace proche et connu."],["EPS-DEP-MS-01","Je lance loin."],["EPS-DEP-MS-02","Je cours vite en ligne droite."],["EPS-DEP-MS-03","Je saute et enchaîne plusieurs obstacles."],["EPS-DEP-MS-04","Je me repère dans l'espace grâce à des indices."],["EPS-DEP-GS-01","Je lance loin et avec précision."],["EPS-DEP-GS-02","Je cours longtemps sans m'arrêter."],["EPS-DEP-GS-03","Je cours vite et je franchis un obstacle."],["EPS-DEP-GS-04","Je coordonne mes actions pour lancer et sauter."],["EPS-DEP-GS-05","Je me repère dans un espace moins familier."],["EPS-EQU-PS-01","Je me déplace de façons variées."],["EPS-EQU-PS-02","J'utilise des jeux roulants pour me propulser."],["EPS-EQU-MS-01","Je me déplace à reculons."],["EPS-EQU-MS-02","Je me suspends."],["EPS-EQU-MS-03","Je me déplace en équilibre sur des engins."],["EPS-EQU-MS-04","Je respecte les règles de sécurité."],["EPS-EQU-GS-01","J'enchaîne sauter, se déplacer, se suspendre, se balancer."],["EPS-EQU-GS-02","Je m'engage dans le milieu aquatique."],["EPS-EQU-GS-03","J'aide mes camarades en sécurité."],["EPS-EXP-PS-01","Je participe aux rondes et jeux chantés avec les autres."],["EPS-EXP-PS-02","Je bouge en répondant à une consigne."],["EPS-EXP-PS-03","Je mime un animal ou un personnage."],["EPS-EXP-MS-01","Je reproduis des gestes dansés."],["EPS-EXP-MS-02","J'explore l'espace scénique."],["EPS-EXP-MS-03","J'exprime des émotions par le mouvement."],["EPS-EXP-MS-04","Je deviens un spectateur actif."],["EPS-EXP-GS-01","Je danse seul ou avec les autres."],["EPS-EXP-GS-02","Je pratique des activités de cirque."],["EPS-EXP-GS-03","Je suis spectateur actif et j'exprime mon ressenti."],["EPS-COO-PS-01","J'accepte de participer à un jeu collectif."],["EPS-COO-PS-02","Je respecte une règle simple dans un jeu."],["EPS-COO-MS-01","Je joue et coopère."],["EPS-COO-MS-02","Je joue différents rôles dans un jeu."],["EPS-COO-MS-03","J'accepte la défaite."],["EPS-COO-GS-01","J'élabore des stratégies pour gagner."],["EPS-COO-GS-02","Je joue le rôle d'arbitre."],["EPS-COO-GS-03","Je prends plaisir à coopérer et à m'opposer."],["EPS-COO-GS-04","Je respecte les règles."],["ART-DES-PS-01","Je trace des gestes sur grand format."],["ART-DES-PS-02","Je dessine avec une intention."],["ART-DES-MS-01","J'expérimente différents outils et supports."],["ART-DES-MS-02","Je dessine un personnage, un animal, un objet."],["ART-DES-GS-01","Je dessine en m'inspirant d'un modèle ou d'une œuvre."],["ART-DES-GS-02","Je dessine un personnage ou un événement."],["ART-DES-GS-03","Je participe à la réalisation d'une œuvre collective à partir d'une consigne."],["ART-DES-GS-04","Je décris mon dessin avec le vocabulaire adapté."],["ART-GRA-PS-01","J'explore des tracés variés sur différents supports."],["ART-GRA-PS-02","Je repère des motifs dans mon environnement."],["ART-GRA-PS-03","Je découvre des motifs dans des œuvres."],["ART-GRA-PS-04","Je reproduis des motifs."],["ART-GRA-MS-01","Je développe ma motricité fine."],["ART-GRA-MS-02","Je reproduis et crée des motifs."],["ART-GRA-GS-01","Je transforme et détourne des motifs."],["ART-GRA-GS-02","Je crée de nouveaux motifs."],["ART-GRA-GS-03","Je réalise une composition avec des contraintes."],["ART-COM-PS-01","Je découvre des outils, je les explore."],["ART-COM-PS-02","J'utilise des supports et des outils différents pour laisser une trace."],["ART-COM-PS-03","J'expérimente la résistance de certains matériaux (déchirer, écraser, aplatir)."],["ART-COM-PS-04","Je réalise une composition seul ou avec les camarades."],["ART-COM-MS-01","Je m'approprie les couleurs, les formes et les matières."],["ART-COM-MS-02","Je réalise une composition en volume."],["ART-COM-GS-01","Je choisis et combine des matériaux et des techniques."],["ART-COM-GS-02","Je découvre différentes formes d'expression artistique."],["ART-IMA-PS-01","J'apprends à regarder."],["ART-IMA-PS-02","J'identifie des éléments dans une image."],["ART-IMA-PS-03","Je décris les illustrations d'un album."],["ART-IMA-MS-01","Je distingue une image fixe d'une image animée."],["ART-IMA-MS-02","Je fabrique des images à partir d'images existantes."],["ART-IMA-MS-03","Je décris une illustration."],["ART-IMA-GS-01","Je différencie des types d'images (portrait, nature morte, paysage)."],["ART-IMA-GS-02","Je compare des illustrations."],["ART-IMA-GS-03","Je décris une œuvre avec un vocabulaire précis."],["ART-VOI-PS-01","Je joue avec ma voix."],["ART-VOI-PS-02","Je chante et me fais comprendre."],["ART-VOI-PS-03","Je chante ou dis au moins 5 comptines, avec les gestes."],["ART-VOI-MS-01","J'explore la richesse de ma voix (sons brefs, tenus, graves, aigus)."],["ART-VOI-MS-02","Je chante en exprimant une émotion."],["ART-VOI-MS-03","Je chante au moins 8 comptines et chants."],["ART-VOI-GS-01","J'imite des sons avec ma voix."],["ART-VOI-GS-02","Je chante avec les autres en respectant le tempo."],["ART-VOI-GS-03","Je chante seul et/ou avec les autres."],["ART-VOI-GS-04","Je connais au moins 10 comptines et chants de mémoire."],["ART-INS-PS-01","Je crée des sons avec mon corps, des objets, des instruments."],["ART-INS-PS-02","J'observe et je décris comment font les autres pour produire un son."],["ART-INS-MS-01","Je reproduis un rythme simple."],["ART-INS-MS-02","J'adapte mon geste pour produire un son."],["ART-INS-GS-01","Je crée un paysage sonore."],["ART-INS-GS-02","Je participe à une production musicale collective."],["ART-ECO-PS-01","J'écoute avec attention."],["ART-ECO-PS-02","Je traduis la musique par des mouvements."],["ART-ECO-PS-03","Je reconnais des sons du quotidien."],["ART-ECO-MS-01","Je traduis la musique en mouvements et en mots."],["ART-ECO-MS-02","J'exprime mes émotions après une écoute."],["ART-ECO-MS-03","Je découvre au moins 2 œuvres musicales patrimoniales."],["ART-ECO-GS-01","Je traduis la musique par un dessin."],["ART-ECO-GS-02","Je repère des éléments musicaux."],["ART-ECO-GS-03","Je connais au moins 3 œuvres musicales patrimoniales."],["ART-PRA-PS-01","Je reproduis des gestes pour exprimer une émotion."],["ART-PRA-PS-02","Je participe à une mise en scène collective."],["ART-PRA-PS-03","Je joue un personnage d'une histoire."],["ART-PRA-MS-01","J'exprime des émotions par le corps et la voix."],["ART-PRA-MS-02","Je joue un rôle simple."],["ART-PRA-MS-03","Je suis spectateur actif."],["ART-PRA-GS-01","J'explore l'enchaînement des émotions par le corps et la voix (du rire à la peur, la surprise…)."],["ART-PRA-GS-02","Je joue des personnages variés seul et avec d'autres."],["ART-PRA-GS-03","Je joue dans un espace scénique devant les autres."],["ART-SPE-PS-01","Je découvre des œuvres."],["ART-SPE-PS-02","Je découvre l'espace scénique."],["ART-SPE-PS-03","J'assiste à des représentations."],["ART-SPE-MS-01","Je participe à des représentations."],["ART-SPE-MS-02","Je rencontre des artistes."],["ART-SPE-GS-01","Je joue des petits spectacles devant les autres."],["ART-SPE-GS-02","Je deviens spectateur."],["ART-SPE-GS-03","Je rencontre des artistes."],["MAT-QTE-PS-01","Je comprends que la quantité d'objets reste la même, peu importe leur apparence ou leur disposition."],["MAT-QTE-PS-02","Je reconnais, je réalise des collections de 2 objets."],["MAT-QTE-PS-03","Je reconnais, je réalise des collections de 3 objets."],["MAT-QTE-PS-04","Je reconnais, je réalise des collections de 4 objets."],["MAT-QTE-PS-05","Je comprends que si on ajoute un objet à une collection, le nombre qui désigne sa quantité est le suivant dans la suite orale des noms des nombres."],["MAT-QTE-PS-06","Je sais compter des collections de petits objets (jusqu'à 3 ou 4)."],["MAT-QTE-PS-07","Je sais créer des collections avec un nombre précis d'objets (jusqu'à 3 ou 4)."],["MAT-QTE-PS-08","Je sais créer une collection contenant un objet de plus que…"],["MAT-QTE-PS-09","Je nomme les nombres, avant et après l'ajout d'un élément."],["MAT-QTE-PS-10","J'utilise mes doigts pour compter."],["MAT-QTE-PS-11","Je peux comparer des quantités d'objets pour savoir où il y en a plus ou moins."],["MAT-QTE-PS-12","J'apprends à former et défaire les petits nombres (2, 3, 4) en combinant des quantités."],["MAT-QTE-PS-13","Je sais dire la composition du nombre (un et encore un…)."],["MAT-QTE-PS-14","Je sais associer une quantité, le nom du nombre et son écriture."],["MAT-QTE-PS-15","Je peux lier une quantité à son nom et au chiffre qui la représente (jusqu'à 3 ou 4)."],["MAT-QTE-PS-16","Je peux réciter les nombres jusqu'à six."],["MAT-QTE-MS-01","Je comprends que la quantité est indépendante de l'apparence des objets ou de leur arrangement (jusqu'à 6)."],["MAT-QTE-MS-02","Je comprends que chaque nombre est le suivant du précédent en ajoutant une unité."],["MAT-QTE-MS-03","J'apprends à compter chaque objet d'une collection une seule fois et sans en oublier."],["MAT-QTE-MS-04","Je sais compter des collections d'objets jusqu'à six."],["MAT-QTE-MS-05","J'utilise mes doigts pour désigner une quantité."],["MAT-QTE-MS-06","Je sais créer des collections avec un nombre précis d'objets jusqu'à six."],["MAT-QTE-MS-07","Je compare des quantités d'objets, même si elles sont disposées différemment."],["MAT-QTE-MS-08","Je sais former et défaire les nombres jusqu'à six."],["MAT-QTE-MS-09","Je sais former et défaire les nombres jusqu'à six, avec mes deux mains, en utilisant les doigts."],["MAT-QTE-MS-10","Je peux lier une quantité à son nom et à son chiffre jusqu'à six."],["MAT-QTE-MS-11","Je représente une quantité jusqu'à 6."],["MAT-QTE-MS-12","Je commence à écrire les chiffres de un à six."],["MAT-QTE-MS-13","Je peux réciter les nombres jusqu'à douze."],["MAT-QTE-GS-01","Je comprends que la quantité est fixe, peu importe l'apparence ou l'arrangement des objets (jusqu'à 10 et au-delà)."],["MAT-QTE-GS-02","Je réalise des collections jusqu'à 10 objets."],["MAT-QTE-GS-03","Je deviens très efficace pour compter des objets en les pointant un par un sans erreur."],["MAT-QTE-GS-04","Je suis capable de compter des collections d'objets jusqu'à dix et au-delà."],["MAT-QTE-GS-05","Je comprends « un de plus », « un de moins »."],["MAT-QTE-GS-06","Je peux réaliser des collections avec un nombre d'objets précis, y compris en réunissant des petites collections."],["MAT-QTE-GS-07","Je compare efficacement des quantités, même celles représentées par des chiffres."],["MAT-QTE-GS-08","Je maîtrise la composition et la décomposition des nombres jusqu'à dix, y compris les doubles (ex : 2+2, 3+3)."],["MAT-QTE-GS-09","Pour ajouter deux nombres, je surcompte à partir du plus grand."],["MAT-QTE-GS-10","J'associe facilement une quantité, son nom et son écriture chiffrée jusqu'à dix et au-delà."],["MAT-QTE-GS-11","Je sais écrire les chiffres de un à dix."],["MAT-QTE-GS-12","Je peux réciter les nombres jusqu'à trente."],["MAT-QTE-GS-13","Je sais réciter les nombres à rebours en partant de 10."],["MAT-QTE-GS-14","Je sais réciter les nombres à partir d'un nombre donné."],["MAT-QTE-GS-15","Je sais réciter la comptine numérique de 2 en 2."],["MAT-RAN-MS-01","J'apprends à comprendre l'ordre (premier, deuxième, etc.) dans une suite d'objets ou de personnes."],["MAT-RAN-MS-02","Je peux prévoir où je vais atterrir sur un jeu en avançant ou reculant de quelques cases."],["MAT-RAN-MS-03","J'apprends à placer et reconnaître les nombres jusqu'à six sur une ligne numérique."],["MAT-RAN-MS-04","Je complète la bande numérique « à trous »."],["MAT-RAN-GS-01","Je repère le premier, le dernier, le 2e et l'avant-dernier."],["MAT-RAN-GS-02","J'identifie le rang d'un objet dans une série jusqu'à dix, même si le point de départ change."],["MAT-RAN-GS-03","Je comprends le lien entre ajouter/retirer et avancer/reculer sur une bande numérique."],["MAT-RAN-GS-04","Je peux positionner les nombres et leurs représentations sur une bande numérique jusqu'à dix."],["MAT-RAN-GS-05","Je sais compléter une bande numérique « à trous »."],["MAT-PBM-PS-01","J'apprends à trouver un total ou une partie manquante dans des situations simples (ex : combien reste-t-il si on en retire)."],["MAT-PBM-MS-01","Je résous des problèmes où il faut trouver le tout ou une partie, en manipulant des objets et en comptant."],["MAT-PBM-MS-02","J'utilise mes doigts pour résoudre un problème."],["MAT-PBM-MS-03","Je sais calculer ma position finale dans un jeu après un déplacement, même en reculant."],["MAT-PBM-MS-04","Je trouve le total quand des objets sont regroupés en paquets égaux."],["MAT-PBM-MS-05","Je sais distribuer des objets équitablement entre plusieurs personnes."],["MAT-PBM-GS-01","Je suis capable de résoudre des problèmes plus complexes où il faut trouver un total ou une partie, même avec plusieurs éléments."],["MAT-PBM-GS-02","Je sais utiliser une représentation sur papier pour résoudre le problème."],["MAT-PBM-GS-03","Je peux déterminer combien d'objets ont été ajoutés ou retirés pour arriver à une nouvelle quantité."],["MAT-PBM-GS-04","Je sais calculer les positions de départ ou d'arrivée après des déplacements sur une piste numérique."],["MAT-PBM-GS-05","Je peux comparer deux collections pour trouver la différence de quantité."],["MAT-PBM-GS-06","Je peux calculer le total d'objets répartis en groupes égaux."],["MAT-PBM-GS-07","Je résous des problèmes de partage."],["MAT-FOR-PS-01","Je sais reconnaître et trier des objets selon leur forme."],["MAT-FOR-PS-02","Je reconnais la même forme même quand l'objet est tourné ou déplacé."],["MAT-FOR-PS-03","Je sais encastrer des objets."],["MAT-FOR-PS-04","Je peux reproduire des constructions simples avec des blocs ou des pièces (jusqu'à 4 éléments)."],["MAT-FOR-MS-01","Je reconnais des solides (cube, boule, pyramide, cylindre) et des formes planes (triangle, carré, disque)."],["MAT-FOR-MS-02","Je classe des solides (cube, boule, pyramide, cylindre) et des formes planes (triangle, carré, disque)."],["MAT-FOR-MS-03","Je peux reproduire des constructions avec des solides ou des formes."],["MAT-FOR-MS-04","Je reproduis des modèles (puzzles, pavages) jusqu'à 5 éléments."],["MAT-FOR-MS-05","J'associe une empreinte à un objet."],["MAT-FOR-MS-06","Je découvre que les objets peuvent laisser des empreintes de formes différentes."],["MAT-FOR-GS-01","Je sais décrire des solides simples (cube, pavé, boule, pyramide, cylindre, cône)."],["MAT-FOR-GS-02","Je reconnais et trie les formes géométriques de base (carré, triangle, disque, rectangle)."],["MAT-FOR-GS-03","Je sais nommer et décrire des formes comme le carré, le rectangle, le triangle ou le disque."],["MAT-FOR-GS-04","Je peux reproduire des constructions avec des solides et des formes planes."],["MAT-FOR-GS-05","Je reproduis un modèle (puzzle, pavage, assemblage de solides), à une échelle différente."],["MAT-FOR-GS-06","Je commence à utiliser la règle pour tracer des lignes."],["MAT-GRD-PS-01","Je reconnais des objets de même longueur."],["MAT-GRD-PS-02","Je peux comparer des objets pour savoir lequel est le plus long ou le plus court."],["MAT-GRD-MS-01","Je compare directement des longueurs et j'explique lequel est le plus long ou le plus court."],["MAT-GRD-MS-02","Je classe des objets selon leur longueur."],["MAT-GRD-MS-03","J'utilise les expressions « plus long que… », « plus court que… »."],["MAT-GRD-MS-04","J'ordonne des objets selon leur taille et j'explique comment j'ai fait."],["MAT-GRD-MS-05","Je sais superposer 6 objets en ordre décroissant."],["MAT-GRD-MS-06","Je compare la masse de deux objets."],["MAT-GRD-MS-07","J'utilise les expressions « plus lourd que… », « plus léger que… »."],["MAT-GRD-GS-01","Je compare des longueurs en utilisant un outil comme une bande de papier."],["MAT-GRD-GS-02","J'ordonne jusqu'à cinq objets selon leur longueur."],["MAT-GRD-GS-03","Je crée un objet de la même longueur qu'un modèle donné."],["MAT-GRD-GS-04","J'utilise une balance pour comparer."],["MAT-GRD-GS-05","J'ordonne trois objets selon leur masse."],["MAT-GRD-GS-06","Je reconnais quand deux objets ont la même masse et je peux l'expliquer."],["MAT-GRD-GS-07","J'utilise les expressions « plus lourd que… », « plus léger que… », « de même masse que… »."],["MAT-MOT-PS-01","Je me souviens d'un motif très simple qui se répète."],["MAT-MOT-PS-02","Je reproduis un motif qui se répète."],["MAT-MOT-PS-03","Je complète un motif qui se répète."],["MAT-MOT-MS-01","Je me souviens d'un motif simple qui se répète."],["MAT-MOT-MS-02","J'identifie les éléments qui se répètent dans un motif."],["MAT-MOT-MS-03","Je décris des motifs répétitifs avec mes propres mots."],["MAT-MOT-MS-04","Je peux continuer une suite logique et expliquer sa règle."],["MAT-MOT-GS-01","Je reconnais et décris des motifs qui évoluent, par exemple avec un nombre croissant d'éléments."],["MAT-MOT-GS-02","Je reconnais la structure d'un motif, quels que soient ses éléments."],["MAT-MOT-GS-03","J'invente mes propres motifs visuels, sonores ou gestuels."],["MAT-MOT-GS-04","Je décris des motifs répétitifs en utilisant un vocabulaire plus précis."],["MAT-MOT-GS-05","Je représente un motif en utilisant des symboles différents du modèle."],["MAT-MOT-GS-06","Je traduis un motif sonore en mouvement ou en dessin, et inversement."],["TES-REP-PS-01","Je distingue le matin, le soir, le jour et la nuit."],["TES-REP-PS-02","Je repère les moments de la journée."],["TES-REP-PS-03","Je comprends et j'utilise avant, après, tout à l'heure…"],["TES-REP-PS-04","Je remarque les changements de la nature au fil des saisons."],["TES-REP-MS-01","Je nomme les jours de la semaine."],["TES-REP-MS-02","Je me repère dans la journée."],["TES-REP-MS-03","Je me repère dans la semaine."],["TES-REP-MS-04","J'utilise les temps verbaux à bon escient."],["TES-REP-MS-05","Je nomme l'hiver et l'été et je connais leurs caractéristiques."],["TES-REP-GS-01","Je sais dire la date du jour."],["TES-REP-GS-02","Je situe un événement dans la semaine."],["TES-REP-GS-03","Je nomme les mois de l'année."],["TES-REP-GS-04","Je me repère dans le mois et dans l'année."],["TES-REP-GS-05","Je connais les saisons."],["TES-CHR-PS-01","J'ordonne des moments vécus."],["TES-CHR-PS-02","Je raconte le déroulement d'une histoire simple."],["TES-CHR-PS-03","Je commence à planifier deux activités."],["TES-CHR-MS-01","Je restitue la chronologie d'une histoire."],["TES-CHR-MS-02","J'utilise des connecteurs : d'abord, ensuite, enfin…"],["TES-CHR-GS-01","Je repère et j'ordonne les étapes d'un événement."],["TES-CHR-GS-02","J'utilise les notions d'avant, après, en même temps pour raconter."],["TES-DUR-PS-01","J'attends mon tour et repère début et fin d'une activité."],["TES-DUR-PS-02","Je comprends : longtemps, déjà, attendre…"],["TES-DUR-MS-01","Je perçois que certaines durées sont stables."],["TES-DUR-MS-02","Je comprends : pendant, court, long…"],["TES-DUR-GS-01","Je commence à gérer mon temps pour m'organiser."],["TES-DUR-GS-02","Je compare des durées."],["TES-DUR-GS-03","Je comprends que certains événements sont passés avant ma naissance."],["TES-ESP-PS-01","Je réalise des constructions simples."],["TES-ESP-PS-02","Je fais des encastrements."],["TES-ESP-PS-03","J'oriente un livre dans le bon sens."],["TES-ESP-PS-04","Je réalise un trajet ou un parcours simple dans l'école."],["TES-ESP-PS-05","J'utilise : dedans, dehors, devant, derrière…"],["TES-ESP-MS-01","Je situe des objets entre eux et par rapport à moi."],["TES-ESP-MS-02","Je me situe par rapport aux autres."],["TES-ESP-MS-03","J'oriente et utilise correctement une feuille de papier."],["TES-ESP-MS-04","J'utilise : à droite, à gauche, au milieu…"],["TES-ESP-GS-01","Je réalise des assemblages complexes."],["TES-ESP-GS-02","Je situe des objets dans un ensemble ordonné."],["TES-ESP-GS-03","Je distingue ma gauche de ma droite."],["TES-ESP-GS-04","Je réalise un trajet ou un parcours dans un environnement connu."],["TES-ESP-GS-05","Je reconnais des espaces sur un planisphère."],["TES-ESP-GS-06","J'utilise les termes appropriés relatifs au globe ou au planisphère."],["TES-ESP-GS-07","Je sais utiliser une page pour écrire."],["TES-RES-PS-01","Je reproduis un parcours simple."],["TES-RES-PS-02","Je raconte un déplacement."],["TES-RES-MS-01","Je représente un espace connu par une maquette (exemple : la classe)."],["TES-RES-MS-02","Je raconte un déplacement à partir d'une représentation."],["TES-RES-MS-03","Je dessine un déplacement à partir d'une représentation."],["TES-RES-GS-01","Je reproduis un parcours sur un plan."],["TES-RES-GS-02","Je représente mon environnement."],["TES-RES-GS-03","Je code un déplacement sur un quadrillage."],["TES-RES-GS-04","Je raconte un déplacement que j'ai mémorisé."],["TES-ENV-PS-01","J'explore les différents lieux de l'école, je les reconnais."],["TES-ENV-MS-01","Je reconnais et identifie l'environnement extérieur proche."],["TES-ENV-MS-02","Je découvre de nouveaux espaces."],["TES-ENV-GS-01","Je reconnais les espaces proches et leurs usages."],["TES-ENV-GS-02","Je reconnais des espaces moins familiers de l'école."],["TES-ENV-GS-03","J'observe l'habitat proche de l'école."],["VIV-ANI-PS-01","Je nomme les parties d'un animal ou d'une plante."],["VIV-ANI-PS-02","J'associe le mâle, la femelle, le jeune et l'adulte d'une même espèce."],["VIV-ANI-PS-03","J'assure les soins aux plantes ou aux animaux."],["VIV-ANI-MS-01","Je reconnais des étapes du cycle de vie."],["VIV-ANI-MS-02","Je connais les besoins des animaux et des plantes."],["VIV-ANI-MS-03","Je nomme le mode de déplacement des animaux."],["VIV-ANI-MS-04","Je respecte la vie, je n'écrase pas les animaux."],["VIV-ANI-GS-01","Je reconnais des animaux, des plantes et leurs éléments morphologiques."],["VIV-ANI-GS-02","Je reconnais les étapes de la vie d'une plante ou d'un animal."],["VIV-ANI-GS-03","Je participe à une action pour la biodiversité."],["VIV-CRP-PS-01","Je nomme quelques parties du corps."],["VIV-CRP-PS-02","Je représente quelques parties du corps."],["VIV-CRP-PS-03","Je découvre mes sens."],["VIV-CRP-PS-04","Je respecte des règles d'hygiène avec l'adulte."],["VIV-CRP-MS-01","Je nomme les parties du corps sur moi."],["VIV-CRP-MS-02","Je nomme les organes utiles à mes sens."],["VIV-CRP-MS-03","J'associe les sens à leurs organes."],["VIV-CRP-MS-04","J'observe les changements liés à ma croissance."],["VIV-CRP-MS-05","Je connais des règles d'hygiène et les applique tout seul."],["VIV-CRP-GS-01","Je nomme des articulations et segments du corps."],["VIV-CRP-GS-02","Je me représente les articulations de mon corps."],["VIV-CRP-GS-03","Je connais quelques étapes du développement de l'enfant."],["VIV-OBJ-PS-01","Je me sers de mes sens pour reconnaître et comparer des matériaux."],["VIV-OBJ-PS-02","J'agis sur les matériaux : transvase, mélange, découpe…"],["VIV-OBJ-PS-03","Je réalise une construction avec un guidage pas à pas."],["VIV-OBJ-PS-04","Je reconnais des matériaux selon leurs propriétés."],["VIV-OBJ-PS-05","Je nomme les objets que j'utilise, je sais à quoi ils servent."],["VIV-OBJ-MS-01","Je différencie des matériaux selon leurs propriétés."],["VIV-OBJ-MS-02","Je choisis l'outil adapté."],["VIV-OBJ-MS-03","Je réalise une construction à partir d'un modèle."],["VIV-OBJ-MS-04","Je distingue solides et liquides."],["VIV-OBJ-MS-05","Je respecte l'environnement, j'y suis attentif."],["VIV-OBJ-GS-01","Je comprends la fonction d'un objet technique."],["VIV-OBJ-GS-02","Je fabrique un objet en exploitant les matériaux."],["VIV-OBJ-GS-03","Je distingue ce qui se dissout dans l'eau."],["VIV-OBJ-GS-04","J'explore la flottabilité."],["VIV-OBJ-GS-05","Je suis une fiche technique pour construire ou faire une recette."],["VIV-OBJ-GS-06","Je choisis et organise 3 à 5 instructions pour réaliser quelque chose."],["VIV-OBJ-GS-07","J'identifie les risques liés à certains objets."],["VIV-ETA-PS-01","J'explore les solides et les liquides."],["VIV-ETA-PS-02","J'explore les effets de l'air."],["VIV-ETA-PS-03","Je réalise des mélanges, j'observe."],["VIV-ETA-PS-04","J'observe l'eau qui gèle et la glace qui fond."],["VIV-ETA-MS-01","J'identifie les conditions pour faire fondre la glace."],["VIV-ETA-MS-02","J'identifie l'air en mouvement."],["VIV-ETA-MS-03","J'explore la dissolution dans l'eau."],["VIV-ETA-GS-01","J'identifie et nomme les différents états de l'eau."],["VIV-ETA-GS-02","J'identifie la présence de l'air."],["VIV-ETA-GS-03","Je distingue les solides qui peuvent se dissoudre."],["VIV-ETA-GS-04","Je respecte l'environnement, même seul."],["VIV-ETA-GS-05","Je connais quelques risques dans l'environnement familier."]]};
+const COMPS = Object.fromEntries(REF.c);
+const DOMS = Object.fromEntries(REF.d);
+const SDS = Object.fromEntries(REF.s);
+
+/* ---------- dessins ---------- */
+const RCOL=['#FF6B6B','#FFA94D','#FFD43B','#69DB7C','#38D9A9','#4DABF7','#748FFC','#DA77F2','#F783AC'];
+function robot(i){
+  const c=RCOL[i%9], h=Math.floor(i/9)%4, e=i%3, a=(i+h)%3, dark='#27324A';
+  let head;
+  if(h===0) head=`<rect x="22" y="26" width="56" height="46" rx="12" fill="${c}"/>`;
+  else if(h===1) head=`<circle cx="50" cy="50" r="28" fill="${c}"/>`;
+  else if(h===2) head=`<rect x="14" y="32" width="72" height="38" rx="10" fill="${c}"/>`;
+  else head=`<path d="M28 74 V44 a22 22 0 0 1 44 0 V74 Z" fill="${c}"/>`;
+  const top = h===1?22:(h===2?32:(h===3?22:26));
+  let ant='';
+  if(a===0) ant=`<line x1="50" y1="${top}" x2="50" y2="${top-12}" stroke="${dark}" stroke-width="4" stroke-linecap="round"/><circle cx="50" cy="${top-14}" r="5" fill="${c}" stroke="${dark}" stroke-width="3"/>`;
+  else if(a===1) ant=`<polyline points="44,${top} 50,${top-7} 44,${top-12} 52,${top-18}" fill="none" stroke="${dark}" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>`;
+  else ant=`<line x1="38" y1="${top+2}" x2="32" y2="${top-10}" stroke="${dark}" stroke-width="4" stroke-linecap="round"/><line x1="62" y1="${top+2}" x2="68" y2="${top-10}" stroke="${dark}" stroke-width="4" stroke-linecap="round"/><circle cx="32" cy="${top-11}" r="4" fill="${dark}"/><circle cx="68" cy="${top-11}" r="4" fill="${dark}"/>`;
+  let eyes;
+  if(e===0) eyes=`<circle cx="39" cy="48" r="7" fill="#fff"/><circle cx="61" cy="48" r="7" fill="#fff"/><circle cx="40" cy="49" r="3.5" fill="${dark}"/><circle cx="62" cy="49" r="3.5" fill="${dark}"/>`;
+  else if(e===1) eyes=`<rect x="30" y="41" width="40" height="13" rx="6.5" fill="${dark}"/><circle cx="41" cy="47.5" r="3" fill="#7CF5FF"/><circle cx="59" cy="47.5" r="3" fill="#7CF5FF"/>`;
+  else eyes=`<circle cx="50" cy="47" r="10" fill="#fff"/><circle cx="51" cy="48" r="5" fill="${dark}"/>`;
+  const mouth = (i%4<2)?`<path d="M40 61 q10 8 20 0" fill="none" stroke="${dark}" stroke-width="3.5" stroke-linecap="round"/>`:`<rect x="39" y="59" width="22" height="6" rx="3" fill="${dark}"/>`;
+  const ears = (i%5===0||i%5===3)?`<rect x="10" y="44" width="8" height="14" rx="3" fill="${dark}"/><rect x="82" y="44" width="8" height="14" rx="3" fill="${dark}"/>`:'';
+  return `<svg viewBox="0 0 100 100" aria-hidden="true">${ant}${ears}${head}${eyes}${mouth}<rect x="36" y="78" width="28" height="12" rx="4" fill="${c}" opacity=".7"/></svg>`;
+}
+function portrait(i){
+  const bg=['#FFD8A8','#B2F2BB','#A5D8FF','#FCC2D7'][i%4], skin=['#F1C27D','#C68642','#8D5524','#FFDBAC'][i%4], hair=['#3B2A20','#1B1B1B','#6B3E26','#E0B55A'][i%4];
+  return `<svg class="ph" viewBox="0 0 100 100" aria-hidden="true"><rect width="100" height="100" rx="20" fill="${bg}"/><circle cx="50" cy="44" r="20" fill="${skin}"/><path d="M28 42 q2 -22 22 -22 q20 0 22 22 q-10 -10 -22 -10 q-12 0 -22 10z" fill="${hair}"/><path d="M18 100 q4 -30 32 -30 q28 0 32 30z" fill="#5C7CFA"/><circle cx="43" cy="45" r="2.2" fill="#222"/><circle cx="57" cy="45" r="2.2" fill="#222"/><path d="M44 53 q6 4 12 0" fill="none" stroke="#222" stroke-width="2" stroke-linecap="round"/></svg>`;
+}
+function rep(s){
+  if(s.kind==='photo') return portrait(s.robot);
+  if(s.kind==='name') return `<span class="big">${esc(s.name)}</span>`;
+  return robot(s.robot);
+}
+function rnd(seed){let x=Math.sin(seed*999)*10000;return x-Math.floor(x);}
+function scene(model, seed, live){
+  const r=seed?rnd(seed):0, rot=seed?(r*10-5).toFixed(1):0, dx=seed?(rnd(seed+1)*20-10).toFixed(0):0;
+  const table=`<rect width="160" height="120" fill="#C9A77C"/><g opacity=".18" stroke="#6B4A2A" stroke-width="1.2"><path d="M0 22 H160 M0 51 H160 M0 83 H160 M0 108 H160"/></g>`;
+  let obj='';
+  if(model==='puzzle'){
+    const cols=['#4DABF7','#FFD43B','#FF6B6B','#69DB7C'];
+    obj=`<g transform="translate(40 18)"><rect x="-4" y="-4" width="88" height="88" rx="6" fill="#F8F9FA" opacity=".9"/>`+
+      [[0,0],[40,0],[0,40],[40,40]].map((p,k)=>`<rect x="${p[0]}" y="${p[1]}" width="38" height="38" rx="4" fill="${cols[k]}"/>`).join('')+
+      `<circle cx="39" cy="19" r="6" fill="${cols[0]}"/><circle cx="19" cy="39" r="6" fill="${cols[0]}"/><circle cx="59" cy="39" r="6" fill="${cols[1]}"/><circle cx="39" cy="59" r="6" fill="${cols[2]}"/>`+
+      `<circle cx="22" cy="18" r="7" fill="#fff" opacity=".6"/><path d="M52 14 l10 12 l8 -8" fill="none" stroke="#fff" stroke-width="3" opacity=".7"/></g>`;
+  }else if(model==='kapla'){
+    const n=seed?4+Math.floor(rnd(seed+2)*3):5; let s='';
+    for(let k=0;k<n;k++){const y=96-k*13; if(k%2===0) s+=`<rect x="44" y="${y}" width="72" height="10" rx="1.5" fill="#EFC98F" stroke="#A9793F"/>`; else s+=`<rect x="48" y="${y}" width="10" height="10" fill="#EFC98F" stroke="#A9793F"/><rect x="102" y="${y}" width="10" height="10" fill="#EFC98F" stroke="#A9793F"/>`;}
+    obj=s;
+  }else if(model==='perles'){
+    const pal=seed?[['#FF6B6B','#4DABF7'],['#FFD43B','#DA77F2'],['#69DB7C','#FF922B']][Math.floor(r*3)]:['#FF6B6B','#4DABF7'];
+    let s=`<path d="M20 40 Q80 110 140 40" fill="none" stroke="#343A40" stroke-width="1.5"/>`;
+    for(let k=0;k<11;k++){const t=k/10,x=20+120*t,y=40+2*(1-t)*t*70*1.0; s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="6.5" fill="${pal[(k%3===2)?1:0]}" stroke="#fff" stroke-width="1.5"/>`;}
+    obj=s;
+  }else if(model==='graph'){
+    obj=`<rect x="28" y="14" width="104" height="92" rx="3" fill="#FDFDFD"/><g fill="none" stroke="#364FC7" stroke-width="2.4" stroke-linecap="round">`+
+      [[56,40],[104,40],[56,82],[104,82]].map(([x,y])=>`<path d="M${x} ${y} m-2 0 a2 2 0 1 1 4 0 a6 6 0 1 1 -10 0 a10 10 0 1 1 18 0 a14 14 0 1 1 -26 0"/>`).join('')+`</g>`;
+  }else{
+    obj=`<g transform="translate(40 16)"><polygon points="0,0 80,0 40,40" fill="#FF6B6B"/><polygon points="0,0 40,40 0,80" fill="#4DABF7"/><polygon points="80,0 80,40 60,20" fill="#FFD43B"/><polygon points="40,40 60,20 80,40 60,60" fill="#69DB7C"/><polygon points="0,80 40,40 80,80" fill="#DA77F2"/><polygon points="60,60 80,40 80,80" fill="#FF922B"/></g>`;
+  }
+  const g = live?`<g class="sway">${obj}</g>`:`<g transform="rotate(${rot} 80 60) translate(${dx} 0)">${obj}</g>`;
+  return `<svg viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" aria-hidden="true">${table}${g}</svg>`;
+}
+const MODELS=[['puzzle','Puzzle'],['kapla','Kapla'],['perles','Perles'],['graph','Graphisme'],['tangram','Tangram']];
+const ICON={
+  back:`<svg viewBox="0 0 24 24"><path d="M15 4 L7 12 L15 20" fill="none" stroke="#1F2A44" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  ok:`<svg viewBox="0 0 24 24"><path d="M4.5 12.5 L10 18 L19.5 6.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  redo:`<svg viewBox="0 0 24 24"><path d="M19 12 a7 7 0 1 1 -2.1 -5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M18 3.5 V8 H13.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  moon:`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="#FFE8A3"/><circle cx="66" cy="38" r="38" fill="#E9EFF7"/><path d="M28 56 q5 4 10 0 M44 66 q5 4 10 0" fill="none" stroke="#8A6D1F" stroke-width="3" stroke-linecap="round"/><text x="70" y="26" font-size="12" fill="#5C7CFA" font-family="Fredoka,sans-serif" font-weight="700">z</text><text x="80" y="16" font-size="9" fill="#5C7CFA" font-family="Fredoka,sans-serif" font-weight="700">z</text></svg>`
+};
+function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
+
+/* ---------- données de démonstration ---------- */
+function freshState(){
+  const now=Date.now(), day=864e5;
+  const names=['Adem','Amir','Assia','Ava','Eliott','Nelia','Lina','Noah','Jade','Malo','Inès','Sacha'];
+  const students=names.map((n,k)=>({id:'e'+k,name:n,kind:n==='Nelia'?'photo':(n==='Jade'?'name':'robot'),robot:[0,10,20,30,4,14,24,34,8,18,28,2][k]}));
+  const ateliers=[
+    {id:'a1',title:'Puzzle 12 pièces',model:'puzzle',comps:['MAT-FOR-MS-04'],active:true},
+    {id:'a2',title:'Construction Kapla',model:'kapla',comps:['MAT-FOR-MS-03','TES-ESP-GS-01'],active:true},
+    {id:'a3',title:'Collier de perles',model:'perles',comps:['MAT-MOT-MS-04'],active:true},
+    {id:'a4',title:'Spirales',model:'graph',comps:['ART-GRA-MS-02'],active:false},
+  ];
+  const T=(sid,aid,d,s)=>({id:'t'+Math.random().toString(36).slice(2,8),sid,aid,ts:now-d*day,seed:s});
+  const traces=[T('e0','a1',3,11),T('e1','a1',2,12),T('e3','a1',2,13),T('e3','a1',1,14),T('e7','a1',1,15),T('e5','a2',4,16),T('e7','a2',1,17),T('e9','a3',0.2,18)];
+  return {className:'MS-GS Mme Martin 2026-2027',pin:'1234',autoClose:true,lastBackup:now-12*day,students,ateliers,traces};
+}
+let S=freshState();
+let V={name:'home'}; // vue courante
+let last=Date.now();
+const $=s=>document.querySelector(s);
+const screen=$('#screen');
+
+/* ---------- rendu ---------- */
+function go(v){V=v;last=Date.now();render();}
+function render(){
+  const n=V.name;
+  let h='';
+  if(n==='home') h=vHome();
+  else if(n==='choose') h=vChoose();
+  else if(n==='camera') h=vCamera();
+  else if(n==='preview') h=vPreview();
+  else if(n==='done') h=vDone();
+  else if(n==='pin') h=vPin();
+  else if(n.startsWith('setup')) h=vSetup();
+  else h=vTeach();
+  screen.innerHTML=h+(V.modal?vModal():'')+(V.sheet?vSheet():'');
+  status();
+}
+const kidById=id=>S.students.find(s=>s.id===id);
+const atById=id=>S.ateliers.find(a=>a.id===id);
+
+function vHome(){
+  const act=S.ateliers.filter(a=>a.active).length;
+  const cards=S.students.map(s=>`<button type="button" class="kid" data-act="kid" data-id="${s.id}" ${act?'':'disabled'} aria-label="${esc(s.name)}">${rep(s)}${s.kind==='name'?'':`<span class="nm">${esc(s.name)}</span>`}</button>`).join('');
+  return `<div class="view home"><div class="grid">${cards}</div>${act?'':`<div class="moon">${ICON.moon}</div>`}<button type="button" class="corner" id="corner" aria-label="Espace enseignant (appui long)"><span class="ring"></span></button></div>`;
+}
+function vChoose(){
+  const s=kidById(V.sid), list=S.ateliers.filter(a=>a.active);
+  return `<div class="view choose"><div class="kbar"><button type="button" class="back" data-act="home" aria-label="Retour">${ICON.back}</button><div class="me">${rep(s)}</div></div>
+  <div class="cards n${list.length}">${list.map(a=>`<button type="button" class="card" data-act="pick" data-id="${a.id}" aria-label="${esc(a.title)}"><div class="pic">${scene(a.model,0)}</div><span class="tt">${esc(a.title)}</span></button>`).join('')}</div></div>`;
+}
+function vCamera(){
+  const a=atById(V.aid);
+  return `<div class="view cam"><div class="finder">${scene(a.model,0,true)}</div><div class="frame"></div><div class="flash" id="flash"></div>
+  <button type="button" class="back" data-act="back-choose" aria-label="Retour">${ICON.back}</button>
+  <button type="button" class="shutter" data-act="shoot" aria-label="Prendre la photo"></button></div>`;
+}
+function vPreview(){
+  const a=atById(V.aid);
+  return `<div class="view preview"><button type="button" class="back" data-act="back-choose" aria-label="Retour">${ICON.back}</button><div class="shot">${scene(a.model,V.seed)}</div>
+  <div class="pv-actions"><button type="button" class="bigbtn ok" data-act="keep" aria-label="Garder la photo">${ICON.ok}</button><button type="button" class="bigbtn redo" data-act="redo" aria-label="Recommencer">${ICON.redo}</button></div></div>`;
+}
+function vDone(){
+  return `<div class="view done"><svg viewBox="0 0 100 100" aria-label="Photo enregistrée"><circle cx="50" cy="50" r="44" fill="none" stroke="#fff" stroke-width="6"/><path d="M29 52 L44 66 L72 36" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`;
+}
+function vPin(){
+  const d=(V.code||'').length;
+  return `<div class="view pin"><h2>Code enseignant</h2><div class="dots ${V.bad?'bad':''}">${[0,1,2,3].map(k=>`<i class="${k<d?'on':''}"></i>`).join('')}</div>
+  <div class="pad">${[1,2,3,4,5,6,7,8,9].map(k=>`<button type="button" data-act="digit" data-d="${k}">${k}</button>`).join('')}<span></span><button type="button" data-act="digit" data-d="0">0</button><button type="button" data-act="del" aria-label="Effacer">⌫</button></div>
+  <button type="button" class="link" data-act="home">Annuler</button></div>`;
+}
+
+/* premier lancement */
+function vSetup(){
+  const n=V.name;
+  if(n==='setup') return `<div class="view setup"><h2>Bienvenue dans Foteli</h2><p>Les photos et les données restent sur cette tablette. Rien n'est envoyé sur Internet.</p><button type="button" class="btn primary" data-act="setup-next" data-to="setup-pin">Commencer</button></div>`;
+  if(n==='setup-pin'||n==='setup-pin2'){
+    const d=(V.code||'').length;
+    return `<div class="view pin"><h2>${n==='setup-pin'?'Choisissez votre code à 4 chiffres':'Confirmez votre code'}</h2><div class="dots ${V.bad?'bad':''}">${[0,1,2,3].map(k=>`<i class="${k<d?'on':''}"></i>`).join('')}</div>
+    <div class="pad">${[1,2,3,4,5,6,7,8,9].map(k=>`<button type="button" data-act="digit" data-d="${k}">${k}</button>`).join('')}<span></span><button type="button" data-act="digit" data-d="0">0</button><button type="button" data-act="del" aria-label="Effacer">⌫</button></div></div>`;
+  }
+  if(n==='setup-cam') return `<div class="view setup"><p>Foteli a besoin de l'appareil photo. Android va vous demander l'autorisation une seule fois, maintenant, pour qu'aucun enfant ne voie cette question.</p>
+    <div class="android"><b>Autoriser Foteli à prendre des photos et à enregistrer des vidéos ?</b><div class="row"><button type="button" data-act="setup-next" data-to="setup-cam">Refuser</button><button type="button" data-act="setup-next" data-to="setup-name">Pendant l'utilisation de l'appli</button></div></div></div>`;
+  if(n==='setup-name') return `<div class="view setup"><h2>Nom de la classe</h2><p>Il servira d'en-tête pour l'extraction des photos et dans le nom des sauvegardes.</p><input type="text" id="setup-cls" value="${esc(S.className)}" aria-label="Nom de la classe"><button type="button" class="btn primary" data-act="setup-done">Continuer</button></div>`;
+  return '';
+}
+
+/* espace enseignant */
+function vTeach(){
+  const tab=V.tab||'classe';
+  const tabs=[['classe','Classe'],['ateliers','Ateliers'],['photos','Photos'],['reglages','Réglages']];
+  let body='';
+  if(V.name==='t-photo') body=tPhoto();
+  else if(V.name==='t-edit-kid') body=tEditKid();
+  else if(V.name==='t-edit-at') body=tEditAt();
+  else if(tab==='classe') body=tClasse();
+  else if(tab==='ateliers') body=tAteliers();
+  else if(tab==='photos') body=tPhotos();
+  else body=tReglages();
+  return `<div class="view teach"><div class="tbar"><span class="cls">${esc(S.className)}</span><nav class="tabs">${tabs.map(([k,l])=>`<button type="button" class="${tab===k?'on':''}" data-act="tab" data-tab="${k}">${l}</button>`).join('')}</nav><button type="button" class="exit" data-act="home">Mode élève</button></div><div class="tbody">${body}</div></div>`;
+}
+const count=(sid,aid)=>S.traces.filter(t=>(!sid||t.sid===sid)&&(!aid||t.aid===aid)).length;
+function tClasse(){
+  return `<div class="row"><h2 class="h">Élèves (${S.students.length})</h2><button type="button" class="btn primary" data-act="new-kid">+ Ajouter un élève</button></div>
+  <div class="list">${S.students.map(s=>`<div class="item"><span class="rep">${rep(s)}</span><div class="grow"><div class="nm">${esc(s.name)}</div><div class="meta">${count(s.id)} photo${count(s.id)>1?'s':''} · ${s.kind==='robot'?'robot':s.kind==='photo'?'photo':'prénom en grand'}</div></div><button type="button" class="btn sm" data-act="edit-kid" data-id="${s.id}">Modifier</button></div>`).join('')}</div>`;
+}
+function tEditKid(){
+  const k=V.draft, used=new Set(S.students.filter(s=>s.id!==k.id&&s.kind==='robot').map(s=>s.robot));
+  const robots=Array.from({length:36},(_,i)=>`<button type="button" class="${k.kind==='robot'&&k.robot===i?'on':''}" data-act="pick-robot" data-i="${i}" ${used.has(i)?'disabled':''} aria-label="Robot ${i+1}">${robot(i)}</button>`).join('');
+  return `<div class="row"><button type="button" class="btn" data-act="tab" data-tab="classe">← Classe</button><h2 class="h">${k.id?'Modifier un élève':'Ajouter un élève'}</h2></div>
+  <div class="form"><label>Prénom<input type="text" id="kid-name" value="${esc(k.name)}" autocomplete="off"></label>
+  <div><b>Sur l'accueil, l'élève est représenté par</b><div class="chips" style="margin-top:.4em">${[['robot','Un robot'],['photo','Sa photo'],['name','Son prénom en grand']].map(([v,l])=>`<button type="button" class="chip ${k.kind===v?'on':''}" data-act="kind" data-v="${v}">${l}</button>`).join('')}</div></div>
+  ${k.kind==='robot'?`<div><b>Choisir un robot</b> <span class="sub">(un robot déjà donné est grisé)</span><div class="robots" style="margin-top:.4em">${robots}</div></div>`:''}
+  ${k.kind==='photo'?`<div class="row"><span class="rep" style="width:5em;height:5em">${portrait(k.robot)}</span><button type="button" class="btn" data-act="kid-photo">Prendre la photo</button><span class="sub">Maquette : portrait dessiné à la place de la photo.</span></div>`:''}
+  ${k.kind==='name'?`<p class="sub">Le prénom s'affichera en grandes lettres sur l'accueil.</p>`:''}
+  <div class="row"><button type="button" class="btn primary" data-act="save-kid">Enregistrer</button>${k.id?`<button type="button" class="btn danger" data-act="del-kid">Supprimer l'élève</button>`:''}</div></div>`;
+}
+function domainsOf(a){return [...new Set(a.comps.map(c=>c.split('-')[0]))];}
+function tAteliers(){
+  return `<div class="row"><h2 class="h">Ateliers</h2><span class="sub">${S.ateliers.filter(a=>a.active).length} actif(s) côté enfants</span><button type="button" class="btn primary" data-act="new-at">+ Nouvel atelier</button></div>
+  <div class="acards">${S.ateliers.map(a=>`<div class="acard ${a.active?'':'off'}"><div class="pic">${scene(a.model,0)}</div><div class="in"><b>${esc(a.title)}</b><div>${domainsOf(a).map(d=>`<span class="tag">${esc(DOMS[d])}</span>`).join(' ')}</div><span class="sub">${a.comps.length} compétence${a.comps.length>1?'s':''} · ${count(null,a.id)} photo${count(null,a.id)>1?'s':''}</span>
+  <div class="row"><button type="button" class="switch ${a.active?'on':''}" data-act="toggle" data-id="${a.id}" role="switch" aria-checked="${a.active}"><i></i>${a.active?'Actif':'Inactif'}</button><button type="button" class="btn sm" data-act="edit-at" data-id="${a.id}">Modifier</button></div></div></div>`).join('')}</div>`;
+}
+function tEditAt(){
+  const a=V.draft, p=V.pick||{};
+  const doms=Object.keys(DOMS);
+  const sds=p.d?Object.keys(SDS).filter(k=>k.startsWith(p.d+'-')):[];
+  const list=(p.d&&p.s&&p.n)?REF.c.filter(([id])=>id.startsWith(`${p.s}-${p.n}-`)):[];
+  return `<div class="row"><button type="button" class="btn" data-act="tab" data-tab="ateliers">← Ateliers</button><h2 class="h">${a.id?'Modifier l\'atelier':'Nouvel atelier'}</h2></div>
+  <div class="form">
+   <label>Titre<input type="text" id="at-title" value="${esc(a.title)}" placeholder="ex. Puzzle 12 pièces" autocomplete="off"></label>
+   <div><b>Photo du modèle</b> <span class="sub">(dans l'appli : on photographie le modèle ; ici, choisissez une image)</span><div class="models" style="margin-top:.4em">${MODELS.map(([m,l])=>`<button type="button" class="${a.model===m?'on':''}" data-act="model" data-m="${m}" aria-label="${l}">${scene(m,0)}</button>`).join('')}</div></div>
+   <div><b>Compétences</b>
+     <div class="sel" style="margin:.4em 0">${a.comps.length?a.comps.map(c=>`<div><code>${c}</code><span>${esc(COMPS[c])}</span><button type="button" class="btn sm" data-act="rm-comp" data-c="${c}">Retirer</button></div>`).join(''):'<span class="sub">Aucune compétence choisie.</span>'}</div>
+     <div class="chips">${doms.map(d=>`<button type="button" class="chip ${p.d===d?'on':''}" data-act="pd" data-v="${d}">${esc(DOMS[d])}</button>`).join('')}</div>
+     ${p.d?`<div class="chips" style="margin-top:.5em">${sds.map(s=>`<button type="button" class="chip ${p.s===s?'on':''}" data-act="ps" data-v="${s}">${esc(SDS[s])}</button>`).join('')}</div>`:''}
+     ${p.s?`<div class="chips" style="margin-top:.5em">${['PS','MS','GS'].map(n=>`<button type="button" class="chip ${p.n===n?'on':''}" data-act="pn" data-v="${n}">${n}</button>`).join('')}</div>`:''}
+     ${list.length?`<div class="clist" style="margin-top:.5em">${list.map(([id,t])=>`<label><input type="checkbox" data-act="cc" data-c="${id}" ${a.comps.includes(id)?'checked':''}><span>${esc(t)} <code>${id}</code></span></label>`).join('')}</div>`:(p.s&&p.n?'<p class="sub">Aucune compétence à ce niveau dans ce sous-domaine.</p>':'')}
+   </div>
+   <div class="row"><button type="button" class="btn primary" data-act="save-at">Enregistrer</button><span class="sub">${a.id?'':'Un nouvel atelier est créé inactif.'}</span></div>
+  </div>`;
+}
+function tPhotos(){
+  const mode=V.pmode||'atelier';
+  let h=`<div class="row"><h2 class="h">Photos</h2><div class="chips"><button type="button" class="chip ${mode==='atelier'?'on':''}" data-act="pmode" data-v="atelier">Par atelier</button><button type="button" class="chip ${mode==='eleve'?'on':''}" data-act="pmode" data-v="eleve">Par élève</button></div></div>`;
+  if(mode==='atelier'){
+    const aid=V.paid||S.ateliers[0]?.id, a=atById(aid);
+    h+=`<div class="chips">${S.ateliers.map(x=>`<button type="button" class="chip ${x.id===aid?'on':''}" data-act="paid" data-v="${x.id}">${esc(x.title)}</button>`).join('')}</div>`;
+    if(a){
+      const done=S.students.filter(s=>count(s.id,aid)).length;
+      h+=`<p class="sub">${done} élève${done>1?'s':''} sur ${S.students.length} ont une trace pour « ${esc(a.title)} ».</p><table class="who">${S.students.map(s=>{const ts=S.traces.filter(t=>t.sid===s.id&&t.aid===aid);
+        return `<tr><td style="width:3em"><span class="mini">${rep(s)}</span></td><td><b>${esc(s.name)}</b></td><td>${ts.length?`<span class="ok-mark">✓</span>`:`<span class="no-mark">—</span>`}</td><td><div class="thumbs">${ts.map(t=>`<button type="button" class="thumb" data-act="open" data-id="${t.id}" aria-label="Voir la photo">${scene(a.model,t.seed)}</button>`).join('')}${ts.length>1?`<span class="sub">${ts.length} photos</span>`:''}</div></td></tr>`}).join('')}</table>`;
+    }
+  }else{
+    const sid=V.psid||S.students[0]?.id, s=kidById(sid);
+    h+=`<div class="chips">${S.students.map(x=>`<button type="button" class="chip ${x.id===sid?'on':''}" data-act="psid" data-v="${x.id}">${esc(x.name)}</button>`).join('')}</div>`;
+    if(s){
+      const ts=S.traces.filter(t=>t.sid===sid).sort((a,b)=>b.ts-a.ts), by={};
+      ts.forEach(t=>(by[t.aid]=by[t.aid]||[]).push(t));
+      h+=Object.keys(by).length?Object.entries(by).map(([aid,list])=>{const a=atById(aid);return `<div class="form"><b>${esc(a.title)}</b><div class="thumbs">${list.map(t=>`<button type="button" class="thumb" data-act="open" data-id="${t.id}" aria-label="Voir la photo">${scene(a.model,t.seed)}</button>`).join('')}</div></div>`}).join(''):`<p class="sub">Pas encore de photo pour ${esc(s.name)}.</p>`;
+    }
+  }
+  return h;
+}
+const fmt=ts=>new Date(ts).toLocaleString('fr-FR',{weekday:'long',day:'numeric',month:'long',hour:'2-digit',minute:'2-digit'});
+function tPhoto(){
+  const t=S.traces.find(x=>x.id===V.tid); if(!t) return '';
+  const a=atById(t.aid), s=kidById(t.sid);
+  return `<div class="row"><button type="button" class="btn" data-act="tab" data-tab="photos">← Photos</button></div>
+  <div class="bigphoto"><div class="shotbox">${scene(a.model,t.seed)}</div><dl><dt>Élève</dt><dd>${esc(s.name)}</dd><dt>Atelier</dt><dd>${esc(a.title)}</dd><dt>Domaine</dt><dd>${domainsOf(a).map(d=>esc(DOMS[d])).join(', ')}</dd><dt>Compétences</dt><dd>${a.comps.map(c=>`${esc(COMPS[c])} <code>${c}</code>`).join('<br>')}</dd><dt>Date</dt><dd>${fmt(t.ts)}</dd><dt></dt><dd><button type="button" class="btn danger" data-act="del-photo">Supprimer la photo</button></dd></dl></div>`;
+}
+function tReglages(){
+  const days=Math.round((Date.now()-S.lastBackup)/864e5);
+  return `<h2 class="h">Réglages</h2>
+  <div class="setting"><div class="grow"><b>Nom de la classe</b><div class="sub">En-tête des extractions et nom des sauvegardes.</div></div><input type="text" id="cls-name" value="${esc(S.className)}" style="font:inherit;padding:.4em .6em;border:1px solid #C6CFDC;border-radius:.5em"><button type="button" class="btn sm" data-act="save-cls">Enregistrer</button></div>
+  <div class="setting"><div class="grow"><b>Fermeture automatique de l'espace enseignant</b><div class="sub">Retour au mode élève après 5 minutes sans action.</div></div><button type="button" class="switch ${S.autoClose?'on':''}" data-act="autoclose" role="switch" aria-checked="${S.autoClose}"><i></i>${S.autoClose?'Activée':'Désactivée'}</button></div>
+  <div class="setting"><div class="grow"><b>Sauvegarde</b><div class="sub">Dernière sauvegarde : ${days===0?"aujourd'hui":`il y a ${days} jour${days>1?'s':''}`}. Foteli ne sauvegarde jamais tout seul.</div></div><button type="button" class="btn primary" data-act="backup">Sauvegarder ma classe</button><button type="button" class="btn" data-act="restore">Restaurer une sauvegarde</button></div>
+  <div class="note">Dans l'APK, un réglage empêchera les enfants de quitter Foteli (épinglage d'écran ou mode kiosque). La solution sera choisie à l'étape technique.</div>`;
+}
+function vModal(){
+  const m=V.modal;
+  return `<div class="modal"><div class="box"><p>${m.text}</p><div class="row"><button type="button" class="btn" data-act="m-no">Annuler</button><button type="button" class="btn ${m.danger?'danger':'primary'}" data-act="m-yes">${m.yes}</button></div></div></div>`;
+}
+function vSheet(){
+  const file=`foteli-${S.className.replace(/[^\p{L}\p{N}]+/gu,'-').replace(/^-|-$/g,'')}-${new Date().toISOString().slice(0,10)}`;
+  if(V.sheet==='saved') return `<div class="sheet"><b>Sauvegarde terminée</b><span>Fichier : <code>${esc(file)}</code></span><span>Ce fichier contient les photos des élèves : rangez-le en lieu sûr.</span><div class="row"><button type="button" class="btn primary" data-act="sheet-close">OK</button></div></div>`;
+  return `<div class="sheet"><b>Android : où enregistrer la sauvegarde ?</b><span class="sub">Fichier : <code>${esc(file)}</code></span><div class="loc"><button type="button" class="btn" data-act="sheet-save">Clé USB</button><button type="button" class="btn" data-act="sheet-save">Dossier Documents de la tablette</button><button type="button" class="btn" data-act="sheet-close">Annuler</button></div></div>`;
+}
+
+/* ---------- actions ---------- */
+function confirmBox(text,yes,danger,fn){V.modal={text,yes,danger,fn};render();}
+screen.addEventListener('click',e=>{
+  const b=e.target.closest('[data-act]'); if(!b||b.disabled) return;
+  const act=b.dataset.act, id=b.dataset.id;
+  last=Date.now();
+  switch(act){
+    case 'home': go({name:'home'});break;
+    case 'kid': go({name:'choose',sid:id});break;
+    case 'pick': go({name:'camera',sid:V.sid,aid:id});break;
+    case 'back-choose': go({name:'choose',sid:V.sid});break;
+    case 'shoot': { const f=$('#flash'); if(f){f.classList.add('go');} setTimeout(()=>go({name:'preview',sid:V.sid,aid:V.aid,seed:Math.floor(Math.random()*1000)+20}),250); break; }
+    case 'redo': go({name:'camera',sid:V.sid,aid:V.aid});break;
+    case 'keep': S.traces.push({id:'t'+Math.random().toString(36).slice(2,8),sid:V.sid,aid:V.aid,ts:Date.now(),seed:V.seed}); go({name:'done'}); setTimeout(()=>{if(V.name==='done') go({name:'home'});},2000); break;
+    case 'digit': pinDigit(b.dataset.d);break;
+    case 'del': V.code=(V.code||'').slice(0,-1);V.bad=false;render();break;
+    case 'setup-next': go({name:b.dataset.to});break;
+    case 'setup-done': { const v=$('#setup-cls').value.trim(); if(v) S.className=v; go({name:'t',tab:'classe'}); break; }
+    case 'tab': go({name:'t',tab:b.dataset.tab,pmode:V.pmode,paid:V.paid,psid:V.psid});break;
+    case 'new-kid': { const used=new Set(S.students.map(s=>s.robot)); let r=0; while(used.has(r)) r++; go({name:'t-edit-kid',tab:'classe',draft:{id:null,name:'',kind:'robot',robot:r}}); break; }
+    case 'edit-kid': go({name:'t-edit-kid',tab:'classe',draft:{...kidById(id)}});break;
+    case 'kind': keepKidName(); V.draft.kind=b.dataset.v; render();break;
+    case 'pick-robot': keepKidName(); V.draft.robot=+b.dataset.i; render();break;
+    case 'kid-photo': keepKidName(); V.draft.robot=(V.draft.robot+1)%36; render();break;
+    case 'save-kid': { keepKidName(); const d=V.draft; if(!d.name.trim()){$('#kid-name').focus();break;}
+      if(d.id){Object.assign(kidById(d.id),d);} else S.students.push({...d,id:'e'+Date.now()});
+      go({name:'t',tab:'classe'}); break; }
+    case 'del-kid': { const s=kidById(V.draft.id), n=count(s.id);
+      confirmBox(`Supprimer ${esc(s.name)} et ${n===0?'aucune photo':n===1?'sa photo':`ses ${n} photos`} ?`,'Supprimer',true,()=>{S.students=S.students.filter(x=>x.id!==s.id);S.traces=S.traces.filter(t=>t.sid!==s.id);go({name:'t',tab:'classe'});}); break; }
+    case 'toggle': { const a=atById(id); a.active=!a.active; render(); break; }
+    case 'new-at': go({name:'t-edit-at',tab:'ateliers',draft:{id:null,title:'',model:'puzzle',comps:[],active:false},pick:{}});break;
+    case 'edit-at': { const a=atById(id); const c=a.comps[0]||''; go({name:'t-edit-at',tab:'ateliers',draft:{...a,comps:[...a.comps]},pick:c?{d:c.split('-')[0],s:c.split('-').slice(0,2).join('-'),n:c.split('-')[2]}:{}}); break; }
+    case 'model': keepAtTitle(); V.draft.model=b.dataset.m; render();break;
+    case 'pd': keepAtTitle(); V.pick={d:b.dataset.v}; render();break;
+    case 'ps': keepAtTitle(); V.pick={...V.pick,s:b.dataset.v,n:V.pick.n}; render();break;
+    case 'pn': keepAtTitle(); V.pick={...V.pick,n:b.dataset.v}; render();break;
+    case 'rm-comp': keepAtTitle(); V.draft.comps=V.draft.comps.filter(c=>c!==b.dataset.c); render();break;
+    case 'save-at': { keepAtTitle(); const d=V.draft; if(!d.title.trim()){$('#at-title').focus();break;} if(!d.comps.length){confirmBox('Choisissez au moins une compétence pour cet atelier.','OK',false,()=>{V.modal=null;render();});break;}
+      if(d.id) Object.assign(atById(d.id),d); else S.ateliers.push({...d,id:'a'+Date.now(),active:false});
+      go({name:'t',tab:'ateliers'}); break; }
+    case 'pmode': go({name:'t',tab:'photos',pmode:b.dataset.v,paid:V.paid,psid:V.psid});break;
+    case 'paid': go({name:'t',tab:'photos',pmode:'atelier',paid:b.dataset.v,psid:V.psid});break;
+    case 'psid': go({name:'t',tab:'photos',pmode:'eleve',psid:b.dataset.v,paid:V.paid});break;
+    case 'open': go({name:'t-photo',tab:'photos',tid:id,pmode:V.pmode,paid:V.paid,psid:V.psid});break;
+    case 'del-photo': confirmBox('Supprimer cette photo ? Elle sera effacée de la tablette.','Supprimer',true,()=>{S.traces=S.traces.filter(t=>t.id!==V.tid);go({name:'t',tab:'photos',pmode:V.pmode,paid:V.paid,psid:V.psid});});break;
+    case 'save-cls': { const v=$('#cls-name').value.trim(); if(v) S.className=v; render(); break; }
+    case 'autoclose': S.autoClose=!S.autoClose; render();break;
+    case 'backup': V.sheet='where'; render();break;
+    case 'sheet-save': S.lastBackup=Date.now(); V.sheet='saved'; render();break;
+    case 'sheet-close': V.sheet=null; render();break;
+    case 'restore': confirmBox(`Remplacer toutes les données actuelles par la sauvegarde du ${new Date(S.lastBackup).toLocaleDateString('fr-FR')} ?`,'Remplacer',true,()=>{V.modal=null;V.sheet=null;go({name:'home'});});break;
+    case 'm-no': V.modal=null; render();break;
+    case 'm-yes': { const f=V.modal.fn; V.modal=null; f(); break; }
+  }
+});
+screen.addEventListener('change',e=>{
+  const c=e.target.closest('[data-act="cc"]'); if(!c) return;
+  keepAtTitle(); const id=c.dataset.c, d=V.draft;
+  d.comps=c.checked?[...new Set([...d.comps,id])]:d.comps.filter(x=>x!==id); render();
+});
+function keepKidName(){const i=$('#kid-name'); if(i&&V.draft) V.draft.name=i.value;}
+function keepAtTitle(){const i=$('#at-title'); if(i&&V.draft) V.draft.title=i.value;}
+function pinDigit(d){
+  V.code=(V.code||'')+d; V.bad=false;
+  if(V.code.length<4){render();return;}
+  const code=V.code;
+  if(V.name==='pin'){ if(code===S.pin){go({name:'t',tab:'classe'});return;} V.code='';V.bad=true;render();return; }
+  if(V.name==='setup-pin'){ go({name:'setup-pin2',first:code}); return; }
+  if(V.name==='setup-pin2'){ if(code===V.first){S.pin=code;go({name:'setup-cam'});return;} go({name:'setup-pin',bad:true}); }
+}
+
+/* appui long 3 s */
+let holdT=null;
+screen.addEventListener('pointerdown',e=>{
+  last=Date.now();
+  const c=e.target.closest('#corner'); if(!c) return;
+  c.classList.add('hold');
+  holdT=setTimeout(()=>{holdT=null;go({name:'pin'});},3000);
+});
+['pointerup','pointerleave','pointercancel'].forEach(t=>screen.addEventListener(t,()=>{if(holdT){clearTimeout(holdT);holdT=null;} const c=$('#corner'); if(c) c.classList.remove('hold');}));
+
+/* inactivité + statut */
+const KID=['choose','camera','preview'];
+function status(){
+  const el=$('#status'); const idle=(Date.now()-last)/1000; let t;
+  if(KID.includes(V.name)) t=`Parcours enfant en cours. Retour automatique à l'accueil dans <b>${Math.max(0,60-Math.floor(idle))} s</b> sans action.`;
+  else if(V.name==='home') t=S.ateliers.some(a=>a.active)?'Accueil enfant.':'Accueil enfant : aucun atelier actif, la lune s\'affiche.';
+  else if(V.name==='done') t='Photo enregistrée. Retour à l\'accueil.';
+  else if(V.name==='pin') t='Code enseignant de la maquette : 1234.';
+  else if(V.name.startsWith('setup')) t='Premier lancement (se fait une seule fois).';
+  else t=S.autoClose?`Espace enseignant. Fermeture automatique dans <b>${Math.max(0,300-Math.floor(idle))} s</b> sans action.`:'Espace enseignant. Fermeture automatique désactivée.';
+  el.innerHTML=t;
+}
+setInterval(()=>{
+  const idle=Date.now()-last;
+  if(KID.includes(V.name)&&idle>60000) go({name:'home'});
+  else if((V.name==='t'||V.name.startsWith('t-'))&&S.autoClose&&idle>300000) go({name:'home'});
+  else status();
+},1000);
+
+$('#g-setup').addEventListener('click',()=>go({name:'setup'}));
+$('#g-reset').addEventListener('click',()=>{S=freshState();go({name:'home'});});
+render();
+</script>

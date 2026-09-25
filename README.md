@@ -6,4 +6,6 @@ Local-first : aucune donnée ne quitte la tablette sans action volontaire de l'e
 
 - Cahier des charges : [`docs/cahier-des-charges.md`](docs/cahier-des-charges.md)
 - Références institutionnelles et référentiel de compétences : [`references/`](references/)
+- Finalité : une **APK Android sécurisée** (hors ligne, photos privées, sortie de l'appli bloquée pour les enfants).
+- Maquette cliquable de la V0 : [`maquette/foteli-maquette-v0.html`](maquette/foteli-maquette-v0.html) (à ouvrir dans un navigateur ; simulation, ce n'est pas l'appli).
 - Statut : phase de conception.
