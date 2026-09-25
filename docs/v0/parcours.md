@@ -1,7 +1,7 @@
 # V0 — Parcours
 
 > Étape 2 sur 5 (périmètre → **parcours** → écrans → données → technique).
-> Statut : **à valider**. Les points marqués 🔶 sont des propositions à trancher.
+> Statut : **validé**.
 
 Un parcours décrit, action par action, ce que fait la personne et ce que fait l'appli. Les écrans seront dessinés à l'étape 3.
 
@@ -13,8 +13,8 @@ C'est le parcours le plus important. Objectif : **4 touchers**, sans lire.
 
 | # | L'enfant… | L'appli… |
 |---|---|---|
-| 1 | arrive devant la tablette, sur l'**accueil** | affiche la grille des élèves (photo ou avatar, prénom en petit). |
-| 2 | **touche sa photo / son avatar** (toucher 1) | affiche les **ateliers actifs** en grandes cartes (photo modèle). Son avatar reste visible en haut : « c'est moi ». |
+| 1 | arrive devant la tablette, sur l'**accueil** | affiche la grille des élèves (robot, photo ou prénom en grand ; prénom en petit sous le robot ou la photo). |
+| 2 | **touche son robot / sa photo / son prénom** (toucher 1) | affiche les **ateliers actifs** en grandes cartes (photo modèle). Son robot ou sa photo reste visible en haut : « c'est moi ». |
 | 3 | **touche la carte de son atelier** (toucher 2) | ouvre l'**appareil photo** en plein écran, avec un très gros bouton déclencheur. |
 | 4 | **touche le déclencheur** (toucher 3) | affiche la photo prise, avec un gros ✅ vert et un gros ↻. |
 | 5a | **touche ✅** (toucher 4) | enregistre la trace (élève + atelier + date/heure), montre une coche animée ~2 s, revient à l'accueil. |
@@ -26,9 +26,9 @@ C'est le parcours le plus important. Objectif : **4 touchers**, sans lire.
 |---|---|
 | L'enfant s'est trompé de profil ou d'atelier | Gros bouton **retour** (flèche) sur les écrans 2, 3 et 4 : revient d'un écran en arrière. |
 | L'enfant part sans finir | Après **1 minute** sans action : retour à l'accueil. Une photo non validée est **effacée**, rien n'est enregistré. |
-| Aucun atelier actif | 🔶 L'accueil affiche un grand pictogramme « pas d'atelier » (ex. lune qui dort) et les avatars ne sont pas touchables. |
+| Aucun atelier actif | L'accueil affiche un grand pictogramme « pas d'atelier » (lune qui dort) et les élèves ne sont pas touchables. |
 | L'enfant reprend une 2e photo du même atelier | Autorisé : toutes les photos validées sont gardées. Le tri revient à l'enseignant. |
-| L'enfant appuie sur les boutons Android (accueil, retour système) | 🔶 Risque de sortir de l'appli. Parade envisagée : l'**épinglage d'écran** Android, activé par l'enseignant (à étudier à l'étape 5). |
+| L'enfant appuie sur les boutons Android (accueil, retour système, volet de notifications) | **Exigence vitale : l'enfant ne doit jamais pouvoir sortir de l'appli.** Solution technique à choisir à l'étape 5 (épinglage d'écran avec code, ou mode kiosque). |
 
 Ce que l'enfant **ne voit jamais** : compétences, domaines, dates, réglages, bouton supprimer, texte à lire (hors prénoms).
 
@@ -41,25 +41,26 @@ Ce que l'enfant **ne voit jamais** : compétences, domaines, dates, réglages, b
 1. L'appli affiche un écran de bienvenue.
 2. L'enseignant **choisit un code PIN** à 4 chiffres, puis le **confirme**.
 3. L'appli demande l'**autorisation d'utiliser l'appareil photo** (fenêtre Android). C'est fait ici, pour qu'un enfant ne tombe jamais sur cette fenêtre.
-4. 🔶 L'enseignant donne un nom à la classe (facultatif, ex. « MS-GS Mme X »).
+4. L'enseignant donne un **nom à la classe** (ex. « MS-GS Mme X — 2026-2027 »). Ce nom servira d'**en-tête** lors de l'extraction des photos (export, prévu après la V0) et dans le nom du fichier de sauvegarde.
 5. L'appli ouvre l'espace enseignant sur la rubrique **Classe**, vide.
 
 ### B2. Entrer dans l'espace enseignant (au quotidien)
 
-1. Sur l'accueil enfant, **appui long de 3 s** dans un coin (🔶 coin haut droit).
+1. Sur l'accueil enfant, **appui long de 3 s** dans le **coin haut droit**.
 2. Le clavier PIN apparaît. L'enseignant tape son code.
 3. Code juste → espace enseignant. Code faux → le clavier se vide.
 4. Pour revenir à l'accueil enfant : bouton « Mode élève ».
-5. 🔶 L'espace enseignant se referme tout seul après quelques minutes sans action (ex. 5 min), pour qu'un enfant n'y reste pas si la tablette est oubliée ouverte.
+5. **Fermeture automatique** : l'espace enseignant se referme après 5 minutes sans action, pour qu'un enfant n'y reste pas si la tablette est oubliée ouverte. **Option activable / désactivable** dans Réglages (activée par défaut).
 
 ### B3. Créer la classe (au début)
 
 Pour chaque élève :
 1. **Classe** → « Ajouter un élève ».
 2. Tape le **prénom**.
-3. Choisit la représentation :
-   - **avatar** (par défaut) : choisi dans une planche d'avatars 🔶 (animaux de couleurs différentes ; au moins 30 pour qu'aucun ne soit en double) ;
-   - **ou photo** : prise avec la tablette.
+3. Choisit la représentation de l'élève sur l'accueil :
+   - **robot** (par défaut) : choisi dans une planche de **robots tous différents** (au moins 30 ; un robot ne peut pas être donné à deux élèves) ;
+   - **ou photo** de l'élève, prise avec la tablette ;
+   - **ou prénom en grand** (pour les élèves qui reconnaissent leur prénom écrit).
 4. Valide. L'élève apparaît dans la grille d'accueil.
 
 Modifier : toucher l'élève → changer prénom ou image.
@@ -111,10 +112,10 @@ Modifier : toucher l'atelier → changer titre, photo modèle ou compétences.
 
 1. **Réglages** → **Sauvegarder ma classe**.
 2. Android ouvre son sélecteur d'emplacement : l'enseignant choisit où mettre le fichier (clé USB, dossier de la tablette…).
-3. L'appli crée **un seul fichier** (photos + élèves + ateliers), nommé avec la date, ex. `foteli-sauvegarde-2026-10-15`.
+3. L'appli crée **un seul fichier** (photos + élèves + ateliers), nommé avec la classe et la date, ex. `foteli-MS-GS-Mme-X-2026-10-15`.
 4. Message : « Sauvegarde terminée. Ce fichier contient les photos des élèves : rangez-le en lieu sûr. »
 
-🔶 Rappel : l'appli pourrait afficher « Dernière sauvegarde : il y a 12 jours » dans Réglages, sans jamais sauvegarder toute seule.
+Rappel : Réglages affiche « Dernière sauvegarde : il y a 12 jours ». L'appli ne sauvegarde jamais toute seule.
 
 ### B9. Restaurer une sauvegarde
 
@@ -141,12 +142,14 @@ Aucune autre action automatique : pas d'envoi, pas de synchronisation, pas de sa
 
 ---
 
-## D. Points à trancher (🔶)
+## D. Décisions
 
-1. **Aucun atelier actif** : pictogramme « pas d'atelier » sur l'accueil et avatars non touchables ?
-2. **Boutons Android** : utiliser l'épinglage d'écran pour empêcher un enfant de quitter l'appli (à étudier à l'étape 5) ?
-3. **Nom de la classe** au premier lancement : utile ou inutile ?
-4. **Coin de l'appui long** : en haut à droite ?
-5. **Fermeture automatique de l'espace enseignant** après 5 minutes sans action ?
-6. **Avatars** : une planche d'animaux de couleurs différentes (au moins 30) ?
-7. **Rappel « dernière sauvegarde »** dans Réglages ?
+| # | Décision |
+|---|---|
+| 1 | Aucun atelier actif : pictogramme « pas d'atelier » (lune), élèves non touchables. |
+| 2 | **Vital** : l'enfant ne doit jamais pouvoir sortir de l'appli. Solution technique à l'étape 5. |
+| 3 | Nom de la classe demandé au premier lancement ; il sert d'en-tête à l'extraction des photos et au nom de la sauvegarde. |
+| 4 | Appui long de 3 s dans le coin haut droit pour l'espace enseignant. |
+| 5 | Fermeture automatique de l'espace enseignant après 5 min, option activable / désactivable (activée par défaut). |
+| 6 | Élève représenté par un robot (par défaut, tous différents), une photo ou son prénom en grand. |
+| 7 | Rappel « dernière sauvegarde » dans Réglages, sans sauvegarde automatique (retenu par défaut, sauf avis contraire). |

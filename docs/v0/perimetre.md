@@ -17,7 +17,7 @@ La V0 est un prototype : une seule tablette, une seule classe, quelques semaines
 
 | Fonction | Détail |
 |---|---|
-| Accueil | Grille des élèves : photo ou avatar, prénom en petit dessous. |
+| Accueil | Grille des élèves : robot, photo ou prénom en grand. |
 | Choix de l'atelier | **Mode B uniquement** : l'enfant voit toujours les grandes cartes des ateliers actifs (photo modèle) et touche le sien, même s'il n'y a qu'un atelier actif. |
 | Prise de photo | Écran caméra plein écran, très gros bouton déclencheur. |
 | Vérification | La photo s'affiche, avec ✅ (garder) et ↻ (recommencer). Rien d'autre. |
@@ -30,7 +30,7 @@ La V0 est un prototype : une seule tablette, une seule classe, quelques semaines
 | Fonction | Détail |
 |---|---|
 | Accès protégé | Appui long de 3 s dans un coin de l'accueil, puis code PIN à 4 chiffres. Le PIN est choisi au premier lancement. |
-| Classe | Une seule classe. Ajouter, modifier ou supprimer un élève : prénom, photo **ou** avatar (avatar par défaut). |
+| Classe | Une seule classe. Ajouter, modifier ou supprimer un élève : prénom, et robot (par défaut), photo ou prénom en grand. |
 | Ateliers | Créer ou modifier un atelier : titre, photo modèle (prise avec la tablette), une ou plusieurs compétences choisies dans le référentiel. Activer ou désactiver. |
 | Compétences | Référentiel officiel embarqué (493 compétences), **en lecture seule**. Choix par domaine → sous-domaine → niveau. |
 | Photos par élève | Toutes les traces d'un élève, groupées par atelier. |
@@ -95,7 +95,7 @@ La V0 est réussie si, sur quelques semaines d'essai :
 | 1 | **Mode B uniquement** en V0 : l'enfant choisit toujours son atelier parmi les cartes, même s'il n'y en a qu'un. Parcours identique à chaque fois. Le mode A (appareil photo direct) est reporté en V1. |
 | 2 | Accès enseignant : appui long 3 s + PIN 4 chiffres. |
 | 3 | Référentiel de compétences embarqué, en lecture seule. |
-| 4 | Élève représenté par une photo ou un avatar ; avatar par défaut. |
+| 4 | Élève représenté par un robot (par défaut, tous différents), une photo ou son prénom en grand. |
 | 5 | Gros bouton retour ; retour automatique à l'accueil après 1 minute d'inactivité. |
 | 6 | Une seule classe, sans groupes. |
 | 7 | Le tri des photos (suppression) est à la charge de l'enseignant. |
