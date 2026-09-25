@@ -1,7 +1,7 @@
 # V0 — Périmètre
 
 > Étape 1 sur 5 de la conception de la V0 (périmètre → parcours → écrans → données → technique).
-> Statut : **à valider**.
+> Statut : **validé**, complété par l'étape 4.
 
 ## Objectif de la V0
 
@@ -29,13 +29,14 @@ La V0 est un prototype : une seule tablette, une seule classe, quelques semaines
 
 | Fonction | Détail |
 |---|---|
-| Accès protégé | Appui long de 3 s dans un coin de l'accueil, puis code PIN à 4 chiffres. Le PIN est choisi au premier lancement. |
+| Accès protégé | Appui long de 3 s dans le coin haut droit de l'accueil, puis code PIN à 4 chiffres. PIN choisi au premier lancement, avec un **code de secours** en cas d'oubli. Blocage temporaire après 5 codes faux. |
 | Classe | Une seule classe. Ajouter, modifier ou supprimer un élève : prénom, et robot (par défaut), photo ou prénom en grand. |
 | Ateliers | Créer ou modifier un atelier : titre, photo modèle (prise avec la tablette), une ou plusieurs compétences choisies dans le référentiel. Activer ou désactiver. |
 | Compétences | Référentiel officiel embarqué (493 compétences), **en lecture seule**. Choix par domaine → sous-domaine → niveau. |
 | Photos par élève | Toutes les traces d'un élève, groupées par atelier. |
 | Photos par atelier | Liste de la classe : élève ✓ avec sa photo, ou — sans trace. |
 | Trier les photos | **Le tri est à la charge de l'enseignant** : il supprime les photos ratées ou prises par erreur (avec confirmation). Les enfants ne peuvent rien supprimer. |
+| Zone dangereuse | Supprimer un élève (et ses photos) ou **tout effacer** : encadré rouge, conséquences chiffrées, saisie de confirmation. |
 | Sauvegarder / restaurer | Bouton « Sauvegarder ma classe » : un seul fichier (photos + données) que l'enseignant copie lui-même (clé USB, ordinateur). Bouton « Restaurer » pour tout récupérer. Aucun envoi en ligne. |
 
 ### Principes techniques non négociables (dès la V0)
@@ -44,6 +45,8 @@ La V0 est un prototype : une seule tablette, une seule classe, quelques semaines
 - Photos stockées dans l'**espace privé de l'appli**, jamais dans la galerie.
 - Aucune donnée ne sort de la tablette.
 - Tablette Android en **paysage** comme appareil de référence.
+- L'enfant **ne peut pas sortir** de l'appli (épinglage ou mode kiosque, étape 5).
+- **Accessibilité de base** : grandes zones tactiles, contrastes suffisants, jamais d'information par la seule couleur, boutons lisibles par TalkBack (voir `docs/a-faire.md`).
 
 ## Ce qui n'est PAS dans la V0
 
@@ -101,3 +104,5 @@ La V0 est réussie si, sur quelques semaines d'essai :
 | 7 | Le tri des photos (suppression) est à la charge de l'enseignant. |
 | 8 | Données uniquement en local ; aucune sauvegarde en ligne. |
 | 9 | Sauvegarde et restauration locales manuelles dès la V0. |
+| 10 | Code de secours pour le PIN oublié, infaisable pour un enfant jusqu'à 9 ans. |
+| 11 | Zone dangereuse pour les suppressions importantes, dont « Tout effacer ». |

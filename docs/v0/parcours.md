@@ -39,7 +39,8 @@ Ce que l'enfant **ne voit jamais** : compétences, domaines, dates, réglages, b
 ### B1. Premier lancement (une seule fois)
 
 1. L'appli affiche un écran de bienvenue.
-2. L'enseignant **choisit un code PIN** à 4 chiffres, puis le **confirme**.
+2. L'enseignant **choisit un code PIN** à 4 chiffres, puis le **confirme**. Les codes évidents (`0000`, `1234`…) sont refusés.
+2 bis. L'appli affiche le **code de secours** (12 caractères) une seule fois. L'enseignant le recopie sur papier, le range hors de la classe, et retape ses 4 derniers caractères pour continuer (voir `donnees.md` § 3).
 3. L'appli demande l'**autorisation d'utiliser l'appareil photo** (fenêtre Android). C'est fait ici, pour qu'un enfant ne tombe jamais sur cette fenêtre.
 4. L'enseignant donne un **nom à la classe** (ex. « MS-GS Mme X — 2026-2027 »). Ce nom servira d'**en-tête** lors de l'extraction des photos (export, prévu après la V0) et dans le nom du fichier de sauvegarde.
 5. L'appli ouvre l'espace enseignant sur la rubrique **Classe**, vide.
@@ -48,7 +49,8 @@ Ce que l'enfant **ne voit jamais** : compétences, domaines, dates, réglages, b
 
 1. Sur l'accueil enfant, **appui long de 3 s** dans le **coin haut droit**.
 2. Le clavier PIN apparaît. L'enseignant tape son code.
-3. Code juste → espace enseignant. Code faux → le clavier se vide.
+3. Code juste → espace enseignant. Code faux → le clavier se vide. Après 5 codes faux : blocage 1 min, puis 5, puis 15.
+3 bis. **Code oublié ?** (lien discret sous le clavier) → saisie du code de secours → nouveau PIN → nouveau code de secours.
 4. Pour revenir à l'accueil enfant : bouton « Mode élève ».
 5. **Fermeture automatique** : l'espace enseignant se referme après 5 minutes sans action, pour qu'un enfant n'y reste pas si la tablette est oubliée ouverte. **Option activable / désactivable** dans Réglages (activée par défaut).
 
@@ -64,7 +66,7 @@ Pour chaque élève :
 4. Valide. L'élève apparaît dans la grille d'accueil.
 
 Modifier : toucher l'élève → changer prénom ou image.
-Supprimer : toucher l'élève → Supprimer → **« Supprimer Nelia et ses 12 photos ? »** → confirmer.
+Supprimer : toucher l'élève → **zone dangereuse** (encadré rouge en bas de la fiche) → **« Supprimer Nelia ? Cela efface ses 12 photos dans 4 ateliers. Dernière sauvegarde : il y a 12 jours. »** → taper le prénom → le bouton rouge « Supprimer Nelia » s'active → confirmer.
 
 ### B4. Préparer un atelier
 
@@ -117,6 +119,13 @@ Modifier : toucher l'atelier → changer titre, photo modèle ou compétences.
 
 Rappel : Réglages affiche « Dernière sauvegarde : il y a 12 jours ». L'appli ne sauvegarde jamais toute seule.
 
+### B8 bis. Tout effacer (fin d'essai, fin d'année)
+
+1. **Réglages** → **zone dangereuse** → **Tout effacer**.
+2. « Effacer toute la classe : 28 élèves, 9 ateliers, 412 photos ? Rien ne pourra être récupéré sans sauvegarde. » + bouton « Sauvegarder d'abord ».
+3. Taper `EFFACER`, puis le code PIN.
+4. L'appli efface élèves, ateliers et photos, puis revient à la rubrique Classe, vide.
+
 ### B9. Restaurer une sauvegarde
 
 1. **Réglages** → **Restaurer une sauvegarde**.
@@ -153,3 +162,5 @@ Aucune autre action automatique : pas d'envoi, pas de synchronisation, pas de sa
 | 5 | Fermeture automatique de l'espace enseignant après 5 min, option activable / désactivable (activée par défaut). |
 | 6 | Élève représenté par un robot (par défaut, tous différents), une photo ou son prénom en grand. |
 | 7 | Rappel « dernière sauvegarde » dans Réglages, sans sauvegarde automatique (retenu par défaut, sauf avis contraire). |
+| 8 | Code de secours pour le PIN oublié : faisable par un adulte, pas par un enfant jusqu'à 9 ans (`donnees.md` § 3). |
+| 9 | Toute suppression importante passe par une **zone dangereuse** qui dit exactement ce qui disparaît (`donnees.md` § 4). |

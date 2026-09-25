@@ -174,6 +174,16 @@ table.who tr:first-child td{border-top:none}
 .bigphoto .shotbox svg{width:100%;height:100%;display:block}
 .bigphoto dl{margin:0;display:grid;grid-template-columns:auto 1fr;gap:.3em 1em;flex:1;min-width:14em}
 .bigphoto dt{font-weight:700;color:#5A6576}.bigphoto dd{margin:0}
+.danger-zone{border:2px solid #D64545;background:#FFF1F0;border-radius:.8em;padding:.9em 1em;display:flex;flex-direction:column;gap:.6em}
+.danger-zone h3{margin:0;color:#B42318;font-size:1.05em}
+.danger-zone p{margin:0}
+.danger-zone label{display:flex;flex-direction:column;gap:.3em}
+.danger-zone input{font:inherit;padding:.45em .6em;border:1px solid #E0A19B;border-radius:.5em;max-width:18em}
+.btn.red{background:#D64545;border-color:#D64545;color:#fff}
+.btn.red[disabled]{opacity:.4;cursor:not-allowed}
+.rescue{font-family:ui-monospace,Menlo,monospace;font-size:3cqw;letter-spacing:.15em;background:#fff;color:#1B2433;border-radius:1cqw;padding:.4em .8em}
+.pin .lock{font-size:1.8cqw;color:#FFC9C9}
+.pin input{font:inherit;font-size:2cqw;padding:.4em .6em;border-radius:.5em;border:none;width:40cqw;text-transform:uppercase;letter-spacing:.1em;color:#1B2433}
 .note{background:#FFF6DC;border:1px solid #F1D98A;border-radius:.7em;padding:.6em .8em;color:#5B4A12}
 .setting{background:#fff;border:1px solid #DDE3EC;border-radius:.8em;padding:.8em 1em;display:flex;align-items:center;gap:1em;flex-wrap:wrap}
 .setting .grow{flex:1;min-width:14em}
@@ -232,7 +242,9 @@ table.who tr:first-child td{border-top:none}
         <h3>Côté enseignant</h3>
         <ul>
           <li>Sur l'accueil, <b>appui long de 3 s</b> dans le coin <b>en haut à droite</b>.</li>
-          <li>Code de la maquette : <span class="code">1234</span></li>
+          <li>Code de la maquette : <span class="code">1234</span> (5 codes faux = blocage 1 min).</li>
+          <li>« Code oublié ? » : le code de secours s'affiche ici en bas quand on en a besoin.</li>
+          <li>Suppressions : fiche d'un élève et Réglages → zone dangereuse.</li>
           <li>Essayez : Photos → Par atelier, activer un atelier, créer un atelier avec ses compétences.</li>
         </ul>
       </div>
@@ -334,7 +346,7 @@ function freshState(){
   ];
   const T=(sid,aid,d,s)=>({id:'t'+Math.random().toString(36).slice(2,8),sid,aid,ts:now-d*day,seed:s});
   const traces=[T('e0','a1',3,11),T('e1','a1',2,12),T('e3','a1',2,13),T('e3','a1',1,14),T('e7','a1',1,15),T('e5','a2',4,16),T('e7','a2',1,17),T('e9','a3',0.2,18)];
-  return {className:'MS-GS Mme Martin 2026-2027',pin:'1234',autoClose:true,lastBackup:now-12*day,students,ateliers,traces};
+  return {className:'MS-GS Mme Martin 2026-2027',pin:'1234',rescue:'K7PM-4XRT-9HWB',fails:0,lockUntil:0,autoClose:true,lastBackup:now-12*day,students,ateliers,traces};
 }
 let S=freshState();
 let V={name:'home'}; // vue courante
@@ -353,6 +365,7 @@ function render(){
   else if(n==='preview') h=vPreview();
   else if(n==='done') h=vDone();
   else if(n==='pin') h=vPin();
+  else if(n==='rescue') h=vRescue();
   else if(n.startsWith('setup')) h=vSetup();
   else h=vTeach();
   screen.innerHTML=h+(V.modal?vModal():'')+(V.sheet?vSheet():'');
@@ -386,10 +399,14 @@ function vDone(){
   return `<div class="view done"><svg viewBox="0 0 100 100" aria-label="Photo enregistrée"><circle cx="50" cy="50" r="44" fill="none" stroke="#fff" stroke-width="6"/><path d="M29 52 L44 66 L72 36" fill="none" stroke="#fff" stroke-width="8" stroke-linecap="round" stroke-linejoin="round"/></svg></div>`;
 }
 function vPin(){
-  const d=(V.code||'').length;
+  const d=(V.code||'').length, lock=Math.ceil((S.lockUntil-Date.now())/1000);
+  if(lock>0) return `<div class="view pin"><h2>Code enseignant</h2><p class="lock">Trop d'essais. Réessayez dans ${lock} s.</p><button type="button" class="link" data-act="home">Retour</button></div>`;
   return `<div class="view pin"><h2>Code enseignant</h2><div class="dots ${V.bad?'bad':''}">${[0,1,2,3].map(k=>`<i class="${k<d?'on':''}"></i>`).join('')}</div>
   <div class="pad">${[1,2,3,4,5,6,7,8,9].map(k=>`<button type="button" data-act="digit" data-d="${k}">${k}</button>`).join('')}<span></span><button type="button" data-act="digit" data-d="0">0</button><button type="button" data-act="del" aria-label="Effacer">⌫</button></div>
-  <button type="button" class="link" data-act="home">Annuler</button></div>`;
+  <div class="row" style="gap:3cqw"><button type="button" class="link" data-act="home">Annuler</button><button type="button" class="link" data-act="forgot">Code oublié ?</button></div></div>`;
+}
+function vRescue(){
+  return `<div class="view pin"><h2>Code de secours</h2><p class="lock" style="color:#D5DEEF">Tapez le code de 12 caractères noté au premier lancement.</p><input type="text" id="rescue-in" autocomplete="off" aria-label="Code de secours" placeholder="XXXX-XXXX-XXXX"><p class="lock" id="rescue-msg"></p><div class="row" style="gap:3cqw"><button type="button" class="link" data-act="home">Annuler</button><button type="button" class="btn primary" data-act="rescue-ok">Valider</button></div></div>`;
 }
 
 /* premier lancement */
@@ -398,9 +415,10 @@ function vSetup(){
   if(n==='setup') return `<div class="view setup"><h2>Bienvenue dans Foteli</h2><p>Les photos et les données restent sur cette tablette. Rien n'est envoyé sur Internet.</p><button type="button" class="btn primary" data-act="setup-next" data-to="setup-pin">Commencer</button></div>`;
   if(n==='setup-pin'||n==='setup-pin2'){
     const d=(V.code||'').length;
-    return `<div class="view pin"><h2>${n==='setup-pin'?'Choisissez votre code à 4 chiffres':'Confirmez votre code'}</h2><div class="dots ${V.bad?'bad':''}">${[0,1,2,3].map(k=>`<i class="${k<d?'on':''}"></i>`).join('')}</div>
+    return `<div class="view pin"><h2>${n==='setup-pin'?(V.weak?'Code trop facile à deviner, choisissez-en un autre':'Choisissez votre code à 4 chiffres'):'Confirmez votre code'}</h2><div class="dots ${V.bad?'bad':''}">${[0,1,2,3].map(k=>`<i class="${k<d?'on':''}"></i>`).join('')}</div>
     <div class="pad">${[1,2,3,4,5,6,7,8,9].map(k=>`<button type="button" data-act="digit" data-d="${k}">${k}</button>`).join('')}<span></span><button type="button" data-act="digit" data-d="0">0</button><button type="button" data-act="del" aria-label="Effacer">⌫</button></div></div>`;
   }
+  if(n==='setup-rescue') return `<div class="view setup"><h2>Votre code de secours</h2><p>Il permet de changer le code PIN si vous l'oubliez. Recopiez-le sur papier et rangez-le <b>hors de la classe</b>. Il ne sera plus jamais affiché.</p><div class="rescue">${S.rescue}</div><p>Pour continuer, tapez ses 4 derniers caractères.</p><input type="text" id="rescue-last" autocomplete="off" aria-label="4 derniers caractères" style="width:20cqw;text-transform:uppercase"><p id="rescue-msg" style="color:#FFC9C9"></p><button type="button" class="btn primary" data-act="rescue-last">Continuer</button></div>`;
   if(n==='setup-cam') return `<div class="view setup"><p>Foteli a besoin de l'appareil photo. Android va vous demander l'autorisation une seule fois, maintenant, pour qu'aucun enfant ne voie cette question.</p>
     <div class="android"><b>Autoriser Foteli à prendre des photos et à enregistrer des vidéos ?</b><div class="row"><button type="button" data-act="setup-next" data-to="setup-cam">Refuser</button><button type="button" data-act="setup-next" data-to="setup-name">Pendant l'utilisation de l'appli</button></div></div></div>`;
   if(n==='setup-name') return `<div class="view setup"><h2>Nom de la classe</h2><p>Il servira d'en-tête pour l'extraction des photos et dans le nom des sauvegardes.</p><input type="text" id="setup-cls" value="${esc(S.className)}" aria-label="Nom de la classe"><button type="button" class="btn primary" data-act="setup-done">Continuer</button></div>`;
@@ -435,7 +453,15 @@ function tEditKid(){
   ${k.kind==='robot'?`<div><b>Choisir un robot</b> <span class="sub">(un robot déjà donné est grisé)</span><div class="robots" style="margin-top:.4em">${robots}</div></div>`:''}
   ${k.kind==='photo'?`<div class="row"><span class="rep" style="width:5em;height:5em">${portrait(k.robot)}</span><button type="button" class="btn" data-act="kid-photo">Prendre la photo</button><span class="sub">Maquette : portrait dessiné à la place de la photo.</span></div>`:''}
   ${k.kind==='name'?`<p class="sub">Le prénom s'affichera en grandes lettres sur l'accueil.</p>`:''}
-  <div class="row"><button type="button" class="btn primary" data-act="save-kid">Enregistrer</button>${k.id?`<button type="button" class="btn danger" data-act="del-kid">Supprimer l'élève</button>`:''}</div></div>`;
+  <div class="row"><button type="button" class="btn primary" data-act="save-kid">Enregistrer</button></div></div>
+  ${k.id?dangerKid(k):''}`;
+}
+function lastBk(){const d=Math.round((Date.now()-S.lastBackup)/864e5);return d===0?"aujourd'hui":`il y a ${d} jour${d>1?'s':''}`;}
+function dangerKid(k){
+  const s=kidById(k.id), n=count(s.id), na=new Set(S.traces.filter(t=>t.sid===s.id).map(t=>t.aid)).size;
+  return `<div class="danger-zone"><h3>⚠️ Zone dangereuse</h3><p>Supprimer <b>${esc(s.name)}</b> efface <b>${n} photo${n>1?'s':''}</b>${n?` dans <b>${na} atelier${na>1?'s':''}</b>`:''}. C'est définitif. Dernière sauvegarde : ${lastBk()}.</p>
+  <label style="font-weight:700">Pour confirmer, tapez le prénom « ${esc(s.name)} »<input type="text" id="confirm-in" data-expect="${esc(s.name)}" data-btn="del-kid-btn" autocomplete="off"></label>
+  <div class="row"><button type="button" class="btn red" id="del-kid-btn" data-act="del-kid" disabled>Supprimer ${esc(s.name)}</button><button type="button" class="btn" data-act="tab" data-tab="reglages">Sauvegarder d'abord</button></div></div>`;
 }
 function domainsOf(a){return [...new Set(a.comps.map(c=>c.split('-')[0]))];}
 function tAteliers(){
@@ -497,6 +523,10 @@ function tReglages(){
   <div class="setting"><div class="grow"><b>Nom de la classe</b><div class="sub">En-tête des extractions et nom des sauvegardes.</div></div><input type="text" id="cls-name" value="${esc(S.className)}" style="font:inherit;padding:.4em .6em;border:1px solid #C6CFDC;border-radius:.5em"><button type="button" class="btn sm" data-act="save-cls">Enregistrer</button></div>
   <div class="setting"><div class="grow"><b>Fermeture automatique de l'espace enseignant</b><div class="sub">Retour au mode élève après 5 minutes sans action.</div></div><button type="button" class="switch ${S.autoClose?'on':''}" data-act="autoclose" role="switch" aria-checked="${S.autoClose}"><i></i>${S.autoClose?'Activée':'Désactivée'}</button></div>
   <div class="setting"><div class="grow"><b>Sauvegarde</b><div class="sub">Dernière sauvegarde : ${days===0?"aujourd'hui":`il y a ${days} jour${days>1?'s':''}`}. Foteli ne sauvegarde jamais tout seul.</div></div><button type="button" class="btn primary" data-act="backup">Sauvegarder ma classe</button><button type="button" class="btn" data-act="restore">Restaurer une sauvegarde</button></div>
+  <div class="danger-zone"><h3>⚠️ Zone dangereuse</h3><p><b>Tout effacer</b> supprime toute la classe : <b>${S.students.length} élève${S.students.length>1?'s':''}</b>, <b>${S.ateliers.length} atelier${S.ateliers.length>1?'s':''}</b>, <b>${S.traces.length} photo${S.traces.length>1?'s':''}</b>. Rien ne pourra être récupéré sans sauvegarde. Dernière sauvegarde : ${lastBk()}.</p>
+  <div class="row"><label style="font-weight:700">Tapez EFFACER<input type="text" id="confirm-in" data-expect="EFFACER" data-btn="wipe-btn" autocomplete="off"></label><label style="font-weight:700">Code PIN<input type="password" id="wipe-pin" inputmode="numeric" maxlength="4" autocomplete="off"></label></div>
+  <p id="wipe-msg" style="color:#B42318;font-weight:700"></p>
+  <div class="row"><button type="button" class="btn red" id="wipe-btn" data-act="wipe" disabled>Tout effacer</button><button type="button" class="btn primary" data-act="backup">Sauvegarder d'abord</button></div></div>
   <div class="note">Dans l'APK, un réglage empêchera les enfants de quitter Foteli (épinglage d'écran ou mode kiosque). La solution sera choisie à l'étape technique.</div>`;
 }
 function vModal(){
@@ -526,6 +556,9 @@ screen.addEventListener('click',e=>{
     case 'digit': pinDigit(b.dataset.d);break;
     case 'del': V.code=(V.code||'').slice(0,-1);V.bad=false;render();break;
     case 'setup-next': go({name:b.dataset.to});break;
+    case 'forgot': go({name:'rescue'});break;
+    case 'rescue-ok': { const v=$('#rescue-in').value.trim().toUpperCase().replace(/\s/g,''); if(v===S.rescue||v===S.rescue.replace(/-/g,'')){go({name:'setup-pin',after:'teach'});} else {$('#rescue-msg').textContent='Code de secours incorrect.';} break; }
+    case 'rescue-last': { const v=$('#rescue-last').value.trim().toUpperCase(); if(v===S.rescue.slice(-4)){ go({name:V.after==='teach'?'t':'setup-cam',tab:'classe'}); } else {$('#rescue-msg').textContent='Ce ne sont pas les 4 derniers caractères.';} break; }
     case 'setup-done': { const v=$('#setup-cls').value.trim(); if(v) S.className=v; go({name:'t',tab:'classe'}); break; }
     case 'tab': go({name:'t',tab:b.dataset.tab,pmode:V.pmode,paid:V.paid,psid:V.psid});break;
     case 'new-kid': { const used=new Set(S.students.map(s=>s.robot)); let r=0; while(used.has(r)) r++; go({name:'t-edit-kid',tab:'classe',draft:{id:null,name:'',kind:'robot',robot:r}}); break; }
@@ -536,8 +569,8 @@ screen.addEventListener('click',e=>{
     case 'save-kid': { keepKidName(); const d=V.draft; if(!d.name.trim()){$('#kid-name').focus();break;}
       if(d.id){Object.assign(kidById(d.id),d);} else S.students.push({...d,id:'e'+Date.now()});
       go({name:'t',tab:'classe'}); break; }
-    case 'del-kid': { const s=kidById(V.draft.id), n=count(s.id);
-      confirmBox(`Supprimer ${esc(s.name)} et ${n===0?'aucune photo':n===1?'sa photo':`ses ${n} photos`} ?`,'Supprimer',true,()=>{S.students=S.students.filter(x=>x.id!==s.id);S.traces=S.traces.filter(t=>t.sid!==s.id);go({name:'t',tab:'classe'});}); break; }
+    case 'del-kid': { const s=kidById(V.draft.id); S.students=S.students.filter(x=>x.id!==s.id);S.traces=S.traces.filter(t=>t.sid!==s.id);go({name:'t',tab:'classe'}); break; }
+    case 'wipe': { if($('#wipe-pin').value!==S.pin){$('#wipe-msg').textContent='Code PIN incorrect.';break;} S.students=[];S.ateliers=[];S.traces=[];go({name:'t',tab:'classe'}); break; }
     case 'toggle': { const a=atById(id); a.active=!a.active; render(); break; }
     case 'new-at': go({name:'t-edit-at',tab:'ateliers',draft:{id:null,title:'',model:'puzzle',comps:[],active:false},pick:{}});break;
     case 'edit-at': { const a=atById(id); const c=a.comps[0]||''; go({name:'t-edit-at',tab:'ateliers',draft:{...a,comps:[...a.comps]},pick:c?{d:c.split('-')[0],s:c.split('-').slice(0,2).join('-'),n:c.split('-')[2]}:{}}); break; }
@@ -553,13 +586,13 @@ screen.addEventListener('click',e=>{
     case 'paid': go({name:'t',tab:'photos',pmode:'atelier',paid:b.dataset.v,psid:V.psid});break;
     case 'psid': go({name:'t',tab:'photos',pmode:'eleve',psid:b.dataset.v,paid:V.paid});break;
     case 'open': go({name:'t-photo',tab:'photos',tid:id,pmode:V.pmode,paid:V.paid,psid:V.psid});break;
-    case 'del-photo': confirmBox('Supprimer cette photo ? Elle sera effacée de la tablette.','Supprimer',true,()=>{S.traces=S.traces.filter(t=>t.id!==V.tid);go({name:'t',tab:'photos',pmode:V.pmode,paid:V.paid,psid:V.psid});});break;
+    case 'del-photo': { const t=S.traces.find(x=>x.id===V.tid); confirmBox(`Supprimer cette photo de ${esc(kidById(t.sid).name)} (${esc(atById(t.aid).title)}, ${new Date(t.ts).toLocaleDateString('fr-FR',{day:'numeric',month:'short'})}) ? Elle sera effacée de la tablette.`,'Supprimer',true,()=>{S.traces=S.traces.filter(t=>t.id!==V.tid);go({name:'t',tab:'photos',pmode:V.pmode,paid:V.paid,psid:V.psid});});break; }
     case 'save-cls': { const v=$('#cls-name').value.trim(); if(v) S.className=v; render(); break; }
     case 'autoclose': S.autoClose=!S.autoClose; render();break;
     case 'backup': V.sheet='where'; render();break;
     case 'sheet-save': S.lastBackup=Date.now(); V.sheet='saved'; render();break;
     case 'sheet-close': V.sheet=null; render();break;
-    case 'restore': confirmBox(`Remplacer toutes les données actuelles par la sauvegarde du ${new Date(S.lastBackup).toLocaleDateString('fr-FR')} ?`,'Remplacer',true,()=>{V.modal=null;V.sheet=null;go({name:'home'});});break;
+    case 'restore': confirmBox(`⚠️ Remplacer toutes les données actuelles (${S.students.length} élèves, ${S.traces.length} photos) par la sauvegarde du ${new Date(S.lastBackup).toLocaleDateString('fr-FR')} ? Les photos prises depuis seront perdues.`,'Remplacer',true,()=>{V.modal=null;V.sheet=null;go({name:'home'});});break;
     case 'm-no': V.modal=null; render();break;
     case 'm-yes': { const f=V.modal.fn; V.modal=null; f(); break; }
   }
@@ -569,15 +602,23 @@ screen.addEventListener('change',e=>{
   keepAtTitle(); const id=c.dataset.c, d=V.draft;
   d.comps=c.checked?[...new Set([...d.comps,id])]:d.comps.filter(x=>x!==id); render();
 });
+screen.addEventListener('input',e=>{
+  const i=e.target; if(i.dataset&&i.dataset.expect){const b=document.getElementById(i.dataset.btn); if(b) b.disabled=i.value.trim()!==i.dataset.expect;}
+  last=Date.now();
+});
 function keepKidName(){const i=$('#kid-name'); if(i&&V.draft) V.draft.name=i.value;}
 function keepAtTitle(){const i=$('#at-title'); if(i&&V.draft) V.draft.title=i.value;}
+const WEAK=['0000','1111','2222','3333','4444','5555','6666','7777','8888','9999','1234','4321','0123','1212','2580'];
+function newRescue(){const A='ABCDEFGHJKLMNPQRSTUVWXYZ23456789';let c='';for(let k=0;k<12;k++){c+=A[Math.floor(Math.random()*A.length)];if(k===3||k===7)c+='-';}return c;}
 function pinDigit(d){
   V.code=(V.code||'')+d; V.bad=false;
   if(V.code.length<4){render();return;}
   const code=V.code;
-  if(V.name==='pin'){ if(code===S.pin){go({name:'t',tab:'classe'});return;} V.code='';V.bad=true;render();return; }
-  if(V.name==='setup-pin'){ go({name:'setup-pin2',first:code}); return; }
-  if(V.name==='setup-pin2'){ if(code===V.first){S.pin=code;go({name:'setup-cam'});return;} go({name:'setup-pin',bad:true}); }
+  if(V.name==='pin'){ if(code===S.pin){S.fails=0;go({name:'t',tab:'classe'});return;}
+    S.fails++; if(S.fails>=5){S.lockUntil=Date.now()+60000;S.fails=0;}
+    V.code='';V.bad=true;render();return; }
+  if(V.name==='setup-pin'){ if(WEAK.includes(code)){go({name:'setup-pin',weak:true,after:V.after});return;} go({name:'setup-pin2',first:code,after:V.after}); return; }
+  if(V.name==='setup-pin2'){ if(code===V.first){S.pin=code;S.rescue=newRescue();go({name:'setup-rescue',after:V.after});return;} go({name:'setup-pin',bad:true,after:V.after}); }
 }
 
 /* appui long 3 s */
@@ -597,7 +638,8 @@ function status(){
   if(KID.includes(V.name)) t=`Parcours enfant en cours. Retour automatique à l'accueil dans <b>${Math.max(0,60-Math.floor(idle))} s</b> sans action.`;
   else if(V.name==='home') t=S.ateliers.some(a=>a.active)?'Accueil enfant.':'Accueil enfant : aucun atelier actif, la lune s\'affiche.';
   else if(V.name==='done') t='Photo enregistrée. Retour à l\'accueil.';
-  else if(V.name==='pin') t='Code enseignant de la maquette : 1234.';
+  else if(V.name==='pin') t='Code enseignant de la maquette : 1234. 5 codes faux = blocage 1 min.';
+  else if(V.name==='rescue') t=`Code de secours de la maquette : <b>${S.rescue}</b>`;
   else if(V.name.startsWith('setup')) t='Premier lancement (se fait une seule fois).';
   else t=S.autoClose?`Espace enseignant. Fermeture automatique dans <b>${Math.max(0,300-Math.floor(idle))} s</b> sans action.`:'Espace enseignant. Fermeture automatique désactivée.';
   el.innerHTML=t;
