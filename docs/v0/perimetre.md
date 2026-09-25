@@ -36,6 +36,7 @@ La V0 est un prototype : une seule tablette, une seule classe, quelques semaines
 | Photos par élève | Toutes les traces d'un élève, groupées par atelier. |
 | Photos par atelier | Liste de la classe : élève ✓ avec sa photo, ou — sans trace. |
 | Trier les photos | **Le tri est à la charge de l'enseignant** : il supprime les photos ratées ou prises par erreur (avec confirmation). Les enfants ne peuvent rien supprimer. |
+| Sauvegarder / restaurer | Bouton « Sauvegarder ma classe » : un seul fichier (photos + données) que l'enseignant copie lui-même (clé USB, ordinateur). Bouton « Restaurer » pour tout récupérer. Aucun envoi en ligne. |
 
 ### Principes techniques non négociables (dès la V0)
 
@@ -53,7 +54,6 @@ La V0 est un prototype : une seule tablette, une seule classe, quelques semaines
 | Dupliquer un atelier | V1 |
 | Réattribuer une photo à un autre élève ou atelier | V1 |
 | Filtres (domaine, période…) | V1 |
-| Sauvegarde / restauration | V1 |
 | Archivage des ateliers et des élèves | V1 (en V0 : désactiver un atelier suffit) |
 | Grilles de suivi, états (✓, ●…) | V2 |
 | Fiche atelier imprimable, bilan, export PDF | V2 |
@@ -62,18 +62,19 @@ La V0 est un prototype : une seule tablette, une seule classe, quelques semaines
 
 ## Écarts avec la roadmap du cahier des charges
 
-Quatre éléments arrivent plus tôt que prévu, parce que le test en classe en a besoin :
+Cinq éléments arrivent plus tôt que prévu, parce que le test en classe en a besoin :
 
 1. **Plusieurs ateliers actifs et choix de l'atelier par l'enfant — mode B** (prévus en V1). C'est l'hypothèse la plus risquée : il faut la tester dès la V0.
 2. **Protection de l'espace enseignant** (prévue en V1). Sans elle, un enfant pourrait modifier ou supprimer des données pendant le test.
 3. **Référentiel embarqué** (bibliothèque prévue en V1). Il existe déjà (`references/`), et il évite la saisie libre.
 4. **Supprimer une photo** (prévu en V1). Le tri des photos revient à l'enseignant : une photo floue, prise par erreur ou montrant un autre enfant doit pouvoir disparaître. C'est aussi le minimum RGPD.
+5. **Sauvegarde / restauration locale** (prévue en V1). Les photos des enfants ne se refont pas.
 
 ## Stockage et sauvegarde
 
 - **Tout reste en local**, sur la tablette. **Aucune sauvegarde en ligne**, ni en V0 ni plus tard sans décision explicite.
-- Sauvegarde locale manuelle (fichier que l'enseignant copie lui-même, par exemple sur clé USB ou ordinateur) : **à décider** pour la V0 ; prévue au plus tard en V1.
-- Tant qu'il n'y a pas de sauvegarde locale, si la tablette casse pendant le test, les photos sont perdues. Il faut le dire aux personnes qui testent.
+- **Sauvegarde locale manuelle dès la V0** (prévue en V1 dans le cahier des charges) : les photos des enfants ne se refont pas, le test doit être protégé.
+- Le fichier de sauvegarde contient des photos d'élèves : c'est une donnée personnelle, l'enseignant le range en lieu sûr.
 
 ## Critères de réussite du test en classe
 
@@ -99,3 +100,4 @@ La V0 est réussie si, sur quelques semaines d'essai :
 | 6 | Une seule classe, sans groupes. |
 | 7 | Le tri des photos (suppression) est à la charge de l'enseignant. |
 | 8 | Données uniquement en local ; aucune sauvegarde en ligne. |
+| 9 | Sauvegarde et restauration locales manuelles dès la V0. |
