@@ -102,12 +102,51 @@ Règles communes :
 
 ## 6. Sauvegarde
 
-- **Un seul fichier** : fiches (classe, élèves, ateliers, traces) + photos + photos modèles.
-- **Nom** : `foteli-<nom-de-classe>-<date>` (ex. `foteli-MS-GS-Mme-Martin-2026-10-15`).
-- **Emplacement** choisi par l'enseignant avec le sélecteur Android : clé USB, dossier de la tablette, ordinateur branché.
-- **Contenu non inclus** : PIN, code de secours (la restauration sur une nouvelle tablette demande de créer un nouveau PIN).
-- **Chiffrement** : fichier protégé par un **mot de passe choisi au moment de la sauvegarde**. Sans lui, le fichier est illisible, même si la clé USB est perdue.
-- **Restaurer** remplace **tout** le contenu actuel, après une confirmation en zone dangereuse.
+### Le principe : un fichier ZIP chiffré, double usage
+
+La sauvegarde est **un seul fichier `.zip` chiffré** (chiffrement AES-256, format ZIP standard), protégé par le **mot de passe de sauvegarde**.
+
+1. **Assurance** : Foteli le relit pour **tout restaurer** (tablette cassée, perdue, réinitialisée, appli réinstallée, changement de tablette).
+2. **Exploitable sans Foteli** : sur un ordinateur, il s'ouvre avec un outil courant (7-Zip sous Windows, Keka sous macOS…) et le mot de passe. Les photos y sont **rangées et nommées lisiblement** :
+
+```
+foteli-MS-GS-Mme-Martin-2026-10-15.zip
+├── LISEZMOI.txt                  ← ce que contient le fichier, comment restaurer
+├── photos/
+│   ├── Adem/
+│   │   ├── Puzzle 12 pieces/
+│   │   │   └── 2026-10-14_09h32_Adem_Puzzle-12-pieces.jpg
+│   │   └── Construction Kapla/
+│   └── Ava/…
+├── souvenirs/
+│   └── Lina/2026-10-13_10h05_Lina_souvenir.jpg
+├── modeles/                      ← photos modèles des ateliers
+└── donnees-foteli.json           ← fiches (classe, élèves, ateliers, traces) pour la restauration
+```
+
+C'est déjà une première façon d'exploiter les photos (les copier dans un document, les montrer en équipe) en attendant l'export PDF / fiche bilan (`docs/a-faire.md`).
+
+### Sauvegarder (≈ 3 gestes)
+
+1. **Réglages → Sauvegarder ma classe** (ou le bandeau de rappel qui apparaît après 14 jours sans sauvegarde).
+2. **La première fois seulement** : choisir le **mot de passe de sauvegarde** (au moins 8 caractères), avec la consigne de le noter à côté du code de secours. Foteli le retient ensuite (stocké protégé par le coffre-fort de clés d'Android) ; il se change dans Réglages.
+3. **Choisir l'emplacement** avec le sélecteur Android :
+   - **clé USB** branchée sur la tablette (adaptateur USB-C si besoin) ;
+   - **dossier Documents** de la tablette, puis copie sur l'ordinateur de l'école par câble ;
+   - tout autre emplacement choisi par l'enseignant.
+
+Taille : de quelques Mo au début à environ 1 Go en fin d'année pour une classe entière (une clé USB ordinaire suffit).
+
+### Restaurer
+
+- **Sur la même tablette** : Réglages → Sauvegarde → **Restaurer une sauvegarde** → fichier → mot de passe → confirmation rouge (« remplace tout : 28 élèves, 412 photos… »).
+- **Sur une nouvelle tablette** : installer Foteli → au premier lancement, **« Restaurer une sauvegarde »** au lieu de « Nouvelle classe » → fichier → mot de passe → choisir un **nouveau code PIN** (le PIN et le code de secours ne sont jamais dans la sauvegarde).
+
+### Sécurité
+
+- Sans le mot de passe, le fichier est **illisible**, même si la clé USB est perdue.
+- **Mot de passe de sauvegarde perdu** : les sauvegardes existantes sont illisibles. Foteli peut en créer de nouvelles avec un nouveau mot de passe (Réglages).
+- Aucune sauvegarde automatique, aucun envoi en ligne. Déposer le fichier sur un cloud ou un ENT reste une décision de l'enseignant ; le chiffrement le protège, mais la recommandation reste la clé USB ou l'ordinateur de l'école.
 
 ## 7. Photos
 
@@ -119,7 +158,7 @@ Règles communes :
 
 | # | Décision |
 |---|---|
-| Q1 | Sauvegarde **chiffrée** par un mot de passe choisi au moment de la sauvegarde. |
+| Q1 | Sauvegarde **chiffrée** (ZIP AES-256) par un mot de passe de sauvegarde choisi la première fois, retenu par l'appli, modifiable dans Réglages. |
 | Q2 | **Supprimer un atelier** (avec ses photos) possible en V0, en zone dangereuse. |
 | Q3 | **Choix multiple** de compétences par atelier, pris dans le référentiel (domaines et programme du cycle 1). Un atelier peut donc relever de plusieurs domaines. |
 | Q4 | Chaque trace garde une **copie des compétences** au moment de la photo. |

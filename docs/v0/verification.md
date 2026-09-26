@@ -86,6 +86,20 @@
 | D3 | Position du déclencheur. | **À préciser** : fonctionnalité à définir avec l'étape 5 et le test. Proposition de départ : un déclencheur de chaque côté, écran bloqué en paysage. |
 | D4 | Âge des utilisateurs. | La V0 vise la **maternelle** ; la sécurité (PIN, code de secours) est pensée pour résister jusqu'à 9 ans. |
 
+## Vérification 3 — Après les derniers ajouts (mode libre, raccourcis, sauvegarde)
+
+| # | Point vérifié | Verdict |
+|---|---|---|
+| V1 | Mode libre : parcours enfant toujours en 4 touchers | ✅ |
+| V2 | Mode libre : la carte « Photo libre » compte dans le nombre de cartes | ⚠️ L'avertissement « au-delà de 6 cartes » doit compter la carte Souvenirs (5 ateliers + Souvenirs = 6). |
+| V3 | Accueil : la lune ne s'affiche que si **aucun atelier actif et mode libre désactivé** | ✅ Parcours, maquette et documents alignés. |
+| V4 | Souvenirs dans la suppression et la sauvegarde | ✅ Effacés avec l'élève et par « Tout effacer » ; inclus dans la sauvegarde (dossier `souvenirs/`). |
+| V5 | Sauvegarde exploitable | ✅ ZIP chiffré standard : restaurable dans Foteli **et** lisible sur ordinateur avec le mot de passe (`donnees.md` § 6). |
+| V6 | Restaurer sur une nouvelle tablette | ✅ Proposé dès le premier lancement (« Restaurer une sauvegarde »). Ajouté au parcours et à la maquette. |
+| V7 | Rappel de sauvegarde pratique pour l'adulte | ✅ Bandeau dans l'espace enseignant après 14 jours, avec un bouton « Sauvegarder maintenant ». |
+| V8 | Emplacement du bouton Restaurer | ✅ Corrigé : Réglages → Sauvegarde (avec confirmation rouge), identique dans les documents et la maquette. |
+| V9 | Duplication d'atelier retirée de la liste « hors V0 » | ✅ |
+
 ## Récapitulatif : ce qu'il faut avant l'étape 5
 
 1. ✅ Décisions Q1 à Q5 et D1, D2, D4 prises. D3 (déclencheur) sera précisé avec l'étape 5.

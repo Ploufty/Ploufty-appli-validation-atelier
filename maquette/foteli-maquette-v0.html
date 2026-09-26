@@ -423,7 +423,9 @@ function vRescue(){
 /* premier lancement */
 function vSetup(){
   const n=V.name;
-  if(n==='setup') return `<div class="view setup"><h2>Bienvenue dans Foteli</h2><p>Les photos et les données restent sur cette tablette. Rien n'est envoyé sur Internet.</p><button type="button" class="btn primary" data-act="setup-next" data-to="setup-pin">Commencer</button></div>`;
+  if(n==='setup') return `<div class="view setup"><h2>Bienvenue dans Foteli</h2><p>Les photos et les données restent sur cette tablette. Rien n'est envoyé sur Internet.</p><div class="row" style="justify-content:center"><button type="button" class="btn primary" data-act="setup-next" data-to="setup-pin">Nouvelle classe</button><button type="button" class="btn" data-act="setup-next" data-to="setup-restore">Restaurer une sauvegarde</button></div></div>`;
+  if(n==='setup-restore') return `<div class="view setup"><h2>Restaurer une sauvegarde</h2><p>Nouvelle tablette, tablette réinitialisée ou appli réinstallée : choisissez le fichier de sauvegarde (clé USB, dossier Documents…), puis tapez son mot de passe. Tout revient : élèves, ateliers, photos.</p><div class="android"><b>Android : choisir un fichier</b><span>📁 foteli-MS-GS-Mme-Martin-2026-10-15.zip</span><div class="row"><button type="button" data-act="setup-next" data-to="setup">Annuler</button><button type="button" data-act="setup-next" data-to="setup-restore-pw">Ouvrir</button></div></div></div>`;
+  if(n==='setup-restore-pw') return `<div class="view setup"><h2>Mot de passe de la sauvegarde</h2><p>Maquette : tapez n'importe quoi.</p><input type="password" id="rpw" aria-label="Mot de passe"><button type="button" class="btn primary" data-act="setup-next" data-to="setup-pin">Restaurer</button><p>Ensuite, vous choisirez un nouveau code PIN (il n'est jamais dans la sauvegarde).</p></div>`;
   if(n==='setup-pin'||n==='setup-pin2'){
     const d=(V.code||'').length;
     return `<div class="view pin"><h2>${n==='setup-pin'?(V.weak?'Code trop facile à deviner, choisissez-en un autre':'Choisissez votre code à 4 chiffres'):'Confirmez votre code'}</h2><div class="dots ${V.bad?'bad':''}">${[0,1,2,3].map(k=>`<i class="${k<d?'on':''}"></i>`).join('')}</div>
@@ -449,7 +451,7 @@ function vTeach(){
   else if(tab==='ateliers') body=tAteliers();
   else if(tab==='photos') body=tPhotos();
   else body=tReglages();
-  return `<div class="view teach"><div class="tbar"><span class="cls">${esc(S.className)}</span><nav class="tabs">${tabs.map(([k,l])=>`<button type="button" class="${tab===k?'on':''}" data-act="tab" data-tab="${k}">${l}</button>`).join('')}</nav><button type="button" class="exit" data-act="home">Mode élève</button></div><div class="tbody">${body}</div></div>`;
+  return `<div class="view teach"><div class="tbar"><span class="cls">${esc(S.className)}</span><nav class="tabs">${tabs.map(([k,l])=>`<button type="button" class="${tab===k?'on':''}" data-act="tab" data-tab="${k}">${l}</button>`).join('')}</nav><button type="button" class="exit" data-act="home">Mode élève</button></div><div class="tbody">${(Date.now()-S.lastBackup)>14*864e5&&V.name==='t'?`<div class="note" style="display:flex;align-items:center;gap:1em;flex-wrap:wrap"><span style="flex:1">💾 Dernière sauvegarde : ${lastBk()}. Pensez à sauvegarder votre classe.</span><button type="button" class="btn primary sm" data-act="backup">Sauvegarder maintenant</button></div>`:''}${body}</div></div>`;
 }
 const count=(sid,aid)=>S.traces.filter(t=>(!sid||t.sid===sid)&&(!aid||t.aid===aid)).length;
 function tClasse(){
@@ -488,7 +490,7 @@ function dangerAt(a){
 function domainsOf(a){return [...new Set(a.comps.map(c=>c.split('-')[0]))];}
 function tAteliers(){
   const na=S.ateliers.filter(a=>a.active).length;
-  return `<div class="row"><h2 class="h">Ateliers</h2><span class="sub">${na} actif${na>1?'s':''} côté enfants${na>6?' · au-delà de 6, les cartes deviennent petites pour les enfants':''}</span><button type="button" class="btn primary" data-act="new-at">+ Nouvel atelier</button>${na?`<button type="button" class="btn" data-act="all-off">Tout désactiver</button>`:''}</div>
+  return `<div class="row"><h2 class="h">Ateliers</h2><span class="sub">${na} actif${na>1?'s':''} côté enfants${(na+(S.freeMode?1:0))>6?' · plus de 6 cartes (Souvenirs compris) : elles deviennent petites pour les enfants':''}</span><button type="button" class="btn primary" data-act="new-at">+ Nouvel atelier</button>${na?`<button type="button" class="btn" data-act="all-off">Tout désactiver</button>`:''}</div>
   <div class="acards">${S.ateliers.map(a=>`<div class="acard ${a.active?'':'off'}"><div class="pic">${scene(a.model,0)}</div><div class="in"><b>${esc(a.title)}</b><div>${domainsOf(a).map(d=>`<span class="tag">${esc(DOMS[d])}</span>`).join(' ')}</div><span class="sub"><b>${S.students.filter(s=>count(s.id,a.id)).length}/${S.students.length} élèves</b> · ${a.comps.length} compétence${a.comps.length>1?'s':''} · caméra ${a.cam==='avant'?'avant':'arrière'}</span>
   <div class="row"><button type="button" class="switch ${a.active?'on':''}" data-act="toggle" data-id="${a.id}" role="switch" aria-checked="${a.active}"><i></i>${a.active?'Actif':'Inactif'}</button><button type="button" class="btn sm" data-act="edit-at" data-id="${a.id}">Modifier</button><button type="button" class="btn sm" data-act="dup-at" data-id="${a.id}">Dupliquer</button></div></div></div>`).join('')}</div>`;
 }
@@ -562,8 +564,8 @@ function vModal(){
 }
 function vSheet(){
   const file=`foteli-${S.className.replace(/[^\p{L}\p{N}]+/gu,'-').replace(/^-|-$/g,'')}-${new Date().toISOString().slice(0,10)}`;
-  if(V.sheet==='saved') return `<div class="sheet"><b>Sauvegarde terminée</b><span>Fichier : <code>${esc(file)}</code></span><span>Ce fichier contient les photos des élèves : rangez-le en lieu sûr.</span><div class="row"><button type="button" class="btn primary" data-act="sheet-close">OK</button></div></div>`;
-  return `<div class="sheet"><b>Android : où enregistrer la sauvegarde ?</b><span class="sub">Fichier : <code>${esc(file)}</code></span><div class="loc"><button type="button" class="btn" data-act="sheet-save">Clé USB</button><button type="button" class="btn" data-act="sheet-save">Dossier Documents de la tablette</button><button type="button" class="btn" data-act="sheet-close">Annuler</button></div></div>`;
+  if(V.sheet==='saved') return `<div class="sheet"><b>Sauvegarde terminée</b><span>Fichier : <code>${esc(file)}.zip</code> (chiffré par votre mot de passe de sauvegarde)</span><span>Il sert à tout restaurer dans Foteli. Sur un ordinateur, il s'ouvre aussi avec 7-Zip et le mot de passe : les photos y sont rangées par élève et par atelier.</span><div class="row"><button type="button" class="btn primary" data-act="sheet-close">OK</button></div></div>`;
+  return `<div class="sheet"><b>Android : où enregistrer la sauvegarde ?</b><span class="sub">Fichier : <code>${esc(file)}.zip</code></span><div class="loc"><button type="button" class="btn" data-act="sheet-save">Clé USB</button><button type="button" class="btn" data-act="sheet-save">Dossier Documents de la tablette</button><button type="button" class="btn" data-act="sheet-close">Annuler</button></div></div>`;
 }
 
 /* ---------- actions ---------- */

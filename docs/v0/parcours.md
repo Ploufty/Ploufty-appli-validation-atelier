@@ -42,7 +42,7 @@ Ce que l'enfant **ne voit jamais** : compétences, domaines, dates, réglages, b
 
 ### B1. Premier lancement (une seule fois)
 
-1. L'appli affiche un écran de bienvenue.
+1. L'appli affiche un écran de bienvenue avec deux choix : **Nouvelle classe** ou **Restaurer une sauvegarde** (nouvelle tablette : fichier → mot de passe → puis choix d'un nouveau PIN).
 2. L'enseignant **choisit un code PIN** à 4 chiffres, puis le **confirme**. Les codes évidents (`0000`, `1234`…) sont refusés.
 2 bis. L'appli affiche le **code de secours** (12 caractères) une seule fois. L'enseignant le recopie sur papier, le range hors de la classe, et retape ses 4 derniers caractères pour continuer (voir `donnees.md` § 3).
 3. L'appli demande l'**autorisation d'utiliser l'appareil photo** (fenêtre Android). C'est fait ici, pour qu'un enfant ne tombe jamais sur cette fenêtre.
@@ -119,9 +119,9 @@ Modifier : toucher l'atelier → changer titre, photo modèle ou compétences.
 
 ### B8. Sauvegarder la classe
 
-1. **Réglages** → **Sauvegarder ma classe**.
+1. **Réglages** → **Sauvegarder ma classe** (ou le bandeau « Dernière sauvegarde : il y a 15 jours » qui s'affiche dans l'espace enseignant après 14 jours). La première fois : choix du mot de passe de sauvegarde.
 2. Android ouvre son sélecteur d'emplacement : l'enseignant choisit où mettre le fichier (clé USB, dossier de la tablette…).
-3. L'appli crée **un seul fichier** (photos + élèves + ateliers), nommé avec la classe et la date, ex. `foteli-MS-GS-Mme-X-2026-10-15`.
+3. L'appli crée **un seul fichier** (photos + élèves + ateliers), nommé avec la classe et la date, ex. `foteli-MS-GS-Mme-X-2026-10-15.zip`, chiffré par le mot de passe de sauvegarde (détail : `donnees.md` § 6).
 4. Message : « Sauvegarde terminée. Ce fichier contient les photos des élèves : rangez-le en lieu sûr. »
 
 Rappel : Réglages affiche « Dernière sauvegarde : il y a 12 jours ». L'appli ne sauvegarde jamais toute seule.
