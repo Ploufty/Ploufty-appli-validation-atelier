@@ -1,7 +1,7 @@
 # V0 — Données
 
 > Étape 4 sur 5 (périmètre → parcours → écrans → **données** → technique).
-> Statut : **à valider**. Les points marqués 🔶 attendent une décision.
+> Statut : **validé**.
 
 ## 1. Ce qui est enregistré, et rien de plus
 
@@ -10,7 +10,7 @@
 | Objet | Champs | Remarque |
 |---|---|---|
 | Référentiel | domaines, sous-domaines, compétences (identifiant, libellé, niveau) | Intégré à l'appli, **lecture seule**. Mis à jour avec l'appli. |
-| Atelier | identifiant, titre, photo modèle, liste d'identifiants de compétences, actif oui/non, date de création | Le domaine n'est pas saisi : il se déduit des compétences. |
+| Atelier | identifiant, titre, photo modèle, liste d'identifiants de compétences (choix multiple), **caméra utilisée** (arrière ou avant), actif oui/non, date de création | Le domaine n'est pas saisi : il se déduit des compétences, et un atelier peut relever de **plusieurs domaines**. |
 
 ### B. Données personnelles (ne quittent jamais la tablette sans action de l'enseignant)
 
@@ -18,7 +18,7 @@
 |---|---|---|
 | Classe | nom | Une seule classe en V0. |
 | Élève | identifiant, prénom, représentation (robot n°, photo, ou prénom en grand) | Pas de nom de famille, date de naissance, adresse ni contact parents. |
-| Trace | identifiant, photo, élève, atelier, date et heure, 🔶 compétences au moment de la prise | Voir question Q4. |
+| Trace | identifiant, photo, élève, atelier, date et heure, **copie des compétences au moment de la prise** | Modifier un atelier ne réécrit pas l'historique (Q4). |
 
 ### C. Réglages et sécurité
 
@@ -79,7 +79,7 @@ La confirmation **dit exactement ce qui va disparaître**, avec les nombres rée
 |---|---|---|---|
 | Supprimer une photo | Photo en grand | « Supprimer cette photo d'Ava (Puzzle 12 pièces, 14 oct.) ? Elle sera effacée de la tablette. » | Confirmation simple |
 | Supprimer un élève | Fiche de l'élève, zone dangereuse | « Supprimer **Ava** ? Cela efface **ses 12 photos** dans **4 ateliers**. Cette action est définitive. Dernière sauvegarde : il y a 12 jours. » | Confirmation + **taper le prénom** de l'élève |
-| 🔶 Supprimer un atelier | Fiche de l'atelier, zone dangereuse | « Supprimer **Puzzle 12 pièces** ? Cela efface **ses 23 photos** (15 élèves). Pour garder les photos, désactivez plutôt l'atelier. » | Confirmation + taper le titre |
+| Supprimer un atelier | Fiche de l'atelier, zone dangereuse | « Supprimer **Puzzle 12 pièces** ? Cela efface **ses 23 photos** (15 élèves). Pour garder les photos, désactivez plutôt l'atelier. » | Confirmation + taper le titre |
 | **Tout effacer** (fin d'essai, fin d'année) | Réglages, zone dangereuse | « Effacer **toute la classe** : **28 élèves**, **9 ateliers**, **412 photos** ? Rien ne pourra être récupéré sans sauvegarde. » | Confirmation + **taper `EFFACER`** + **code PIN** |
 
 Règles communes :
@@ -93,7 +93,7 @@ Règles communes :
 |---|---|---|
 | une photo | — | l'élève, l'atelier |
 | un élève | toutes ses photos | les ateliers ; son robot redevient disponible |
-| 🔶 un atelier | toutes ses photos | les élèves ; les compétences (référentiel) |
+| un atelier | toutes ses photos | les élèves ; les compétences (référentiel) |
 | tout (« Tout effacer ») | élèves, ateliers, photos, nom de classe | PIN et code de secours, réglages ; le référentiel |
 | l'appli (désinstallation) | **tout** | les sauvegardes déjà copiées ailleurs |
 
@@ -105,7 +105,7 @@ Règles communes :
 - **Nom** : `foteli-<nom-de-classe>-<date>` (ex. `foteli-MS-GS-Mme-Martin-2026-10-15`).
 - **Emplacement** choisi par l'enseignant avec le sélecteur Android : clé USB, dossier de la tablette, ordinateur branché.
 - **Contenu non inclus** : PIN, code de secours (la restauration sur une nouvelle tablette demande de créer un nouveau PIN).
-- 🔶 **Chiffrement** (Q1) : fichier protégé par un **mot de passe choisi au moment de la sauvegarde**. Sans lui, le fichier est illisible, même si la clé USB est perdue.
+- **Chiffrement** : fichier protégé par un **mot de passe choisi au moment de la sauvegarde**. Sans lui, le fichier est illisible, même si la clé USB est perdue.
 - **Restaurer** remplace **tout** le contenu actuel, après une confirmation en zone dangereuse.
 
 ## 7. Photos
@@ -114,11 +114,12 @@ Règles communes :
 - Qualité standard en V0. Réduction de taille : voir `docs/a-faire.md` (amélioration).
 - Une photo non validée (↻ ou retour automatique) est **effacée immédiatement**.
 
-## 8. Questions à trancher (🔶)
+## 8. Décisions
 
-| # | Question | Recommandation |
-|---|---|---|
-| Q1 | Sauvegarde **chiffrée par mot de passe** ? | **Oui.** Photos d'enfants sur une clé USB = risque réel de perte. |
-| Q2 | **Supprimer un atelier** en V0 (avec ses photos) ? | **Oui, en zone dangereuse**, avec un rappel que désactiver suffit pour garder les photos. |
-| Q3 | Un atelier peut-il avoir des compétences de **plusieurs domaines** (ex. Kapla : maths + espace) ? | **Oui.** L'atelier affiche alors plusieurs domaines. Le cahier des charges parle d'« un domaine » : à confirmer. |
-| Q4 | Si on modifie les compétences d'un atelier, les **anciennes photos** changent-elles de compétences ? | **Non** : la trace garde une copie des compétences **au moment de la photo**. Petite duplication, mais l'historique reste juste. |
+| # | Décision |
+|---|---|
+| Q1 | Sauvegarde **chiffrée** par un mot de passe choisi au moment de la sauvegarde. |
+| Q2 | **Supprimer un atelier** (avec ses photos) possible en V0, en zone dangereuse. |
+| Q3 | **Choix multiple** de compétences par atelier, pris dans le référentiel (domaines et programme du cycle 1). Un atelier peut donc relever de plusieurs domaines. |
+| Q4 | Chaque trace garde une **copie des compétences** au moment de la photo. |
+| Q5 | **Caméra choisie par l'enseignant** à la création de l'atelier (arrière par défaut, ou avant). Les enfants ne peuvent pas la changer. |

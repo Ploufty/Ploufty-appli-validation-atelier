@@ -463,10 +463,16 @@ function dangerKid(k){
   <label style="font-weight:700">Pour confirmer, tapez le prénom « ${esc(s.name)} »<input type="text" id="confirm-in" data-expect="${esc(s.name)}" data-btn="del-kid-btn" autocomplete="off"></label>
   <div class="row"><button type="button" class="btn red" id="del-kid-btn" data-act="del-kid" disabled>Supprimer ${esc(s.name)}</button><button type="button" class="btn" data-act="tab" data-tab="reglages">Sauvegarder d'abord</button></div></div>`;
 }
+function dangerAt(a){
+  const n=count(null,a.id), nk=new Set(S.traces.filter(t=>t.aid===a.id).map(t=>t.sid)).size, t=atById(a.id).title;
+  return `<div class="danger-zone"><h3>⚠️ Zone dangereuse</h3><p>Supprimer <b>${esc(t)}</b> efface <b>${n} photo${n>1?'s':''}</b>${n?` (${nk} élève${nk>1?'s':''})`:''}. C'est définitif. Pour garder les photos, désactivez plutôt l'atelier. Dernière sauvegarde : ${lastBk()}.</p>
+  <label style="font-weight:700">Pour confirmer, tapez le titre « ${esc(t)} »<input type="text" id="confirm-in" data-expect="${esc(t)}" data-btn="del-at-btn" autocomplete="off"></label>
+  <div class="row"><button type="button" class="btn red" id="del-at-btn" data-act="del-at" disabled>Supprimer l'atelier</button><button type="button" class="btn" data-act="tab" data-tab="reglages">Sauvegarder d'abord</button></div></div>`;
+}
 function domainsOf(a){return [...new Set(a.comps.map(c=>c.split('-')[0]))];}
 function tAteliers(){
   return `<div class="row"><h2 class="h">Ateliers</h2><span class="sub">${S.ateliers.filter(a=>a.active).length} actif(s) côté enfants</span><button type="button" class="btn primary" data-act="new-at">+ Nouvel atelier</button></div>
-  <div class="acards">${S.ateliers.map(a=>`<div class="acard ${a.active?'':'off'}"><div class="pic">${scene(a.model,0)}</div><div class="in"><b>${esc(a.title)}</b><div>${domainsOf(a).map(d=>`<span class="tag">${esc(DOMS[d])}</span>`).join(' ')}</div><span class="sub">${a.comps.length} compétence${a.comps.length>1?'s':''} · ${count(null,a.id)} photo${count(null,a.id)>1?'s':''}</span>
+  <div class="acards">${S.ateliers.map(a=>`<div class="acard ${a.active?'':'off'}"><div class="pic">${scene(a.model,0)}</div><div class="in"><b>${esc(a.title)}</b><div>${domainsOf(a).map(d=>`<span class="tag">${esc(DOMS[d])}</span>`).join(' ')}</div><span class="sub">${a.comps.length} compétence${a.comps.length>1?'s':''} · ${count(null,a.id)} photo${count(null,a.id)>1?'s':''} · caméra ${a.cam==='avant'?'avant':'arrière'}</span>
   <div class="row"><button type="button" class="switch ${a.active?'on':''}" data-act="toggle" data-id="${a.id}" role="switch" aria-checked="${a.active}"><i></i>${a.active?'Actif':'Inactif'}</button><button type="button" class="btn sm" data-act="edit-at" data-id="${a.id}">Modifier</button></div></div></div>`).join('')}</div>`;
 }
 function tEditAt(){
@@ -484,9 +490,12 @@ function tEditAt(){
      ${p.d?`<div class="chips" style="margin-top:.5em">${sds.map(s=>`<button type="button" class="chip ${p.s===s?'on':''}" data-act="ps" data-v="${s}">${esc(SDS[s])}</button>`).join('')}</div>`:''}
      ${p.s?`<div class="chips" style="margin-top:.5em">${['PS','MS','GS'].map(n=>`<button type="button" class="chip ${p.n===n?'on':''}" data-act="pn" data-v="${n}">${n}</button>`).join('')}</div>`:''}
      ${list.length?`<div class="clist" style="margin-top:.5em">${list.map(([id,t])=>`<label><input type="checkbox" data-act="cc" data-c="${id}" ${a.comps.includes(id)?'checked':''}><span>${esc(t)} <code>${id}</code></span></label>`).join('')}</div>`:(p.s&&p.n?'<p class="sub">Aucune compétence à ce niveau dans ce sous-domaine.</p>':'')}
+     <p class="sub" style="margin-top:.4em">Choix multiple possible, y compris dans plusieurs domaines.</p>
    </div>
+   <div><b>Caméra utilisée par les enfants</b> <span class="sub">(les enfants ne peuvent pas la changer)</span><div class="chips" style="margin-top:.4em">${[['arriere','Caméra arrière (production posée)'],['avant','Caméra avant (posture, mime)']].map(([v,l])=>`<button type="button" class="chip ${(a.cam||'arriere')===v?'on':''}" data-act="cam" data-v="${v}">${l}</button>`).join('')}</div></div>
    <div class="row"><button type="button" class="btn primary" data-act="save-at">Enregistrer</button><span class="sub">${a.id?'':'Un nouvel atelier est créé inactif.'}</span></div>
-  </div>`;
+  </div>
+  ${a.id?dangerAt(a):''}`;
 }
 function tPhotos(){
   const mode=V.pmode||'atelier';
@@ -572,9 +581,11 @@ screen.addEventListener('click',e=>{
     case 'del-kid': { const s=kidById(V.draft.id); S.students=S.students.filter(x=>x.id!==s.id);S.traces=S.traces.filter(t=>t.sid!==s.id);go({name:'t',tab:'classe'}); break; }
     case 'wipe': { if($('#wipe-pin').value!==S.pin){$('#wipe-msg').textContent='Code PIN incorrect.';break;} S.students=[];S.ateliers=[];S.traces=[];go({name:'t',tab:'classe'}); break; }
     case 'toggle': { const a=atById(id); a.active=!a.active; render(); break; }
-    case 'new-at': go({name:'t-edit-at',tab:'ateliers',draft:{id:null,title:'',model:'puzzle',comps:[],active:false},pick:{}});break;
+    case 'new-at': go({name:'t-edit-at',tab:'ateliers',draft:{id:null,title:'',model:'puzzle',comps:[],active:false,cam:'arriere'},pick:{}});break;
     case 'edit-at': { const a=atById(id); const c=a.comps[0]||''; go({name:'t-edit-at',tab:'ateliers',draft:{...a,comps:[...a.comps]},pick:c?{d:c.split('-')[0],s:c.split('-').slice(0,2).join('-'),n:c.split('-')[2]}:{}}); break; }
     case 'model': keepAtTitle(); V.draft.model=b.dataset.m; render();break;
+    case 'cam': keepAtTitle(); V.draft.cam=b.dataset.v; render();break;
+    case 'del-at': { const id=V.draft.id; S.ateliers=S.ateliers.filter(x=>x.id!==id); S.traces=S.traces.filter(t=>t.aid!==id); go({name:'t',tab:'ateliers'}); break; }
     case 'pd': keepAtTitle(); V.pick={d:b.dataset.v}; render();break;
     case 'ps': keepAtTitle(); V.pick={...V.pick,s:b.dataset.v,n:V.pick.n}; render();break;
     case 'pn': keepAtTitle(); V.pick={...V.pick,n:b.dataset.v}; render();break;

@@ -31,7 +31,7 @@ La V0 est un prototype : une seule tablette, une seule classe, quelques semaines
 |---|---|
 | Accès protégé | Appui long de 3 s dans le coin haut droit de l'accueil, puis code PIN à 4 chiffres. PIN choisi au premier lancement, avec un **code de secours** en cas d'oubli. Blocage temporaire après 5 codes faux. |
 | Classe | Une seule classe. Ajouter, modifier ou supprimer un élève : prénom, et robot (par défaut), photo ou prénom en grand. |
-| Ateliers | Créer ou modifier un atelier : titre, photo modèle (prise avec la tablette), une ou plusieurs compétences choisies dans le référentiel. Activer ou désactiver. |
+| Ateliers | Créer ou modifier un atelier : titre, photo modèle (prise avec la tablette), une ou plusieurs compétences choisies dans le référentiel (plusieurs domaines possibles), caméra utilisée (arrière / avant). Activer ou désactiver. Supprimer (zone dangereuse). |
 | Compétences | Référentiel officiel embarqué (493 compétences), **en lecture seule**. Choix par domaine → sous-domaine → niveau. |
 | Photos par élève | Toutes les traces d'un élève, groupées par atelier. |
 | Photos par atelier | Liste de la classe : élève ✓ avec sa photo, ou — sans trace. |
@@ -44,7 +44,8 @@ La V0 est un prototype : une seule tablette, une seule classe, quelques semaines
 - Fonctionne **entièrement sans Internet**, sans compte.
 - Photos stockées dans l'**espace privé de l'appli**, jamais dans la galerie.
 - Aucune donnée ne sort de la tablette.
-- Tablette Android en **paysage** comme appareil de référence.
+- Tablette Android **13 ou plus récente**, en **paysage**, comme appareil de référence.
+- Distribution : **APK installée manuellement** (« sources inconnues ») pour le test. Play Store ou autre canal : voir `docs/a-faire.md`.
 - L'enfant **ne peut pas sortir** de l'appli (épinglage ou mode kiosque, étape 5).
 - **Accessibilité de base** : grandes zones tactiles, contrastes suffisants, jamais d'information par la seule couleur, boutons lisibles par TalkBack (voir `docs/a-faire.md`).
 
@@ -106,3 +107,6 @@ La V0 est réussie si, sur quelques semaines d'essai :
 | 9 | Sauvegarde et restauration locales manuelles dès la V0. |
 | 10 | Code de secours pour le PIN oublié, infaisable pour un enfant jusqu'à 9 ans. |
 | 11 | Zone dangereuse pour les suppressions importantes, dont « Tout effacer ». |
+| 12 | Android 13 minimum. |
+| 13 | Distribution par APK en sources inconnues pour le test. |
+| 14 | Caméra (arrière / avant) choisie par atelier par l'enseignant ; non modifiable par les enfants. |

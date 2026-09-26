@@ -38,6 +38,15 @@ Toujours à l'initiative de l'enseignant, jamais automatique.
   - par atelier : la liste des élèves sans trace (déjà dans la V0, vue « Par atelier »).
 - Base naturelle pour les grilles de suivi (V2).
 
+## Canal de diffusion
+
+Pour le test : **APK installée manuellement** (sources inconnues). À penser ensuite :
+- **Google Play** : compte développeur, fiche « Sécurité des données » (facile : aucune donnée collectée), règles Play pour les applis destinées aux enfants (programme « Familles »).
+- **Diffusion via la gestion de flotte** des tablettes (MDM de la mairie ou de l'académie) : souvent la seule voie sur des tablettes gérées.
+- **F-Droid** (magasin d'applis libres) si le projet devient un commun numérique.
+- **Forge des communs numériques éducatifs** : hébergement du code et visibilité auprès des enseignants.
+- Dans tous les cas : **signature** de l'APK avec une clé conservée en lieu sûr (sans elle, pas de mise à jour possible).
+
 ## Interface et identité
 
 - **Direction artistique** : palette, typographies, style des illustrations.

@@ -18,7 +18,7 @@
 | E2 | **Taille de la grille d'accueil** | ✅ jusqu'à 28-30 élèves : grille 7 × 4, cartes d'environ 3 cm sur une tablette 10". ⚠️ Au-delà de 32 élèves, il faudra faire défiler ou attendre les groupes (V1). |
 | E3 | **Robots différenciables** | ⚠️ 36 robots = 9 couleurs × 4 formes de tête. Deux robots de même couleur ne diffèrent que par la forme : risque de confusion chez les PS. Parades déjà prévues : prénom sous le robot, photo ou prénom en grand. **À observer pendant le test.** |
 | E4 | **Nombre d'ateliers actifs à la fois** | ⚠️ Au-delà de 6 cartes, elles deviennent petites. Recommandation : l'espace enseignant affiche un avertissement au-delà de 6 ateliers actifs (sans bloquer). |
-| E5 | **Déclencheur utilisable « quelle que soit la manière dont l'enfant tient la tablette »** (cahier § 11) | 🔶 La maquette n'a qu'un bouton, à droite. Un enfant qui tient la tablette de la main droite, ou un gaucher, l'atteint mal. **Recommandation : écran bloqué en paysage + un déclencheur de chaque côté** (les deux font la même chose). |
+| E5 | **Déclencheur utilisable « quelle que soit la manière dont l'enfant tient la tablette »** (cahier § 11) | ⚠️ **Fonctionnalité à préciser** (voir D3). Déjà décidé : la caméra (arrière / avant) est fixée par atelier par l'enseignant, sans choix pour l'enfant. |
 | E6 | **✅ et ↻ distinguables sans la couleur** | ✅ Formes d'icônes différentes (coche / flèche), utile aussi pour les daltoniens. |
 | E7 | **Retour positif** | ✅ Coche animée 2 s, sobre (pas de récompense excessive). Son de réussite : amélioration facultative (`a-faire.md`). |
 | E8 | **Erreur de profil ou d'atelier** | ✅ Bouton retour à chaque écran, retour automatique après 1 min, photo non validée effacée. ⚠️ Une photo validée sous le mauvais prénom ne peut être que **supprimée** en V0 (la réattribution est prévue en V1). |
@@ -50,8 +50,8 @@
 | F8 | **Captures d'écran / aperçu des applis récentes** | ⚠️ L'aperçu des applis récentes peut montrer des photos d'enfants. Option : masquer l'aperçu (et interdire les captures) dans l'espace enseignant. À décider à l'étape 5. |
 | F9 | **Référentiel embarqué** | ✅ Simple fichier intégré à l'appli (≈ 100 Ko). |
 | F10 | **Fabrication de l'APK** | ✅ Automatique sur GitHub à chaque version. ⚠️ L'APK doit être **signée** avec une clé à conserver précieusement (sans elle, impossible de mettre à jour l'appli sans la désinstaller, donc sans tout effacer). |
-| F11 | **Installation sur la tablette** | 🔶 **Risque principal.** Les tablettes d'école sont souvent gérées par la mairie, l'académie ou un prestataire (MDM). Installer une APK hors Play Store peut y être **bloqué** ou demander l'accord du service informatique. **À vérifier avant de coder.** |
-| F12 | **Versions d'Android** | 🔶 Il faut connaître le **modèle de la tablette** (et sa version d'Android) pour fixer la version minimale supportée. Cible envisagée : Android 8 et plus. |
+| F11 | **Installation sur la tablette** | ⚠️ Décidé : APK en **sources inconnues** pour le test. **Risque principal**, à vérifier sur la tablette réelle : Les tablettes d'école sont souvent gérées par la mairie, l'académie ou un prestataire (MDM). Installer une APK hors Play Store peut y être **bloqué** ou demander l'accord du service informatique. **À vérifier avant de coder.** |
+| F12 | **Versions d'Android** | ✅ **Android 13 minimum** (décidé). Avantage : permissions photo modernes, épinglage d'écran et gestion du stockage privé homogènes. |
 | F13 | **Place disponible** | ✅ Sans réduction : ≈ 1 Go par an pour 28 élèves. Réduction des photos en amélioration. |
 
 ---
@@ -77,19 +77,17 @@
 - **Séparation des données** : les données pédagogiques et les données personnelles sont bien distinguées (`donnees.md` § 1).
 - **Mode B uniquement**, **robots / photo / prénom**, **1 min**, **5 min désactivable**, **coin haut droit** : identiques dans le périmètre, le parcours et la maquette.
 
-### 2.3 Écarts qui demandent ta décision
+### 2.3 Décisions prises
 
-| # | Écart | Recommandation |
+| # | Écart | Décision |
 |---|---|---|
-| D1 | **Domaine d'un atelier.** Le cahier des charges parle d'« un domaine » par atelier ; la maquette permet des compétences de plusieurs domaines (Kapla = maths + espace). | Autoriser plusieurs domaines (`donnees.md` Q3). |
-| D2 | **Historique des compétences.** Le cahier dit « ne pas dupliquer inutilement » ; si l'on modifie un atelier, les anciennes photos changeraient de compétences. | Garder une copie des compétences dans chaque trace (`donnees.md` Q4). |
-| D3 | **Un déclencheur de chaque côté** (E5). | Oui, écran bloqué en paysage. |
-| D4 | **Âge des utilisateurs.** Tu parles d'enfants « jusqu'à 9 ans ». Le référentiel ne couvre que la maternelle. | Préciser : la V0 vise la maternelle ; la sécurité est simplement pensée pour résister jusqu'à 9 ans (fratrie, élèves d'élémentaire de passage). |
-
----
+| D1 | Domaine d'un atelier : « un domaine » dans le cahier des charges, plusieurs dans la maquette. | **Plusieurs domaines autorisés** (choix multiple de compétences). |
+| D2 | Historique des compétences. | **Copie des compétences dans chaque trace.** |
+| D3 | Position du déclencheur. | **À préciser** : fonctionnalité à définir avec l'étape 5 et le test. Proposition de départ : un déclencheur de chaque côté, écran bloqué en paysage. |
+| D4 | Âge des utilisateurs. | La V0 vise la **maternelle** ; la sécurité (PIN, code de secours) est pensée pour résister jusqu'à 9 ans. |
 
 ## Récapitulatif : ce qu'il faut avant l'étape 5
 
-1. **Répondre aux décisions 🔶** : Q1 à Q4 (`donnees.md`), D1 à D4 ci-dessus.
-2. **Vérifier la tablette** : modèle, version d'Android, et surtout **si l'installation d'une APK est autorisée** (F11, F12). C'est le seul point qui peut bloquer le projet.
+1. ✅ Décisions Q1 à Q5 et D1, D2, D4 prises. D3 (déclencheur) sera précisé avec l'étape 5.
+2. **Vérifier sur la tablette réelle** (Android 13+) que l'installation d'une APK en sources inconnues est autorisée (F11).
 3. **Tester la maquette**, idéalement avec un ou deux élèves, en observant E3 (confusion de robots) et E5 (position du déclencheur).

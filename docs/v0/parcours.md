@@ -77,7 +77,8 @@ Exemple de référence : « Puzzle 12 pièces ».
 3. **Photographie le modèle** avec la tablette (↻ pour reprendre).
 4. **Choisit une ou plusieurs compétences** :
    domaine (*Premiers outils mathématiques*) → sous-domaine (*Explorer les solides et les formes planes*) → niveau (*MS*) → coche *« Je reproduis des modèles (puzzles, pavages) jusqu'à 5 éléments »*.
-   Le domaine de l'atelier découle des compétences choisies : rien d'autre à saisir.
+   Choix multiple possible, y compris dans plusieurs domaines. Le domaine de l'atelier découle des compétences choisies : rien d'autre à saisir.
+4 bis. **Choisit la caméra** utilisée par les enfants pour cet atelier : **arrière** (par défaut, pour photographier une production posée) ou **avant** (par exemple pour une posture ou un mime). Les enfants ne peuvent pas la changer.
 5. Enregistre. L'atelier est créé **inactif**.
 6. **Active** l'atelier (interrupteur sur sa carte). Il apparaît aussitôt côté enfants.
 
