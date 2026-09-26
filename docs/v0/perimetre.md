@@ -18,6 +18,7 @@ La V0 est un prototype : une seule tablette, une seule classe, quelques semaines
 | Fonction | Détail |
 |---|---|
 | Accueil | Grille des élèves : robot, photo ou prénom en grand. |
+| Mode libre | Carte violette **« Photo libre »** parmi les ateliers : l'enfant photographie ce qu'il veut. Les photos vont dans **Souvenirs**, sans compétence. Activable / désactivable par l'enseignant, caméra réglable. |
 | Choix de l'atelier | **Mode B uniquement** : l'enfant voit toujours les grandes cartes des ateliers actifs (photo modèle) et touche le sien, même s'il n'y a qu'un atelier actif. |
 | Prise de photo | Écran caméra plein écran, très gros bouton déclencheur. |
 | Vérification | La photo s'affiche, avec ✅ (garder) et ↻ (recommencer). Rien d'autre. |
@@ -39,6 +40,20 @@ La V0 est un prototype : une seule tablette, une seule classe, quelques semaines
 | Zone dangereuse | Supprimer un élève (et ses photos) ou **tout effacer** : encadré rouge, conséquences chiffrées, saisie de confirmation. |
 | Sauvegarder / restaurer | Bouton « Sauvegarder ma classe » : un seul fichier (photos + données) que l'enseignant copie lui-même (clé USB, ordinateur). Bouton « Restaurer » pour tout récupérer. Aucun envoi en ligne. |
 
+### Espace enseignant : pratique et simplifiant
+
+Principe : **le moins de gestes possible pour l'adulte**.
+
+| Raccourci | Détail |
+|---|---|
+| Ajouter plusieurs élèves | Un prénom par ligne ; un robot différent est attribué automatiquement. |
+| Valeurs par défaut | Robot attribué, caméra arrière, atelier inactif tant qu'on ne l'active pas. |
+| Enregistrer et activer | Un seul bouton pour créer un atelier et le rendre visible aux enfants. |
+| Dupliquer un atelier | Puzzle 6 → Puzzle 12 sans tout ressaisir (avancé depuis la V1 : le cahier des charges le juge important). |
+| Tout désactiver | Un geste en fin de séance. |
+| Avancement visible | Chaque carte d'atelier affiche « 5/12 élèves ». |
+| Caméra modifiable | À tout moment, dans la fiche de l'atelier. |
+
 ### Principes techniques non négociables (dès la V0)
 
 - Fonctionne **entièrement sans Internet**, sans compte.
@@ -55,7 +70,6 @@ La V0 est un prototype : une seule tablette, une seule classe, quelques semaines
 |---|---|
 | Mode A (atelier imposé, appareil photo direct) | V1 |
 | Groupes d'élèves, plusieurs classes | V1 |
-| Dupliquer un atelier | V1 |
 | Réattribuer une photo à un autre élève ou atelier | V1 |
 | Filtres (domaine, période…) | V1 |
 | Archivage des ateliers et des élèves | V1 (en V0 : désactiver un atelier suffit) |
@@ -73,6 +87,20 @@ Cinq éléments arrivent plus tôt que prévu, parce que le test en classe en a 
 3. **Référentiel embarqué** (bibliothèque prévue en V1). Il existe déjà (`references/`), et il évite la saisie libre.
 4. **Supprimer une photo** (prévu en V1). Le tri des photos revient à l'enseignant : une photo floue, prise par erreur ou montrant un autre enfant doit pouvoir disparaître. C'est aussi le minimum RGPD.
 5. **Sauvegarde / restauration locale** (prévue en V1). Les photos des enfants ne se refont pas.
+
+## Mode libre « Souvenirs » (analyse § 30 du cahier des charges)
+
+| | |
+|---|---|
+| **Objectif** | Laisser l'enfant photographier ce qu'il veut (une construction spontanée, un moment de classe) sans le rattacher à un atelier. |
+| **Utilisateur** | Élève (prise), enseignant (tri). |
+| **Parcours** | Robot → carte violette « Photo libre » → photo → ✅. Toujours 4 touchers. |
+| **Interface** | Une carte de plus, visuellement différente des ateliers (violette, appareil photo étoilé). |
+| **Données** | Trace sans atelier ni compétence, rangée dans **Souvenirs**. |
+| **Local / RGPD** | Rien ne sort. ⚠️ Risque accru de photos d'autres enfants : le tri par l'enseignant est d'autant plus important. |
+| **Priorité** | V0, **activable / désactivable** dans Réglages. |
+| **Risques** | Beaucoup de photos à trier ; enfants qui choisissent « libre » au lieu de leur atelier. Parade : l'enseignant désactive le mode libre pendant les séances d'ateliers. |
+| **Recommandation** | Une carte, une catégorie, un interrupteur. Plus tard (V1) : reclasser un souvenir dans un atelier. |
 
 ## Stockage et sauvegarde
 
@@ -109,4 +137,6 @@ La V0 est réussie si, sur quelques semaines d'essai :
 | 11 | Zone dangereuse pour les suppressions importantes, dont « Tout effacer ». |
 | 12 | Android 13 minimum. |
 | 13 | Distribution par APK en sources inconnues pour le test. |
-| 14 | Caméra (arrière / avant) choisie par atelier par l'enseignant ; non modifiable par les enfants. |
+| 14 | Caméra (arrière / avant) choisie par atelier par l'enseignant, modifiable à tout moment ; non modifiable par les enfants. |
+| 15 | Espace enseignant pensé pour simplifier la vie de l'adulte (raccourcis ci-dessus, dont la duplication d'atelier). |
+| 16 | **Mode libre « Souvenirs »** dans la V0, activable par l'enseignant. |

@@ -12,6 +12,7 @@ Les références institutionnelles sont dans `references/` : programme officiel 
 
 - **Phase actuelle : CONCEPTION.** Ne produire aucun code sauf demande explicite de l'utilisateur.
 - Simplicité avant tout. Question de référence : « Un enfant de 4-5 ans non lecteur peut-il comprendre cet écran ? »
+- Espace enseignant : tout doit être **logique, pratique et faire gagner du temps à l'adulte** (valeurs par défaut, raccourcis, pas de saisie inutile). Question de référence : « Est-ce le moins de gestes possible pour l'enseignant ? »
 - Local-first, offline-first, privacy by design : aucune donnée élève ni photo ne quitte la tablette sans action volontaire de l'enseignant. Pas de compte, cloud, sync, pub, analytics.
 - Photos stockées dans l'espace privé de l'app, jamais dans la galerie.
 - Séparer données pédagogiques (domaines, compétences, ateliers) et données personnelles (élèves, traces).

@@ -20,13 +20,17 @@ C'est le parcours le plus important. Objectif : **4 touchers**, sans lire.
 | 5a | **touche ✅** (toucher 4) | enregistre la trace (élève + atelier + date/heure), montre une coche animée ~2 s, revient à l'accueil. |
 | 5b | ou **touche ↻** | efface la photo non validée, revient à l'appareil photo (étape 3). |
 
+### Variante : mode libre
+
+Si l'enseignant a activé le mode libre, l'écran des ateliers montre une carte violette de plus, **« Photo libre »**. L'enfant la touche, photographie ce qu'il veut, valide : la photo va dans **Souvenirs** (sans compétence). Même nombre de touchers.
+
 ### Cas particuliers
 
 | Situation | Comportement |
 |---|---|
 | L'enfant s'est trompé de profil ou d'atelier | Gros bouton **retour** (flèche) sur les écrans 2, 3 et 4 : revient d'un écran en arrière. |
 | L'enfant part sans finir | Après **1 minute** sans action : retour à l'accueil. Une photo non validée est **effacée**, rien n'est enregistré. |
-| Aucun atelier actif | L'accueil affiche un grand pictogramme « pas d'atelier » (lune qui dort) et les élèves ne sont pas touchables. |
+| Aucun atelier actif et mode libre désactivé | L'accueil affiche un grand pictogramme « pas d'atelier » (lune qui dort) et les élèves ne sont pas touchables. |
 | L'enfant reprend une 2e photo du même atelier | Autorisé : toutes les photos validées sont gardées. Le tri revient à l'enseignant. |
 | L'enfant appuie sur les boutons Android (accueil, retour système, volet de notifications) | **Exigence vitale : l'enfant ne doit jamais pouvoir sortir de l'appli.** Solution technique à choisir à l'étape 5 (épinglage d'écran avec code, ou mode kiosque). |
 
@@ -56,7 +60,9 @@ Ce que l'enfant **ne voit jamais** : compétences, domaines, dates, réglages, b
 
 ### B3. Créer la classe (au début)
 
-Pour chaque élève :
+Raccourci : **« Ajouter plusieurs élèves »** → un prénom par ligne → chaque élève reçoit automatiquement un robot différent.
+
+Pour chaque élève (ou pour modifier ensuite) :
 1. **Classe** → « Ajouter un élève ».
 2. Tape le **prénom**.
 3. Choisit la représentation de l'élève sur l'accueil :
@@ -79,8 +85,8 @@ Exemple de référence : « Puzzle 12 pièces ».
    domaine (*Premiers outils mathématiques*) → sous-domaine (*Explorer les solides et les formes planes*) → niveau (*MS*) → coche *« Je reproduis des modèles (puzzles, pavages) jusqu'à 5 éléments »*.
    Choix multiple possible, y compris dans plusieurs domaines. Le domaine de l'atelier découle des compétences choisies : rien d'autre à saisir.
 4 bis. **Choisit la caméra** utilisée par les enfants pour cet atelier : **arrière** (par défaut, pour photographier une production posée) ou **avant** (par exemple pour une posture ou un mime). Les enfants ne peuvent pas la changer.
-5. Enregistre. L'atelier est créé **inactif**.
-6. **Active** l'atelier (interrupteur sur sa carte). Il apparaît aussitôt côté enfants.
+5. Touche **« Enregistrer et activer »** : l'atelier apparaît aussitôt côté enfants. (Ou « Enregistrer sans activer » pour le préparer à l'avance.)
+6. Plus tard, l'interrupteur sur la carte l'active ou le désactive ; **« Tout désactiver »** en fin de séance ; **« Dupliquer »** pour créer une variante (Puzzle 6 → Puzzle 12).
 
 Objectif : moins de 2 minutes.
 Désactiver : même interrupteur. L'atelier disparaît côté enfants ; ses photos restent.

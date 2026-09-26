@@ -18,7 +18,7 @@
 |---|---|---|
 | Classe | nom | Une seule classe en V0. |
 | Élève | identifiant, prénom, représentation (robot n°, photo, ou prénom en grand) | Pas de nom de famille, date de naissance, adresse ni contact parents. |
-| Trace | identifiant, photo, élève, atelier, date et heure, **copie des compétences au moment de la prise** | Modifier un atelier ne réécrit pas l'historique (Q4). |
+| Trace | identifiant, photo, élève, atelier **ou « Souvenirs »**, date et heure, **copie des compétences au moment de la prise** | Modifier un atelier ne réécrit pas l'historique (Q4). Un souvenir n'a pas de compétence. |
 
 ### C. Réglages et sécurité
 
@@ -27,6 +27,7 @@
 | Code PIN (4 chiffres) | Jamais en clair : seule une **empreinte** (hachage) est gardée. |
 | Code de secours | Idem, empreinte seulement. |
 | Fermeture automatique | oui / non |
+| Mode libre | activé / désactivé, caméra arrière / avant |
 | Date de la dernière sauvegarde | date |
 | Compteur d'essais PIN ratés | nombre + heure du blocage |
 

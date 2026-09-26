@@ -55,6 +55,11 @@ button:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid 
 .card:active{transform:scale(.97)}
 .card .pic{border-radius:1.6cqw;overflow:hidden;aspect-ratio:4/3;background:#C9A77C}
 .card .pic svg{width:100%;height:100%;display:block}
+/* carte Souvenirs (mode libre) */
+.card.free{background:#F3EBFF;box-shadow:0 .6cqw 0 #D5C2F5}
+.card.free .pic{background:#8B5CF6;display:grid;place-items:center}
+.card.free .pic svg{width:60%;height:60%}
+textarea{font:inherit;padding:.5em .7em;border:1px solid #C6CFDC;border-radius:.5em;max-width:28em;min-height:9em}
 .card .tt{font-size:1.3cqw;color:#8A94A6;text-align:left;padding-inline:.4cqw}
 .cards.n4 .card,.cards.n5 .card,.cards.n6 .card{width:20cqw}
 
@@ -233,7 +238,7 @@ table.who tr:first-child td{border-top:none}
         <h3>Côté enfant</h3>
         <ol>
           <li>Touchez un robot (par exemple Adem).</li>
-          <li>Touchez la carte d'un atelier.</li>
+          <li>Touchez la carte d'un atelier, ou la carte violette « Photo libre » (mode libre, Souvenirs).</li>
           <li>Touchez le gros bouton blanc pour prendre la photo.</li>
           <li>Touchez ✅ pour garder, ou ↻ pour recommencer.</li>
         </ol>
@@ -315,6 +320,9 @@ function scene(model, seed, live){
     let s=`<path d="M20 40 Q80 110 140 40" fill="none" stroke="#343A40" stroke-width="1.5"/>`;
     for(let k=0;k<11;k++){const t=k/10,x=20+120*t,y=40+2*(1-t)*t*70*1.0; s+=`<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="6.5" fill="${pal[(k%3===2)?1:0]}" stroke="#fff" stroke-width="1.5"/>`;}
     obj=s;
+  }else if(model==='free'){
+    const hue=seed?Math.floor(rnd(seed+3)*4):0, cols=['#FF6B6B','#FFD43B','#DA77F2','#4DABF7'];
+    obj=`<rect x="30" y="16" width="100" height="88" rx="3" fill="#FDFDFD"/><circle cx="110" cy="34" r="10" fill="#FFD43B"/><path d="M40 96 V66 L62 50 L84 66 V96 Z" fill="${cols[hue]}"/><rect x="56" y="78" width="12" height="18" fill="#fff"/><path d="M96 96 q4 -18 0 -30" stroke="#2F9E44" stroke-width="3" fill="none"/><circle cx="96" cy="62" r="7" fill="${cols[(hue+2)%4]}"/><circle cx="96" cy="62" r="3" fill="#FFD43B"/>`;
   }else if(model==='graph'){
     obj=`<rect x="28" y="14" width="104" height="92" rx="3" fill="#FDFDFD"/><g fill="none" stroke="#364FC7" stroke-width="2.4" stroke-linecap="round">`+
       [[56,40],[104,40],[56,82],[104,82]].map(([x,y])=>`<path d="M${x} ${y} m-2 0 a2 2 0 1 1 4 0 a6 6 0 1 1 -10 0 a10 10 0 1 1 18 0 a14 14 0 1 1 -26 0"/>`).join('')+`</g>`;
@@ -329,6 +337,7 @@ const ICON={
   back:`<svg viewBox="0 0 24 24"><path d="M15 4 L7 12 L15 20" fill="none" stroke="#1F2A44" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
   ok:`<svg viewBox="0 0 24 24"><path d="M4.5 12.5 L10 18 L19.5 6.5" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
   redo:`<svg viewBox="0 0 24 24"><path d="M19 12 a7 7 0 1 1 -2.1 -5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"/><path d="M18 3.5 V8 H13.5" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
+  free:`<svg viewBox="0 0 100 100"><rect x="14" y="30" width="72" height="52" rx="10" fill="#fff"/><rect x="36" y="22" width="28" height="12" rx="4" fill="#fff"/><circle cx="50" cy="56" r="17" fill="#8B5CF6"/><circle cx="50" cy="56" r="10" fill="#E9DDFF"/><path d="M80 10 l3 8 8 3 -8 3 -3 8 -3 -8 -8 -3 8 -3z" fill="#FFD43B"/><path d="M18 8 l2 5 5 2 -5 2 -2 5 -2 -5 -5 -2 5 -2z" fill="#FFD43B"/></svg>`,
   moon:`<svg viewBox="0 0 100 100"><circle cx="50" cy="50" r="42" fill="#FFE8A3"/><circle cx="66" cy="38" r="38" fill="#E9EFF7"/><path d="M28 56 q5 4 10 0 M44 66 q5 4 10 0" fill="none" stroke="#8A6D1F" stroke-width="3" stroke-linecap="round"/><text x="70" y="26" font-size="12" fill="#5C7CFA" font-family="Fredoka,sans-serif" font-weight="700">z</text><text x="80" y="16" font-size="9" fill="#5C7CFA" font-family="Fredoka,sans-serif" font-weight="700">z</text></svg>`
 };
 function esc(t){return String(t).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));}
@@ -345,8 +354,8 @@ function freshState(){
     {id:'a4',title:'Spirales',model:'graph',comps:['ART-GRA-MS-02'],active:false},
   ];
   const T=(sid,aid,d,s)=>({id:'t'+Math.random().toString(36).slice(2,8),sid,aid,ts:now-d*day,seed:s});
-  const traces=[T('e0','a1',3,11),T('e1','a1',2,12),T('e3','a1',2,13),T('e3','a1',1,14),T('e7','a1',1,15),T('e5','a2',4,16),T('e7','a2',1,17),T('e9','a3',0.2,18)];
-  return {className:'MS-GS Mme Martin 2026-2027',pin:'1234',rescue:'K7PM-4XRT-9HWB',fails:0,lockUntil:0,autoClose:true,lastBackup:now-12*day,students,ateliers,traces};
+  const traces=[T('e6','free',1,21),T('e0','a1',3,11),T('e1','a1',2,12),T('e3','a1',2,13),T('e3','a1',1,14),T('e7','a1',1,15),T('e5','a2',4,16),T('e7','a2',1,17),T('e9','a3',0.2,18)];
+  return {className:'MS-GS Mme Martin 2026-2027',pin:'1234',rescue:'K7PM-4XRT-9HWB',fails:0,lockUntil:0,autoClose:true,freeMode:true,freeCam:'arriere',lastBackup:now-12*day,students,ateliers,traces};
 }
 let S=freshState();
 let V={name:'home'}; // vue courante
@@ -372,17 +381,19 @@ function render(){
   status();
 }
 const kidById=id=>S.students.find(s=>s.id===id);
-const atById=id=>S.ateliers.find(a=>a.id===id);
+const FREE={id:'free',title:'Souvenirs',model:'free',comps:[],active:true};
+const atById=id=>id==='free'?{...FREE,cam:S.freeCam}:S.ateliers.find(a=>a.id===id);
+const canPlay=()=>S.ateliers.some(a=>a.active)||S.freeMode;
 
 function vHome(){
-  const act=S.ateliers.filter(a=>a.active).length;
+  const act=canPlay();
   const cards=S.students.map(s=>`<button type="button" class="kid" data-act="kid" data-id="${s.id}" ${act?'':'disabled'} aria-label="${esc(s.name)}">${rep(s)}${s.kind==='name'?'':`<span class="nm">${esc(s.name)}</span>`}</button>`).join('');
   return `<div class="view home"><div class="grid">${cards}</div>${act?'':`<div class="moon">${ICON.moon}</div>`}<button type="button" class="corner" id="corner" aria-label="Espace enseignant (appui long)"><span class="ring"></span></button></div>`;
 }
 function vChoose(){
   const s=kidById(V.sid), list=S.ateliers.filter(a=>a.active);
   return `<div class="view choose"><div class="kbar"><button type="button" class="back" data-act="home" aria-label="Retour">${ICON.back}</button><div class="me">${rep(s)}</div></div>
-  <div class="cards n${list.length}">${list.map(a=>`<button type="button" class="card" data-act="pick" data-id="${a.id}" aria-label="${esc(a.title)}"><div class="pic">${scene(a.model,0)}</div><span class="tt">${esc(a.title)}</span></button>`).join('')}</div></div>`;
+  <div class="cards n${list.length+(S.freeMode?1:0)}">${list.map(a=>`<button type="button" class="card" data-act="pick" data-id="${a.id}" aria-label="${esc(a.title)}"><div class="pic">${scene(a.model,0)}</div><span class="tt">${esc(a.title)}</span></button>`).join('')}${S.freeMode?`<button type="button" class="card free" data-act="pick" data-id="free" aria-label="Photo libre (souvenirs)"><div class="pic">${ICON.free}</div><span class="tt">Photo libre · Souvenirs</span></button>`:''}</div></div>`;
 }
 function vCamera(){
   const a=atById(V.aid);
@@ -433,6 +444,7 @@ function vTeach(){
   if(V.name==='t-photo') body=tPhoto();
   else if(V.name==='t-edit-kid') body=tEditKid();
   else if(V.name==='t-edit-at') body=tEditAt();
+  else if(V.name==='t-bulk') body=tBulk();
   else if(tab==='classe') body=tClasse();
   else if(tab==='ateliers') body=tAteliers();
   else if(tab==='photos') body=tPhotos();
@@ -441,7 +453,7 @@ function vTeach(){
 }
 const count=(sid,aid)=>S.traces.filter(t=>(!sid||t.sid===sid)&&(!aid||t.aid===aid)).length;
 function tClasse(){
-  return `<div class="row"><h2 class="h">Élèves (${S.students.length})</h2><button type="button" class="btn primary" data-act="new-kid">+ Ajouter un élève</button></div>
+  return `<div class="row"><h2 class="h">Élèves (${S.students.length})</h2><button type="button" class="btn primary" data-act="new-kid">+ Ajouter un élève</button><button type="button" class="btn" data-act="bulk-kids">+ Ajouter plusieurs élèves</button></div>
   <div class="list">${S.students.map(s=>`<div class="item"><span class="rep">${rep(s)}</span><div class="grow"><div class="nm">${esc(s.name)}</div><div class="meta">${count(s.id)} photo${count(s.id)>1?'s':''} · ${s.kind==='robot'?'robot':s.kind==='photo'?'photo':'prénom en grand'}</div></div><button type="button" class="btn sm" data-act="edit-kid" data-id="${s.id}">Modifier</button></div>`).join('')}</div>`;
 }
 function tEditKid(){
@@ -455,6 +467,10 @@ function tEditKid(){
   ${k.kind==='name'?`<p class="sub">Le prénom s'affichera en grandes lettres sur l'accueil.</p>`:''}
   <div class="row"><button type="button" class="btn primary" data-act="save-kid">Enregistrer</button></div></div>
   ${k.id?dangerKid(k):''}`;
+}
+function tBulk(){
+  return `<div class="row"><button type="button" class="btn" data-act="tab" data-tab="classe">← Classe</button><h2 class="h">Ajouter plusieurs élèves</h2></div>
+  <div class="form"><label>Un prénom par ligne<textarea id="bulk-in" placeholder="Adem&#10;Amir&#10;Assia"></textarea></label><p class="sub">Chaque élève reçoit automatiquement un robot différent. Vous pourrez ensuite changer le robot, mettre une photo ou le prénom en grand.</p><div class="row"><button type="button" class="btn primary" data-act="bulk-save">Ajouter</button></div></div>`;
 }
 function lastBk(){const d=Math.round((Date.now()-S.lastBackup)/864e5);return d===0?"aujourd'hui":`il y a ${d} jour${d>1?'s':''}`;}
 function dangerKid(k){
@@ -471,9 +487,10 @@ function dangerAt(a){
 }
 function domainsOf(a){return [...new Set(a.comps.map(c=>c.split('-')[0]))];}
 function tAteliers(){
-  return `<div class="row"><h2 class="h">Ateliers</h2><span class="sub">${S.ateliers.filter(a=>a.active).length} actif(s) côté enfants</span><button type="button" class="btn primary" data-act="new-at">+ Nouvel atelier</button></div>
-  <div class="acards">${S.ateliers.map(a=>`<div class="acard ${a.active?'':'off'}"><div class="pic">${scene(a.model,0)}</div><div class="in"><b>${esc(a.title)}</b><div>${domainsOf(a).map(d=>`<span class="tag">${esc(DOMS[d])}</span>`).join(' ')}</div><span class="sub">${a.comps.length} compétence${a.comps.length>1?'s':''} · ${count(null,a.id)} photo${count(null,a.id)>1?'s':''} · caméra ${a.cam==='avant'?'avant':'arrière'}</span>
-  <div class="row"><button type="button" class="switch ${a.active?'on':''}" data-act="toggle" data-id="${a.id}" role="switch" aria-checked="${a.active}"><i></i>${a.active?'Actif':'Inactif'}</button><button type="button" class="btn sm" data-act="edit-at" data-id="${a.id}">Modifier</button></div></div></div>`).join('')}</div>`;
+  const na=S.ateliers.filter(a=>a.active).length;
+  return `<div class="row"><h2 class="h">Ateliers</h2><span class="sub">${na} actif${na>1?'s':''} côté enfants${na>6?' · au-delà de 6, les cartes deviennent petites pour les enfants':''}</span><button type="button" class="btn primary" data-act="new-at">+ Nouvel atelier</button>${na?`<button type="button" class="btn" data-act="all-off">Tout désactiver</button>`:''}</div>
+  <div class="acards">${S.ateliers.map(a=>`<div class="acard ${a.active?'':'off'}"><div class="pic">${scene(a.model,0)}</div><div class="in"><b>${esc(a.title)}</b><div>${domainsOf(a).map(d=>`<span class="tag">${esc(DOMS[d])}</span>`).join(' ')}</div><span class="sub"><b>${S.students.filter(s=>count(s.id,a.id)).length}/${S.students.length} élèves</b> · ${a.comps.length} compétence${a.comps.length>1?'s':''} · caméra ${a.cam==='avant'?'avant':'arrière'}</span>
+  <div class="row"><button type="button" class="switch ${a.active?'on':''}" data-act="toggle" data-id="${a.id}" role="switch" aria-checked="${a.active}"><i></i>${a.active?'Actif':'Inactif'}</button><button type="button" class="btn sm" data-act="edit-at" data-id="${a.id}">Modifier</button><button type="button" class="btn sm" data-act="dup-at" data-id="${a.id}">Dupliquer</button></div></div></div>`).join('')}</div>`;
 }
 function tEditAt(){
   const a=V.draft, p=V.pick||{};
@@ -493,7 +510,7 @@ function tEditAt(){
      <p class="sub" style="margin-top:.4em">Choix multiple possible, y compris dans plusieurs domaines.</p>
    </div>
    <div><b>Caméra utilisée par les enfants</b> <span class="sub">(les enfants ne peuvent pas la changer)</span><div class="chips" style="margin-top:.4em">${[['arriere','Caméra arrière (production posée)'],['avant','Caméra avant (posture, mime)']].map(([v,l])=>`<button type="button" class="chip ${(a.cam||'arriere')===v?'on':''}" data-act="cam" data-v="${v}">${l}</button>`).join('')}</div></div>
-   <div class="row"><button type="button" class="btn primary" data-act="save-at">Enregistrer</button><span class="sub">${a.id?'':'Un nouvel atelier est créé inactif.'}</span></div>
+   <div class="row"><button type="button" class="btn primary" data-act="save-at" data-on="1">${a.active?'Enregistrer':'Enregistrer et activer'}</button>${a.active?'':`<button type="button" class="btn" data-act="save-at">Enregistrer sans activer</button>`}</div>
   </div>
   ${a.id?dangerAt(a):''}`;
 }
@@ -502,10 +519,10 @@ function tPhotos(){
   let h=`<div class="row"><h2 class="h">Photos</h2><div class="chips"><button type="button" class="chip ${mode==='atelier'?'on':''}" data-act="pmode" data-v="atelier">Par atelier</button><button type="button" class="chip ${mode==='eleve'?'on':''}" data-act="pmode" data-v="eleve">Par élève</button></div></div>`;
   if(mode==='atelier'){
     const aid=V.paid||S.ateliers[0]?.id, a=atById(aid);
-    h+=`<div class="chips">${S.ateliers.map(x=>`<button type="button" class="chip ${x.id===aid?'on':''}" data-act="paid" data-v="${x.id}">${esc(x.title)}</button>`).join('')}</div>`;
+    h+=`<div class="chips">${S.ateliers.map(x=>`<button type="button" class="chip ${x.id===aid?'on':''}" data-act="paid" data-v="${x.id}">${esc(x.title)}</button>`).join('')}<button type="button" class="chip ${aid==='free'?'on':''}" data-act="paid" data-v="free">★ Souvenirs (${count(null,'free')})</button></div>`;
     if(a){
       const done=S.students.filter(s=>count(s.id,aid)).length;
-      h+=`<p class="sub">${done} élève${done>1?'s':''} sur ${S.students.length} ont une trace pour « ${esc(a.title)} ».</p><table class="who">${S.students.map(s=>{const ts=S.traces.filter(t=>t.sid===s.id&&t.aid===aid);
+      h+=`<p class="sub">${aid==='free'?'Photos libres prises par les élèves (sans compétence). À trier : garder ou supprimer.':`${done} élève${done>1?'s':''} sur ${S.students.length} ont une trace pour « ${esc(a.title)} ».`}</p><table class="who">${S.students.map(s=>{const ts=S.traces.filter(t=>t.sid===s.id&&t.aid===aid);
         return `<tr><td style="width:3em"><span class="mini">${rep(s)}</span></td><td><b>${esc(s.name)}</b></td><td>${ts.length?`<span class="ok-mark">✓</span>`:`<span class="no-mark">—</span>`}</td><td><div class="thumbs">${ts.map(t=>`<button type="button" class="thumb" data-act="open" data-id="${t.id}" aria-label="Voir la photo">${scene(a.model,t.seed)}</button>`).join('')}${ts.length>1?`<span class="sub">${ts.length} photos</span>`:''}</div></td></tr>`}).join('')}</table>`;
     }
   }else{
@@ -524,12 +541,13 @@ function tPhoto(){
   const t=S.traces.find(x=>x.id===V.tid); if(!t) return '';
   const a=atById(t.aid), s=kidById(t.sid);
   return `<div class="row"><button type="button" class="btn" data-act="tab" data-tab="photos">← Photos</button></div>
-  <div class="bigphoto"><div class="shotbox">${scene(a.model,t.seed)}</div><dl><dt>Élève</dt><dd>${esc(s.name)}</dd><dt>Atelier</dt><dd>${esc(a.title)}</dd><dt>Domaine</dt><dd>${domainsOf(a).map(d=>esc(DOMS[d])).join(', ')}</dd><dt>Compétences</dt><dd>${a.comps.map(c=>`${esc(COMPS[c])} <code>${c}</code>`).join('<br>')}</dd><dt>Date</dt><dd>${fmt(t.ts)}</dd><dt></dt><dd><button type="button" class="btn danger" data-act="del-photo">Supprimer la photo</button></dd></dl></div>`;
+  <div class="bigphoto"><div class="shotbox">${scene(a.model,t.seed)}</div><dl><dt>Élève</dt><dd>${esc(s.name)}</dd><dt>Atelier</dt><dd>${a.id==='free'?'★ Souvenirs (photo libre)':esc(a.title)}</dd>${a.id==='free'?'':`<dt>Domaine</dt><dd>${domainsOf(a).map(d=>esc(DOMS[d])).join(', ')}</dd><dt>Compétences</dt><dd>${(t.comps||a.comps).map(c=>`${esc(COMPS[c])} <code>${c}</code>`).join('<br>')}</dd>`}<dt>Date</dt><dd>${fmt(t.ts)}</dd><dt></dt><dd><button type="button" class="btn danger" data-act="del-photo">Supprimer la photo</button></dd></dl></div>`;
 }
 function tReglages(){
   const days=Math.round((Date.now()-S.lastBackup)/864e5);
   return `<h2 class="h">Réglages</h2>
   <div class="setting"><div class="grow"><b>Nom de la classe</b><div class="sub">En-tête des extractions et nom des sauvegardes.</div></div><input type="text" id="cls-name" value="${esc(S.className)}" style="font:inherit;padding:.4em .6em;border:1px solid #C6CFDC;border-radius:.5em"><button type="button" class="btn sm" data-act="save-cls">Enregistrer</button></div>
+  <div class="setting"><div class="grow"><b>Mode libre (Souvenirs)</b><div class="sub">Ajoute une carte « Photo libre » pour les enfants. Les photos vont dans Photos → Souvenirs, sans compétence. Caméra :</div><div class="chips" style="margin-top:.3em">${[['arriere','arrière'],['avant','avant']].map(([v,l])=>`<button type="button" class="chip ${S.freeCam===v?'on':''}" data-act="free-cam" data-v="${v}">${l}</button>`).join('')}</div></div><button type="button" class="switch ${S.freeMode?'on':''}" data-act="free-mode" role="switch" aria-checked="${S.freeMode}"><i></i>${S.freeMode?'Activé':'Désactivé'}</button></div>
   <div class="setting"><div class="grow"><b>Fermeture automatique de l'espace enseignant</b><div class="sub">Retour au mode élève après 5 minutes sans action.</div></div><button type="button" class="switch ${S.autoClose?'on':''}" data-act="autoclose" role="switch" aria-checked="${S.autoClose}"><i></i>${S.autoClose?'Activée':'Désactivée'}</button></div>
   <div class="setting"><div class="grow"><b>Sauvegarde</b><div class="sub">Dernière sauvegarde : ${days===0?"aujourd'hui":`il y a ${days} jour${days>1?'s':''}`}. Foteli ne sauvegarde jamais tout seul.</div></div><button type="button" class="btn primary" data-act="backup">Sauvegarder ma classe</button><button type="button" class="btn" data-act="restore">Restaurer une sauvegarde</button></div>
   <div class="danger-zone"><h3>⚠️ Zone dangereuse</h3><p><b>Tout effacer</b> supprime toute la classe : <b>${S.students.length} élève${S.students.length>1?'s':''}</b>, <b>${S.ateliers.length} atelier${S.ateliers.length>1?'s':''}</b>, <b>${S.traces.length} photo${S.traces.length>1?'s':''}</b>. Rien ne pourra être récupéré sans sauvegarde. Dernière sauvegarde : ${lastBk()}.</p>
@@ -561,7 +579,7 @@ screen.addEventListener('click',e=>{
     case 'back-choose': go({name:'choose',sid:V.sid});break;
     case 'shoot': { const f=$('#flash'); if(f){f.classList.add('go');} setTimeout(()=>go({name:'preview',sid:V.sid,aid:V.aid,seed:Math.floor(Math.random()*1000)+20}),250); break; }
     case 'redo': go({name:'camera',sid:V.sid,aid:V.aid});break;
-    case 'keep': S.traces.push({id:'t'+Math.random().toString(36).slice(2,8),sid:V.sid,aid:V.aid,ts:Date.now(),seed:V.seed}); go({name:'done'}); setTimeout(()=>{if(V.name==='done') go({name:'home'});},2000); break;
+    case 'keep': S.traces.push({id:'t'+Math.random().toString(36).slice(2,8),sid:V.sid,aid:V.aid,ts:Date.now(),seed:V.seed,comps:[...atById(V.aid).comps]}); go({name:'done'}); setTimeout(()=>{if(V.name==='done') go({name:'home'});},2000); break;
     case 'digit': pinDigit(b.dataset.d);break;
     case 'del': V.code=(V.code||'').slice(0,-1);V.bad=false;render();break;
     case 'setup-next': go({name:b.dataset.to});break;
@@ -580,6 +598,12 @@ screen.addEventListener('click',e=>{
       go({name:'t',tab:'classe'}); break; }
     case 'del-kid': { const s=kidById(V.draft.id); S.students=S.students.filter(x=>x.id!==s.id);S.traces=S.traces.filter(t=>t.sid!==s.id);go({name:'t',tab:'classe'}); break; }
     case 'wipe': { if($('#wipe-pin').value!==S.pin){$('#wipe-msg').textContent='Code PIN incorrect.';break;} S.students=[];S.ateliers=[];S.traces=[];go({name:'t',tab:'classe'}); break; }
+    case 'free-mode': S.freeMode=!S.freeMode; render(); break;
+    case 'free-cam': S.freeCam=b.dataset.v; render(); break;
+    case 'all-off': S.ateliers.forEach(a=>a.active=false); render(); break;
+    case 'dup-at': { const a=atById(id); const c={...a,comps:[...a.comps],id:null,title:a.title+' (copie)',active:false}; const f=c.comps[0]||''; go({name:'t-edit-at',tab:'ateliers',draft:c,pick:f?{d:f.split('-')[0],s:f.split('-').slice(0,2).join('-'),n:f.split('-')[2]}:{}}); break; }
+    case 'bulk-kids': go({name:'t-bulk',tab:'classe'}); break;
+    case 'bulk-save': { const names=$('#bulk-in').value.split('\n').map(x=>x.trim()).filter(Boolean); const used=new Set(S.students.map(s=>s.robot)); names.forEach((n,k)=>{let r=0; while(used.has(r)&&r<36) r++; used.add(r); S.students.push({id:'e'+Date.now()+k,name:n,kind:'robot',robot:r});}); go({name:'t',tab:'classe'}); break; }
     case 'toggle': { const a=atById(id); a.active=!a.active; render(); break; }
     case 'new-at': go({name:'t-edit-at',tab:'ateliers',draft:{id:null,title:'',model:'puzzle',comps:[],active:false,cam:'arriere'},pick:{}});break;
     case 'edit-at': { const a=atById(id); const c=a.comps[0]||''; go({name:'t-edit-at',tab:'ateliers',draft:{...a,comps:[...a.comps]},pick:c?{d:c.split('-')[0],s:c.split('-').slice(0,2).join('-'),n:c.split('-')[2]}:{}}); break; }
@@ -591,7 +615,8 @@ screen.addEventListener('click',e=>{
     case 'pn': keepAtTitle(); V.pick={...V.pick,n:b.dataset.v}; render();break;
     case 'rm-comp': keepAtTitle(); V.draft.comps=V.draft.comps.filter(c=>c!==b.dataset.c); render();break;
     case 'save-at': { keepAtTitle(); const d=V.draft; if(!d.title.trim()){$('#at-title').focus();break;} if(!d.comps.length){confirmBox('Choisissez au moins une compétence pour cet atelier.','OK',false,()=>{V.modal=null;render();});break;}
-      if(d.id) Object.assign(atById(d.id),d); else S.ateliers.push({...d,id:'a'+Date.now(),active:false});
+      if(b.dataset.on) d.active=true;
+      if(d.id) Object.assign(atById(d.id),d); else S.ateliers.push({...d,id:'a'+Date.now()});
       go({name:'t',tab:'ateliers'}); break; }
     case 'pmode': go({name:'t',tab:'photos',pmode:b.dataset.v,paid:V.paid,psid:V.psid});break;
     case 'paid': go({name:'t',tab:'photos',pmode:'atelier',paid:b.dataset.v,psid:V.psid});break;
@@ -647,7 +672,7 @@ const KID=['choose','camera','preview'];
 function status(){
   const el=$('#status'); const idle=(Date.now()-last)/1000; let t;
   if(KID.includes(V.name)) t=`Parcours enfant en cours. Retour automatique à l'accueil dans <b>${Math.max(0,60-Math.floor(idle))} s</b> sans action.`;
-  else if(V.name==='home') t=S.ateliers.some(a=>a.active)?'Accueil enfant.':'Accueil enfant : aucun atelier actif, la lune s\'affiche.';
+  else if(V.name==='home') t=canPlay()?'Accueil enfant.':'Accueil enfant : aucun atelier actif et mode libre désactivé, la lune s\'affiche.';
   else if(V.name==='done') t='Photo enregistrée. Retour à l\'accueil.';
   else if(V.name==='pin') t='Code enseignant de la maquette : 1234. 5 codes faux = blocage 1 min.';
   else if(V.name==='rescue') t=`Code de secours de la maquette : <b>${S.rescue}</b>`;
