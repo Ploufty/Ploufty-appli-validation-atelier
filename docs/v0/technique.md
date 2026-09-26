@@ -1,7 +1,7 @@
 # V0 — Technique
 
 > Étape 5 sur 5 (périmètre → parcours → écrans → données → **technique**).
-> Statut : **à valider**. Les points marqués 🔶 attendent une décision.
+> Statut : **validé**.
 > Aucun code ici : ce document décrit les choix, pour que le développement démarre sans surprise.
 
 ## 1. Les briques retenues
@@ -26,7 +26,7 @@
 3. La tablette est verrouillée sur Foteli :
    - boutons Accueil et Applis récentes inactifs ;
    - volet de notifications bloqué ;
-   - l'écran reste allumé pendant le mode classe (🔶 option).
+   - l'écran reste allumé pendant le mode classe (option activée par défaut).
 4. Pour en sortir : espace enseignant (appui long + PIN) → **« Quitter le mode classe »**.
 
 Si un enfant tente la manœuvre système pour désépingler (maintenir deux boutons ou un geste précis), Android **demande le code de verrouillage de la tablette**. Il faut pour cela :
@@ -57,7 +57,7 @@ Foteli devient le « propriétaire » de la tablette : aucune sortie possible, a
 | **Pas de permission Internet** | Android interdit toute connexion à l'appli. Vérifiable par n'importe qui dans les informations de l'appli. |
 | **Sauvegarde automatique Android désactivée** | Aucune copie des données vers le compte Google de la tablette. |
 | **Chiffrement de la tablette** | Android 13 chiffre déjà les données des applis quand la tablette est verrouillée : pas besoin d'un chiffrement supplémentaire de la base en V0. |
-| **Écran protégé** 🔶 | Captures d'écran interdites et aperçu masqué dans les applis récentes, pour que les photos d'enfants n'apparaissent nulle part ailleurs. |
+| **Écran protégé** | Captures d'écran interdites et aperçu masqué dans les applis récentes, pour que les photos d'enfants n'apparaissent nulle part ailleurs. |
 | **PIN, code de secours** | Seule une empreinte est stockée ; blocage progressif après 5 essais. |
 | **Mot de passe de sauvegarde** | Conservé dans le coffre-fort de clés d'Android. |
 | **Sauvegarde** | ZIP chiffré AES-256 (`donnees.md` § 6), écrit uniquement où l'enseignant le choisit (sélecteur Android). |
@@ -91,11 +91,10 @@ Cet environnement de travail ne peut pas télécharger les outils Android : l'AP
 
 ### Le repo
 
-🔶 Le repo `Ploufty-appli-validation-atelier` est **public**.
+Le repo `Ploufty-appli-validation-atelier` est **public**, **tous droits réservés** (décision T4).
 - **Aucune donnée d'élève n'y sera jamais** : il ne contient que le code, les documents et le référentiel.
 - Un repo public facilite un futur partage (forge des communs, F-Droid).
-- Il faudra alors choisir une **licence libre**.
-- S'il doit rester privé pour l'instant, on peut le basculer dans les réglages GitHub.
+- Public ne veut pas dire libre : sans licence libre, personne n'a le droit de réutiliser le code ou les documents. Une licence libre pourra être choisie plus tard.
 
 ## 6. Découpage en versions installables
 
@@ -120,12 +119,12 @@ Chaque version produit une APK que tu installes et testes sur la tablette. On ne
   - l'absence de permission Internet dans l'APK.
 - **Manuelles** (sur ta tablette) : une courte liste de contrôle fournie avec chaque version.
 
-## 8. Décisions à prendre (🔶)
+## 8. Décisions
 
-| # | Question | Recommandation |
-|---|---|---|
-| T1 | Verrouillage V0 par **épinglage d'écran** (mode classe), kiosque complet seulement si besoin ? | **Oui.** |
-| T2 | **Écran toujours allumé** pendant le mode classe (sinon la tablette se met en veille et demande son code) ? | **Oui, en option activée par défaut.** |
-| T3 | **Écran protégé** (pas de captures, aperçu masqué) dans toute l'appli ? | **Oui.** |
-| T4 | **Repo public** (code et documents seulement) avec une licence libre à choisir plus tard, ou repo privé ? | Public, puisque rien de personnel n'y est ; à toi de voir. |
-| T5 | Clé de signature : créée par GitHub, stockée en secret, **copie hors ligne gardée par toi** ? | **Oui.** |
+| # | Décision |
+|---|---|
+| T1 | Verrouillage V0 par **épinglage d'écran** (« mode classe ») ; kiosque complet seulement si besoin. |
+| T2 | **Écran toujours allumé** pendant le mode classe (option, activée par défaut). |
+| T3 | **Écran protégé** dans toute l'appli : pas de captures, aperçu masqué. |
+| T4 | Repo **public**, **tous droits réservés** pour l'instant (fichier `LICENSE`). Une licence libre pourra être choisie plus tard. |
+| T5 | Clé de signature stockée dans les secrets GitHub, **copie hors ligne gardée par l'enseignant**. |
