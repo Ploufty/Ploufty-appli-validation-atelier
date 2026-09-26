@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Icône provisoire : un robot (en attendant la direction artistique, docs/a-faire.md). -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- antenne -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M52.5,30h3v9h-3z" />
+    <path
+        android:fillColor="#FFC53D"
+        android:pathData="M54,24m-4.5,0a4.5,4.5 0,1 1,9 0a4.5,4.5 0,1 1,-9 0" />
+    <!-- tête -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M40,39h28a8,8 0,0 1,8 8v20a8,8 0,0 1,-8 8h-28a8,8 0,0 1,-8 -8v-20a8,8 0,0 1,8 -8z" />
+    <!-- yeux -->
+    <path
+        android:fillColor="#1F2A44"
+        android:pathData="M45,55m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0" />
+    <path
+        android:fillColor="#1F2A44"
+        android:pathData="M63,55m-5,0a5,5 0,1 1,10 0a5,5 0,1 1,-10 0" />
+    <!-- bouche -->
+    <path
+        android:fillColor="#1F2A44"
+        android:pathData="M46,65h16a2,2 0,0 1,0 4h-16a2,2 0,0 1,0 -4z" />
+</vector>

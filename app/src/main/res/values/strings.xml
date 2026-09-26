@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Foteli</string>
+    <string name="welcome_version">Version %1$s · test d’installation</string>
+    <string name="welcome_text">Foteli est bien installé sur cette tablette. Cette version ne contient encore aucune fonction : elle sert à vérifier l’installation et les protections.</string>
+    <string name="checks_title">Vérifications</string>
+    <string name="check_installed">Installation réussie</string>
+    <string name="check_no_internet">Aucun accès à Internet (permission absente)</string>
+    <string name="check_no_cloud_backup">Pas de copie automatique vers le compte Google</string>
+    <string name="check_screenshots_blocked">Captures d’écran bloquées</string>
+    <string name="check_screenshots_test">Captures d’écran autorisées (version de test pour les aperçus)</string>
+    <string name="device_info">Tablette : %1$s · Android %2$s (API %3$d) · écran %4$d × %5$d dp</string>
+    <string name="next_version">Prochaine version : 0.2 · la classe et les élèves</string>
+</resources>

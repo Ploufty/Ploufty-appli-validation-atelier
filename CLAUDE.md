@@ -10,7 +10,9 @@ Les références institutionnelles sont dans `references/` : programme officiel 
 
 ## Règles essentielles
 
-- **Phase actuelle : CONCEPTION.** Ne produire aucun code sauf demande explicite de l'utilisateur.
+- **Phase actuelle : DÉVELOPPEMENT de la V0** (validé par l'utilisateur), version par version selon `docs/v0/technique.md` § 6. Ne pas sauter d'étape : une version installable et testée avant la suivante.
+- Build : impossible dans l'environnement cloud (outils Android bloqués) ; l'APK est fabriquée par GitHub Actions (`.github/workflows/android.yml`). Vérifier le résultat de la CI après chaque envoi.
+- Jamais de clé de signature ni de donnée d'élève dans le dépôt.
 - Simplicité avant tout. Question de référence : « Un enfant de 4-5 ans non lecteur peut-il comprendre cet écran ? »
 - Espace enseignant : tout doit être **logique, pratique et faire gagner du temps à l'adulte** (valeurs par défaut, raccourcis, pas de saisie inutile). Question de référence : « Est-ce le moins de gestes possible pour l'enseignant ? »
 - Local-first, offline-first, privacy by design : aucune donnée élève ni photo ne quitte la tablette sans action volontaire de l'enseignant. Pas de compte, cloud, sync, pub, analytics.

@@ -1,0 +1,111 @@
+# Fabrique l'APK de Foteli à chaque envoi de code (docs/v0/technique.md § 5).
+name: APK Foteli
+
+on:
+  push:
+    branches: ["**"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Fabriquer et vérifier l'APK
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Préparer la clé de signature (si elle est configurée)
+        env:
+          KEYSTORE_BASE64: ${{ secrets.FOTELI_KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            echo "$KEYSTORE_BASE64" | base64 --decode > "$RUNNER_TEMP/foteli-release.p12"
+            echo "FOTELI_KEYSTORE_FILE=$RUNNER_TEMP/foteli-release.p12" >> "$GITHUB_ENV"
+            echo "SIGNED=signee" >> "$GITHUB_ENV"
+          else
+            echo "::warning::Aucune clé de signature configurée : APK de test, non mettable à jour par une version signée."
+            echo "SIGNED=test" >> "$GITHUB_ENV"
+          fi
+
+      - name: Compiler (version finale + version d'aperçu)
+        env:
+          FOTELI_KEYSTORE_PASSWORD: ${{ secrets.FOTELI_KEYSTORE_PASSWORD }}
+          FOTELI_KEY_ALIAS: ${{ secrets.FOTELI_KEY_ALIAS }}
+          FOTELI_KEY_PASSWORD: ${{ secrets.FOTELI_KEY_PASSWORD }}
+        run: ./gradlew --no-daemon assembleRelease assembleDebug
+
+      - name: Vérifier l'absence de permission Internet
+        run: |
+          AAPT2="$(ls -d "$ANDROID_HOME"/build-tools/*/ | sort -V | tail -1)aapt2"
+          APK=app/build/outputs/apk/release/app-release.apk
+          "$AAPT2" dump permissions "$APK"
+          if "$AAPT2" dump permissions "$APK" | grep -q "android.permission.INTERNET"; then
+            echo "::error::L'APK demande la permission Internet : c'est interdit (docs/v0/technique.md § 4)."
+            exit 1
+          fi
+          echo "OK : aucune permission Internet."
+
+      - name: Nommer les APK
+        run: |
+          VERSION=$(grep -oP 'versionName = "\K[^"]+' app/build.gradle.kts)
+          mkdir -p out
+          cp app/build/outputs/apk/release/app-release.apk "out/foteli-${VERSION}-${SIGNED}.apk"
+          cp app/build/outputs/apk/debug/app-debug.apk out/foteli-apercu.apk
+          echo "VERSION=$VERSION" >> "$GITHUB_ENV"
+
+      - name: Publier l'APK à installer
+        uses: actions/upload-artifact@v4
+        with:
+          name: foteli-${{ env.VERSION }}-${{ env.SIGNED }}
+          path: out/foteli-${{ env.VERSION }}-${{ env.SIGNED }}.apk
+
+      - name: Garder la version d'aperçu (pour les captures)
+        uses: actions/upload-artifact@v4
+        with:
+          name: foteli-apercu
+          path: out/foteli-apercu.apk
+          retention-days: 7
+
+  apercu:
+    name: Captures d'écran sur une tablette virtuelle
+    needs: build
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - name: Activer l'accélération de l'émulateur
+        run: |
+          echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
+          sudo udevadm control --reload-rules
+          sudo udevadm trigger --name-match=kvm
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: foteli-apercu
+
+      - name: Lancer Foteli sur une tablette Android 14 virtuelle
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 34
+          target: google_apis
+          arch: x86_64
+          profile: pixel_tablet
+          disable-animations: true
+          script: |
+            adb install -r foteli-apercu.apk
+            adb shell am start -n io.github.ploufty.foteli/.MainActivity
+            sleep 10
+            adb exec-out screencap -p > capture-accueil.png
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: captures-ecran
+          path: capture-*.png
