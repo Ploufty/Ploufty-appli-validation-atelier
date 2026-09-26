@@ -20,17 +20,44 @@ Onglet **Actions** → dernière exécution réussie (✓ verte) → rubrique **
 
 ### Solution conseillée : l'émulateur d'Android Studio (gratuit, officiel)
 
-1. Installer **Android Studio** (developer.android.com/studio).
-2. Au premier lancement, laisser l'assistant installer les composants par défaut.
-3. **More Actions → Virtual Device Manager → + (Create device)** → catégorie **Tablet** → **Pixel Tablet** → image système **Android 13 (API 33)** ou plus récente → Finish.
-4. Démarrer la tablette virtuelle (bouton ▶).
-5. **Glisser-déposer le fichier `.apk`** sur la fenêtre de l'émulateur : il s'installe tout seul.
-6. Ouvrir Foteli dans la liste des applis.
+On n'utilise **que la tablette virtuelle** d'Android Studio : pas besoin de créer de projet ni de toucher au code.
 
-Remarques :
-- Il faut un PC assez récent (16 Go de mémoire conseillés) avec la **virtualisation activée**. Si l'émulateur refuse de démarrer, activer « Plateforme de l'hyperviseur Windows » dans *Activer ou désactiver des fonctionnalités Windows*.
-- L'émulateur simule aussi un appareil photo (une pièce virtuelle) : utile pour tester la version 0.4.
-- Rien n'est envoyé nulle part : l'émulateur tourne sur le PC.
+**0. Vérifier le PC** (Windows 10 ou 11, 64 bits)
+- 16 Go de mémoire conseillés (8 Go minimum), environ 20 Go d'espace disque libre.
+- Virtualisation active : *Gestionnaire des tâches* (Ctrl + Maj + Échap) → onglet *Performance* → *Processeur* → ligne **Virtualisation : Activé**.
+
+**1. Installer Android Studio**
+1. Télécharger depuis **developer.android.com/studio** → *Download Android Studio*.
+2. Lancer l'installeur : *Next* à chaque écran, en laissant **Android Virtual Device** coché → *Install* → *Finish*.
+3. Au premier démarrage : *Do not import settings* → assistant **Standard** → pour chaque licence listée à gauche, cliquer dessus puis **Accept** → *Finish*. Le téléchargement des composants prend un moment.
+
+**2. Créer la tablette virtuelle (une seule fois)**
+1. Écran d'accueil *Welcome to Android Studio* → **More Actions** (ou les trois points ⋮) → **Virtual Device Manager**.
+2. **+** (ou *Create Virtual Device*).
+3. Catégorie **Tablet** → **Pixel Tablet** → *Next*.
+4. Image système : **API 34** (Android 14) ou **API 33** (Android 13). Cliquer sur la flèche ⬇ à côté pour la télécharger, accepter la licence, attendre → *Next* → *Finish*.
+
+**3. Démarrer la tablette**
+1. Dans le *Device Manager*, cliquer sur ▶ à côté de *Pixel Tablet*.
+2. Une fenêtre-tablette apparaît (1 à 2 minutes au premier démarrage).
+3. Les boutons de rotation dans la barre à côté de la tablette la passent en paysage.
+
+**4. Installer Foteli**
+- **Méthode A (glisser-déposer)** : télécharger `foteli.apk` sur le PC (lien direct en haut de ce document), puis **glisser le fichier depuis l'Explorateur Windows sur l'écran de la tablette virtuelle**. Attendre quelques secondes.
+- **Méthode B (comme sur une vraie tablette)** : dans la tablette virtuelle, ouvrir **Chrome**, taper le lien direct, télécharger, toucher le fichier, autoriser « Installer des applis inconnues », *Installer*.
+
+**5. Ouvrir Foteli**
+Sur l'écran d'accueil de la tablette virtuelle, **glisser de bas en haut** pour afficher toutes les applis → icône **Foteli** (robot blanc sur fond bleu).
+
+**Les fois suivantes** : ouvrir Android Studio → *More Actions* → *Virtual Device Manager* → ▶. Pour une nouvelle version, refaire l'étape 4.
+
+**Si ça bloque**
+| Problème | Solution |
+|---|---|
+| Message sur l'hyperviseur ou l'accélération | *Activer ou désactiver des fonctionnalités Windows* → cocher **Plateforme de l'hyperviseur Windows** → redémarrer le PC. |
+| « Virtualisation : Désactivé » | À activer dans le BIOS du PC (souvent « Intel VT-x » ou « SVM / AMD-V ») ; demander de l'aide si besoin. |
+| Tablette virtuelle très lente | Fermer les autres logiciels ; choisir l'image API 33 plutôt que 34. |
+| Le glisser-déposer ne fait rien | Utiliser la méthode B (Chrome dans la tablette virtuelle). |
 
 ### À éviter
 
