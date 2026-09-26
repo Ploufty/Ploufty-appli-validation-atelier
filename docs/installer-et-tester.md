@@ -2,12 +2,19 @@
 
 ## 1. Récupérer l'APK
 
-1. Ouvrir le dépôt sur GitHub → onglet **Actions** → workflow **« APK Foteli »**.
-2. Cliquer sur la dernière exécution réussie (✓ verte).
-3. En bas, section **Artifacts** : télécharger **`foteli-<version>-signee`** (ou `-test` tant que la clé de signature n'est pas configurée).
-4. C'est un `.zip` : l'ouvrir, il contient le fichier `.apk`.
+### Le plus simple : le lien direct (depuis la tablette ou l'ordinateur)
 
-Il faut être connecté à GitHub pour télécharger.
+**https://github.com/Ploufty/Ploufty-appli-validation-atelier/releases/latest/download/foteli.apk**
+
+- Ce lien télécharge **toujours la dernière version**, directement en `.apk` (pas de zip).
+- Pas besoin d'être connecté à GitHub.
+- Conseil : le mettre en **favori** dans le navigateur de la tablette.
+
+Toutes les versions et leurs notes : onglet **Releases** du dépôt (colonne de droite de la page d'accueil du dépôt).
+
+### Autre voie (pour les versions en cours de test)
+
+Onglet **Actions** → dernière exécution réussie (✓ verte) → rubrique **Artifacts** en bas de page → `foteli-<version>-signee` (ou `-test`). C'est un `.zip` contenant l'`.apk`. Il faut être connecté à GitHub et passer par un navigateur (pas l'appli GitHub).
 
 ## 2. Tester sur Windows, sans tablette
 
@@ -36,7 +43,7 @@ Remarques :
 
 ## 3. Installer sur la tablette (Android 13+)
 
-1. Copier l'`.apk` sur la tablette (câble, clé USB) ou le télécharger directement depuis GitHub avec le navigateur de la tablette.
+1. Sur la tablette, ouvrir le **lien direct** ci-dessus dans le navigateur (ou copier l'`.apk` par câble / clé USB).
 2. Toucher le fichier `.apk`.
 3. Android demande d'autoriser l'appli qui ouvre le fichier (Fichiers ou navigateur) à **« Installer des applis inconnues »** : accepter.
 4. Installer, puis ouvrir Foteli.

@@ -68,12 +68,57 @@ jobs:
           name: foteli-${{ env.VERSION }}-${{ env.SIGNED }}
           path: out/foteli-${{ env.VERSION }}-${{ env.SIGNED }}.apk
 
+      - name: Préparer le fichier pour la page Releases
+        run: cp "out/foteli-${VERSION}-${SIGNED}.apk" out/foteli.apk
+
+      - name: Garder le fichier pour la page Releases
+        uses: actions/upload-artifact@v4
+        with:
+          name: foteli-release
+          path: out/foteli.apk
+          retention-days: 7
+
       - name: Garder la version d'aperçu (pour les captures)
         uses: actions/upload-artifact@v4
         with:
           name: foteli-apercu
           path: out/foteli-apercu.apk
           retention-days: 7
+
+  release:
+    name: Publier l'APK sur la page Releases
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: foteli-release
+
+      - name: Lire la version
+        run: echo "VERSION=$(grep -oP 'versionName = "\K[^"]+' app/build.gradle.kts)" >> "$GITHUB_ENV"
+
+      # Lien direct et stable vers la dernière APK, à mettre en favori sur la tablette :
+      # https://github.com/<dépôt>/releases/latest/download/foteli.apk
+      - name: Publier
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ env.VERSION }}
+          target_commitish: ${{ github.sha }}
+          name: Foteli ${{ env.VERSION }}
+          make_latest: "true"
+          overwrite_files: true
+          files: foteli.apk
+          body: |
+            **Installer sur la tablette** : touchez `foteli.apk` ci-dessous depuis le navigateur de la tablette, puis acceptez « Installer des applis inconnues ».
+
+            Lien direct toujours à jour (à mettre en favori) :
+            https://github.com/${{ github.repository }}/releases/latest/download/foteli.apk
+
+            Guide complet : docs/installer-et-tester.md
 
   apercu:
     name: Captures d'écran sur une tablette virtuelle
