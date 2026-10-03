@@ -2,7 +2,6 @@ package io.github.ploufty.foteli.ui
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
@@ -17,10 +16,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedTextField
-import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
@@ -35,6 +32,8 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -47,18 +46,10 @@ import io.github.ploufty.foteli.security.RescueCode
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-private val SoftWhite = Color(0xFFD5DEEF)
-private val LinkBlue = Color(0xFFBFD0F5)
-private val ErrorPink = Color(0xFFFFC9C9)
-
-/** Fond sombre des écrans réservés à l'adulte. Défile si l'écran est petit (téléphone). */
+/** Écrans réservés à l'adulte, centrés. Défilent si l'écran est petit (téléphone). */
 @Composable
 private fun AdultScreen(content: @Composable () -> Unit) {
-    BoxWithConstraints(
-        Modifier
-            .fillMaxSize()
-            .background(Navy),
-    ) {
+    BoxWithConstraints(Modifier.fillMaxSize()) {
         val minHeight = maxHeight
         Column(
             modifier = Modifier
@@ -74,22 +65,28 @@ private fun AdultScreen(content: @Composable () -> Unit) {
 
 @Composable
 private fun Title(text: String) =
-    Text(text, color = Color.White, fontSize = 28.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+    Text(text, color = Palette.text, fontSize = 28.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
 
 @Composable
-private fun Body(text: String, color: Color = SoftWhite) =
+private fun Body(text: String, color: Color = Palette.muted) =
     Text(text, color = color, fontSize = 18.sp, textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = 620.dp))
 
 @Composable
 private fun Link(text: String, onClick: () -> Unit) =
-    TextButton(onClick = onClick) { Text(text, color = LinkBlue, fontSize = 17.sp) }
+    TextButton(onClick = onClick, modifier = Modifier.heightIn(min = 48.dp)) {
+        Text(text, color = Palette.link, fontSize = 17.sp, fontWeight = FontWeight.Bold)
+    }
 
+/** Pastille ronde avec un symbole, en tête des écrans adulte. */
 @Composable
-private fun lightFieldColors() = OutlinedTextFieldDefaults.colors(
-    focusedTextColor = Color.White, unfocusedTextColor = Color.White,
-    focusedBorderColor = Color.White, unfocusedBorderColor = Color(0xFF8FA0C2),
-    focusedLabelColor = Color.White, unfocusedLabelColor = LinkBlue, cursorColor = Color.White,
-)
+private fun Badge(symbol: String) =
+    Box(
+        Modifier
+            .size(72.dp)
+            .clip(CircleShape)
+            .background(Palette.primarySoft),
+        contentAlignment = Alignment.Center,
+    ) { Text(symbol, fontSize = 34.sp) }
 
 /**
  * Clavier 0-9 pour le code PIN (4 chiffres) et le code de secours (8 chiffres).
@@ -120,7 +117,6 @@ fun PinPad(
     BoxWithConstraints(
         Modifier
             .fillMaxSize()
-            .background(Navy)
             .padding(16.dp),
         contentAlignment = Alignment.Center,
     ) {
@@ -130,9 +126,10 @@ fun PinPad(
             .coerceIn(44.dp, 76.dp)
         val header: @Composable () -> Unit = {
             Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(14.dp)) {
-                Text(title, color = Color.White, fontSize = 24.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = 460.dp))
+                if (!sideBySide) Badge("🔒")
+                Text(title, color = Palette.text, fontSize = 24.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = 460.dp))
                 Dots(filled = code.length, length = length)
-                if (error != null) Text(error, color = ErrorPink, fontSize = 17.sp, textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = 460.dp))
+                if (error != null) Text(error, color = Palette.dangerText, fontWeight = FontWeight.Bold, fontSize = 17.sp, textAlign = TextAlign.Center, modifier = Modifier.widthIn(max = 460.dp))
                 footer()
             }
         }
@@ -159,8 +156,8 @@ private fun Dots(filled: Int, length: Int) {
                 Modifier
                     .size(20.dp)
                     .clip(CircleShape)
-                    .background(if (i < filled) Color.White else Color.Transparent)
-                    .border(2.dp, Color.White, CircleShape),
+                    .background(if (i < filled) Palette.primary else Color.Transparent)
+                    .border(2.dp, if (i < filled) Palette.primary else Palette.muted, CircleShape),
             )
         }
     }
@@ -173,15 +170,19 @@ private fun Keys(keyHeight: Dp, gap: Dp, onKey: (String) -> Unit) {
         rows.forEach { row ->
             Row(horizontalArrangement = Arrangement.spacedBy(gap)) {
                 row.forEach { key ->
-                    Box(
-                        modifier = Modifier
-                            .size(width = keyHeight * 1.35f, height = keyHeight)
-                            .clip(RoundedCornerShape(14.dp))
-                            .background(if (key.isEmpty()) Color.Transparent else Color.White.copy(alpha = 0.14f))
-                            .clickable(enabled = key.isNotEmpty()) { onKey(key) },
-                        contentAlignment = Alignment.Center,
-                    ) {
-                        Text(key, color = Color.White, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+                    val size = Modifier.size(width = keyHeight * 1.35f, height = keyHeight)
+                    if (key.isEmpty()) {
+                        Spacer(size)
+                    } else {
+                        Box(
+                            modifier = size
+                                .pressable({ onKey(key) })
+                                .panel(18.dp, color = if (key == "⌫") Palette.cardAlt else Palette.card)
+                                .semantics { contentDescription = if (key == "⌫") "Effacer" else key },
+                            contentAlignment = Alignment.Center,
+                        ) {
+                            Text(key, color = Palette.text, fontSize = 28.sp, fontWeight = FontWeight.Bold)
+                        }
                     }
                 }
             }
@@ -203,7 +204,7 @@ private fun LockedOrPad(settings: Settings?, title: String, content: @Composable
     if (lockedUntil > now) {
         AdultScreen {
             Title(title)
-            Body("Trop d’essais. Réessayez dans ${(lockedUntil - now + 999) / 1000} s.", ErrorPink)
+            Body("Trop d’essais. Réessayez dans ${(lockedUntil - now + 999) / 1000} s.", Palette.dangerText)
         }
     } else {
         content()
@@ -214,10 +215,13 @@ private fun LockedOrPad(settings: Settings?, title: String, content: @Composable
 
 @Composable
 fun WelcomeScreen(onStart: () -> Unit) = AdultScreen {
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        listOf(0, 13, 26).forEach { RobotAvatar(it, Modifier.size(96.dp)) }
+    }
     Title("Bienvenue dans Foteli")
     Body("Les photos et les données restent sur cette tablette. Rien n’est envoyé sur Internet.")
     PrimaryButton("Créer ma classe", onStart)
-    Body("Restaurer une sauvegarde : disponible dans une prochaine version (0.7).", Color(0xFF8FA0C2))
+    Body("Restaurer une sauvegarde : disponible dans une prochaine version (0.7).")
 }
 
 @Composable
@@ -233,18 +237,18 @@ fun ConfirmPinScreen(state: Screen.ConfirmPin, vm: AppViewModel) =
 
 @Composable
 fun ShowRescueScreen(state: Screen.ShowRescue, vm: AppViewModel) = AdultScreen {
+    Badge("🔑")
     Title(if (state.reset) "Votre nouveau code de secours" else "Votre code de secours")
     Body("Il sert uniquement si vous oubliez votre code PIN. Notez-le sur papier et rangez-le hors de la classe.")
     Text(
         state.code,
-        color = Navy,
+        color = Palette.text,
         fontSize = 44.sp,
         fontFamily = FontFamily.Monospace,
         fontWeight = FontWeight.Bold,
         letterSpacing = 6.sp,
         modifier = Modifier
-            .clip(RoundedCornerShape(12.dp))
-            .background(Color.White)
+            .panel(18.dp, border = Palette.primary)
             .padding(horizontal = 28.dp, vertical = 12.dp),
     )
     PrimaryButton("J’ai noté mon code", { vm.rescueNoted(state) })
@@ -253,6 +257,7 @@ fun ShowRescueScreen(state: Screen.ShowRescue, vm: AppViewModel) = AdultScreen {
 @Composable
 fun ClassNameScreen(vm: AppViewModel) = AdultScreen {
     var name by remember { mutableStateOf("") }
+    Badge("🏫")
     Title("Nom de la classe")
     Body("Il servira d’en-tête pour l’extraction des photos et dans le nom des sauvegardes. Exemple : MS-GS Mme Martin 2026-2027.")
     OutlinedTextField(
@@ -260,7 +265,6 @@ fun ClassNameScreen(vm: AppViewModel) = AdultScreen {
         onValueChange = { name = it },
         label = { Text("Nom de la classe") },
         singleLine = true,
-        colors = lightFieldColors(),
         modifier = Modifier.widthIn(max = 520.dp).fillMaxWidth(),
     )
     PrimaryButton("Continuer", { vm.saveClassName(name) }, enabled = name.isNotBlank())

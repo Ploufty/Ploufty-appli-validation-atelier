@@ -51,7 +51,7 @@ Pour le test : **APK installée manuellement** (sources inconnues). À penser en
 
 - **Direction artistique** : palette, typographies, style des illustrations.
 - **Mascotte ou logo** : un personnage peut accompagner l'enfant (accueil, bravo). Les robots des élèves sont une piste de cohérence.
-- **Mode sombre** pour l'espace enseignant (et éventuellement l'espace élève).
+- ~~**Mode sombre**~~ : fait en 0.2.2 (Réglages → Apparence : Système / Jour / Nuit, pour toute l'appli).
 
 ## Accessibilité
 

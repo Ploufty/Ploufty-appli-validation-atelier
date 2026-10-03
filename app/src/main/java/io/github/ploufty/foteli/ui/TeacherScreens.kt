@@ -3,8 +3,10 @@ package io.github.ploufty.foteli.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,9 +14,13 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
@@ -34,6 +40,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -43,95 +50,113 @@ import androidx.compose.ui.unit.sp
 import io.github.ploufty.foteli.data.Settings
 import io.github.ploufty.foteli.data.Student
 import io.github.ploufty.foteli.data.StudentLook
+import io.github.ploufty.foteli.data.ThemeMode
 import kotlinx.coroutines.launch
 
-/** Cadre de l'espace enseignant : barre du haut, onglets, bouton « Mode élève ». */
+private val tabs = listOf(
+    "👧 Classe" to TeacherTab.CLASS,
+    "🎨 Ateliers · 0.3" to null,
+    "📷 Photos · 0.4" to null,
+    "⚙️ Réglages" to TeacherTab.SETTINGS,
+)
+
+/** Cadre de l'espace enseignant : en-tête, onglets en pastille, bouton « Mode élève ». */
 @Composable
 fun TeacherFrame(settings: Settings?, tab: TeacherTab?, vm: AppViewModel, content: @Composable () -> Unit) {
-    Column(
-        Modifier
-            .fillMaxSize()
-            .background(Color(0xFFF3F5F8)),
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Navy)
-                .padding(horizontal = 24.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            Text(
-                settings?.className.orEmpty(),
-                color = Color.White,
-                fontWeight = FontWeight.Bold,
-                fontSize = 18.sp,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.weight(1f),
-            )
-            TabButton("Classe", tab == TeacherTab.CLASS) { vm.go(Screen.Teacher(TeacherTab.CLASS)) }
-            TabButton("Ateliers · 0.3", selected = false, enabled = false) {}
-            TabButton("Photos · 0.4", selected = false, enabled = false) {}
-            TabButton("Réglages", tab == TeacherTab.SETTINGS) { vm.go(Screen.Teacher(TeacherTab.SETTINGS)) }
-            Spacer(Modifier.width(8.dp))
-            Box(
-                Modifier
-                    .clip(RoundedCornerShape(10.dp))
-                    .background(Yellow)
-                    .clickable { vm.go(Screen.Home) }
-                    .padding(horizontal = 16.dp, vertical = 10.dp),
-            ) { Text("Mode élève", color = Navy, fontWeight = FontWeight.Bold, fontSize = 16.sp) }
+    Column(Modifier.fillMaxSize()) {
+        BoxWithConstraints(Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 14.dp)) {
+            val title: @Composable (Modifier) -> Unit = { m ->
+                Column(m) {
+                    Text("Espace enseignant", color = Palette.muted, fontSize = 14.sp)
+                    Text(
+                        settings?.className.orEmpty(),
+                        color = Palette.text,
+                        fontWeight = FontWeight.Bold,
+                        fontSize = 20.sp,
+                        maxLines = 1,
+                        overflow = TextOverflow.Ellipsis,
+                    )
+                }
+            }
+            val tabBar: @Composable (Modifier) -> Unit = { m ->
+                Segmented(
+                    items = tabs.map { it.first },
+                    selected = if (tab == null) -1 else tabs.indexOfFirst { it.second == tab },
+                    modifier = m,
+                    enabled = { tabs[it].second != null },
+                ) { i -> tabs[i].second?.let { vm.go(Screen.Teacher(it)) } }
+            }
+            val studentMode: @Composable () -> Unit = {
+                Box(
+                    Modifier
+                        .pressable({ vm.go(Screen.Home) })
+                        .clip(RoundedCornerShape(50))
+                        .background(Palette.accent)
+                        .heightIn(min = 48.dp)
+                        .padding(horizontal = 20.dp),
+                    contentAlignment = Alignment.Center,
+                ) { Text("🧒 Mode élève", color = Palette.onAccent, fontWeight = FontWeight.Bold, fontSize = 16.sp) }
+            }
+            if (maxWidth > 1100.dp) {
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                    title(Modifier.weight(1f))
+                    tabBar(Modifier)
+                    studentMode()
+                }
+            } else {
+                // Écran plus étroit (téléphone) : les onglets passent sur une seconde ligne.
+                Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+                        title(Modifier.weight(1f))
+                        studentMode()
+                    }
+                    tabBar(Modifier.horizontalScroll(rememberScrollState()))
+                }
+            }
         }
-        Column(
+        Box(
             Modifier
                 .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) { content() }
+                .verticalScroll(rememberScrollState()),
+            contentAlignment = Alignment.TopCenter,
+        ) {
+            Column(
+                Modifier
+                    .widthIn(max = 1100.dp)
+                    .fillMaxWidth()
+                    .padding(start = 24.dp, end = 24.dp, bottom = 24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) { content() }
+        }
     }
 }
 
 @Composable
-private fun TabButton(text: String, selected: Boolean, enabled: Boolean = true, onClick: () -> Unit) {
-    Box(
-        Modifier
-            .clip(RoundedCornerShape(10.dp))
-            .background(if (selected) Color.White else Color.Transparent)
-            .clickable(enabled = enabled, onClick = onClick)
-            .padding(horizontal = 14.dp, vertical = 10.dp),
-    ) {
-        Text(
-            text,
-            color = when {
-                selected -> Navy
-                enabled -> Color(0xFFC9D4EA)
-                else -> Color(0xFF6E7C99)
-            },
-            fontWeight = FontWeight.Bold,
-            fontSize = 16.sp,
-        )
-    }
-}
+private fun Heading(text: String) = Text(text, color = Palette.text, fontWeight = FontWeight.Bold, fontSize = 24.sp)
 
 @Composable
-private fun Heading(text: String) = Text(text, color = Navy, fontWeight = FontWeight.Bold, fontSize = 22.sp)
+private fun Label(text: String) = Text(text, color = Palette.text, fontWeight = FontWeight.Bold, fontSize = 17.sp)
 
 @Composable
-private fun Hint(text: String) = Text(text, color = Muted, fontSize = 15.sp)
+private fun Hint(text: String) = Text(text, color = Palette.muted, fontSize = 15.sp)
 
 @Composable
-private fun WhitePanel(content: @Composable () -> Unit) {
+private fun Panel(content: @Composable () -> Unit) {
     Column(
         Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(14.dp))
-            .background(Color.White)
-            .border(1.dp, Color(0xFFDDE3EC), RoundedCornerShape(14.dp))
-            .padding(18.dp),
+            .panel()
+            .padding(20.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) { content() }
+}
+
+@Composable
+private fun BackRow(title: String, vm: AppViewModel) {
+    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
+        RoundButton("←", "Retour à la classe", size = 52.dp) { vm.go(Screen.Teacher(TeacherTab.CLASS)) }
+        Heading(title)
+    }
 }
 
 // ---------- Classe ----------
@@ -139,13 +164,32 @@ private fun WhitePanel(content: @Composable () -> Unit) {
 @Composable
 fun ClassTab(students: List<Student>, vm: AppViewModel) {
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        Heading("Élèves (${students.size})")
+        Heading("Élèves")
+        Text(
+            "${students.size}",
+            color = Palette.onPrimary,
+            fontWeight = FontWeight.Bold,
+            fontSize = 15.sp,
+            modifier = Modifier
+                .clip(RoundedCornerShape(50))
+                .background(Palette.primary)
+                .padding(horizontal = 12.dp, vertical = 4.dp),
+        )
         Spacer(Modifier.weight(1f))
+        SecondaryButton("+ Plusieurs élèves", { vm.go(Screen.BulkAdd) })
         PrimaryButton("+ Ajouter un élève", { vm.go(Screen.EditStudent(null)) })
-        SecondaryButton("+ Ajouter plusieurs élèves", { vm.go(Screen.BulkAdd) })
     }
     if (students.isEmpty()) {
-        Hint("Commencez par « Ajouter plusieurs élèves » : un prénom par ligne, un robot est attribué automatiquement à chacun.")
+        Panel {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(20.dp)) {
+                RobotAvatar(13, Modifier.size(88.dp))
+                Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Label("Votre classe est vide")
+                    Hint("Le plus rapide : « Plusieurs élèves », un prénom par ligne. Un robot est attribué automatiquement à chacun.")
+                }
+                PrimaryButton("Commencer", { vm.go(Screen.BulkAdd) })
+            }
+        }
     }
     students.chunked(3).forEach { row ->
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -153,20 +197,18 @@ fun ClassTab(students: List<Student>, vm: AppViewModel) {
                 Row(
                     modifier = Modifier
                         .weight(1f)
-                        .clip(RoundedCornerShape(14.dp))
-                        .background(Color.White)
-                        .border(1.dp, Color(0xFFDDE3EC), RoundedCornerShape(14.dp))
-                        .clickable { vm.go(Screen.EditStudent(s.id)) }
+                        .pressable({ vm.go(Screen.EditStudent(s.id)) })
+                        .panel(18.dp)
                         .padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically,
                     horizontalArrangement = Arrangement.spacedBy(12.dp),
                 ) {
-                    StudentFace(s, 56.dp)
+                    HaloFace(s, 60.dp)
                     Column(Modifier.weight(1f)) {
-                        Text(s.firstName, color = Navy, fontWeight = FontWeight.Bold, fontSize = 18.sp)
+                        Text(s.firstName, color = Palette.text, fontWeight = FontWeight.Bold, fontSize = 18.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
                         Hint(if (s.look == StudentLook.ROBOT) "robot" else "prénom en grand")
                     }
-                    Text("Modifier", color = Blue, fontWeight = FontWeight.Bold, fontSize = 15.sp)
+                    Text("Modifier ›", color = Palette.link, fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 }
             }
             repeat(3 - row.size) { Spacer(Modifier.weight(1f)) }
@@ -182,38 +224,47 @@ fun EditStudentScreen(student: Student?, vm: AppViewModel) {
     var robot by remember(student) { mutableIntStateOf(initialRobot) }
     val free = remember(student) { vm.freeRobots(exceptStudentId = student?.id).toSet() }
 
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        SecondaryButton("← Classe", { vm.go(Screen.Teacher(TeacherTab.CLASS)) })
-        Heading(if (student == null) "Ajouter un élève" else "Modifier ${student.firstName}")
-    }
-    WhitePanel {
-        OutlinedTextField(
-            value = name,
-            onValueChange = { name = it },
-            label = { Text("Prénom") },
-            singleLine = true,
-            modifier = Modifier.width(420.dp),
-        )
-        Text("Sur l’accueil, l’élève est représenté par", color = Navy, fontWeight = FontWeight.Bold)
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Chip("Un robot", look == StudentLook.ROBOT) { look = StudentLook.ROBOT }
-            Chip("Son prénom en grand", look == StudentLook.NAME) { look = StudentLook.NAME }
+    BackRow(if (student == null) "Ajouter un élève" else "Modifier ${student.firstName}", vm)
+    Panel {
+        Row(horizontalArrangement = Arrangement.spacedBy(24.dp), verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                OutlinedTextField(
+                    value = name,
+                    onValueChange = { name = it },
+                    label = { Text("Prénom") },
+                    singleLine = true,
+                    modifier = Modifier.widthIn(max = 420.dp).fillMaxWidth(),
+                )
+                Label("Sur l’accueil, l’élève est représenté par")
+                Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Chip("Un robot", look == StudentLook.ROBOT) { look = StudentLook.ROBOT }
+                    Chip("Son prénom en grand", look == StudentLook.NAME) { look = StudentLook.NAME }
+                }
+                Hint("Sa photo : disponible avec l’appareil photo (version 0.4).")
+            }
+            // Aperçu en direct, tel qu'il apparaîtra sur l'accueil.
+            if (name.isNotBlank()) {
+                Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
+                    Hint("Aperçu")
+                    HaloFace(Student(firstName = name.trim(), look = look, robot = robot), 120.dp)
+                }
+            }
         }
-        Hint("Sa photo : disponible avec l’appareil photo (version 0.4).")
         if (look == StudentLook.ROBOT) {
-            Text("Choisir un robot (ceux déjà donnés sont grisés)", color = Navy, fontWeight = FontWeight.Bold)
+            Label("Choisir un robot (ceux déjà donnés sont grisés)")
             (0 until Robots.COUNT).chunked(12).forEach { line ->
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     line.forEach { i ->
                         val available = i in free
+                        val chosen = robot == i
                         Box(
                             Modifier
                                 .weight(1f)
                                 .aspectRatio(1f)
-                                .clip(RoundedCornerShape(10.dp))
-                                .background(if (robot == i) Color(0xFFE3EBFB) else Color(0xFFF3F5F8))
-                                .border(2.dp, if (robot == i) Blue else Color.Transparent, RoundedCornerShape(10.dp))
-                                .clickable(enabled = available) { robot = i }
+                                .clip(RoundedCornerShape(14.dp))
+                                .background(if (chosen) Palette.primarySoft else Palette.cardAlt)
+                                .border(if (chosen) 3.dp else 0.dp, if (chosen) Palette.primary else Color.Transparent, RoundedCornerShape(14.dp))
+                                .clickable(enabled = available, role = Role.RadioButton) { robot = i }
                                 .padding(4.dp),
                         ) {
                             RobotAvatar(i, Modifier.fillMaxSize().alpha(if (available) 1f else 0.2f))
@@ -221,22 +272,15 @@ fun EditStudentScreen(student: Student?, vm: AppViewModel) {
                     }
                 }
             }
-        } else if (name.isNotBlank()) {
-            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-                Hint("Aperçu :")
-                StudentFace(Student(firstName = name.trim(), look = StudentLook.NAME, robot = 0), 120.dp)
-            }
         }
-        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            PrimaryButton("Enregistrer", { vm.saveStudent(student?.id, name, look, robot) }, enabled = name.isNotBlank())
-        }
+        PrimaryButton("Enregistrer", { vm.saveStudent(student?.id, name, look, robot) }, enabled = name.isNotBlank())
     }
     if (student != null) {
         var confirm by remember(student) { mutableStateOf("") }
         DangerZone {
             Text(
                 "Supprimer ${student.firstName} efface aussi toutes ses photos. C’est définitif.",
-                color = Navy,
+                color = Palette.text,
                 fontSize = 16.sp,
             )
             OutlinedTextField(
@@ -244,7 +288,7 @@ fun EditStudentScreen(student: Student?, vm: AppViewModel) {
                 onValueChange = { confirm = it },
                 label = { Text("Pour confirmer, tapez le prénom « ${student.firstName} »") },
                 singleLine = true,
-                modifier = Modifier.width(480.dp),
+                modifier = Modifier.widthIn(max = 480.dp).fillMaxWidth(),
             )
             DangerButton("Supprimer ${student.firstName}", { vm.deleteStudent(student.id) }, enabled = confirm.trim() == student.firstName)
         }
@@ -255,17 +299,15 @@ fun EditStudentScreen(student: Student?, vm: AppViewModel) {
 fun BulkAddScreen(vm: AppViewModel) {
     var text by remember { mutableStateOf("") }
     val count = text.lines().count { it.isNotBlank() }
-    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-        SecondaryButton("← Classe", { vm.go(Screen.Teacher(TeacherTab.CLASS)) })
-        Heading("Ajouter plusieurs élèves")
-    }
-    WhitePanel {
+    BackRow("Ajouter plusieurs élèves", vm)
+    Panel {
         OutlinedTextField(
             value = text,
             onValueChange = { text = it },
             label = { Text("Un prénom par ligne") },
             modifier = Modifier
-                .width(420.dp)
+                .widthIn(max = 420.dp)
+                .fillMaxWidth()
                 .height(260.dp),
         )
         Hint("Chaque élève reçoit automatiquement un robot différent. Vous pourrez ensuite le changer ou choisir le prénom en grand.")
@@ -282,18 +324,33 @@ fun SettingsTab(settings: Settings?, students: List<Student>, vm: AppViewModel) 
     LaunchedEffect(settings?.className) { className = settings?.className.orEmpty() }
 
     Heading("Réglages")
-    WhitePanel {
-        Text("Nom de la classe", color = Navy, fontWeight = FontWeight.Bold, fontSize = 17.sp)
+    Panel {
+        Label("Apparence")
+        Hint("S’applique à toute l’appli, côté élèves comme côté enseignant. « Système » suit le réglage de la tablette.")
+        val mode = settings?.themeMode ?: ThemeMode.SYSTEM
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            ThemeOption("📱", "Système", "Comme la tablette", null, mode == ThemeMode.SYSTEM, Modifier.weight(1f)) { vm.setThemeMode(ThemeMode.SYSTEM) }
+            ThemeOption("☀️", "Jour", "Toujours clair", LightColors, mode == ThemeMode.LIGHT, Modifier.weight(1f)) { vm.setThemeMode(ThemeMode.LIGHT) }
+            ThemeOption("🌙", "Nuit", "Toujours sombre", DarkColors, mode == ThemeMode.DARK, Modifier.weight(1f)) { vm.setThemeMode(ThemeMode.DARK) }
+        }
+    }
+    Panel {
+        Label("Nom de la classe")
         Hint("En-tête des extractions de photos et nom des sauvegardes.")
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            OutlinedTextField(value = className, onValueChange = { className = it }, singleLine = true, modifier = Modifier.width(420.dp))
+            OutlinedTextField(
+                value = className,
+                onValueChange = { className = it },
+                singleLine = true,
+                modifier = Modifier.widthIn(max = 420.dp).weight(1f, fill = false),
+            )
             SecondaryButton("Enregistrer", { vm.renameClass(className) })
         }
     }
-    WhitePanel {
+    Panel {
         Row(verticalAlignment = Alignment.CenterVertically) {
             Column(Modifier.weight(1f)) {
-                Text("Fermeture automatique de l’espace enseignant", color = Navy, fontWeight = FontWeight.Bold, fontSize = 17.sp)
+                Label("Fermeture automatique de l’espace enseignant")
                 Hint("Retour au mode élève après 5 minutes sans action.")
             }
             Switch(checked = settings?.autoCloseTeacher != false, onCheckedChange = { vm.setAutoClose(it) })
@@ -307,7 +364,7 @@ fun SettingsTab(settings: Settings?, students: List<Student>, vm: AppViewModel) 
         Text(
             "Tout effacer supprime toute la classe : ${students.size} élève${if (students.size > 1) "s" else ""} et toutes leurs photos. " +
                 "Le code PIN et les réglages sont conservés. Rien ne pourra être récupéré sans sauvegarde.",
-            color = Navy,
+            color = Palette.text,
             fontSize = 16.sp,
         )
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -322,7 +379,7 @@ fun SettingsTab(settings: Settings?, students: List<Student>, vm: AppViewModel) 
                 modifier = Modifier.width(180.dp),
             )
         }
-        if (error != null) Text(error!!, color = Red, fontWeight = FontWeight.Bold)
+        if (error != null) Text(error!!, color = Palette.dangerText, fontWeight = FontWeight.Bold)
         DangerButton("Tout effacer", {
             scope.launch {
                 if (vm.checkPin(pin)) {
@@ -335,5 +392,76 @@ fun SettingsTab(settings: Settings?, students: List<Student>, vm: AppViewModel) 
                 }
             }
         }, enabled = word.trim() == "EFFACER" && pin.length == 4)
+    }
+}
+
+/**
+ * Carte de choix d'apparence, avec une mini-vignette du thème.
+ * Le choix actif est signalé par la couleur ET par une coche (jamais la couleur seule).
+ */
+@Composable
+private fun ThemeOption(
+    emoji: String,
+    title: String,
+    subtitle: String,
+    preview: FoteliColors?,
+    selected: Boolean,
+    modifier: Modifier,
+    onClick: () -> Unit,
+) {
+    Column(
+        modifier
+            .pressable(onClick, role = Role.RadioButton)
+            .panel(18.dp, color = if (selected) Palette.primarySoft else Palette.cardAlt, border = if (selected) Palette.primary else Palette.stroke)
+            .padding(14.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        Row(
+            Modifier
+                .fillMaxWidth()
+                .height(56.dp)
+                .clip(RoundedCornerShape(12.dp)),
+        ) {
+            // Système : moitié Jour, moitié Nuit.
+            val halves = if (preview == null) listOf(LightColors, DarkColors) else listOf(preview)
+            halves.forEach { c -> ThemeSwatch(c, Modifier.weight(1f).fillMaxSize()) }
+        }
+        Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Text(emoji, fontSize = 22.sp)
+            Column(Modifier.weight(1f)) {
+                Text(title, color = Palette.text, fontWeight = FontWeight.Bold, fontSize = 17.sp)
+                Text(subtitle, color = Palette.muted, fontSize = 13.sp, maxLines = 1, overflow = TextOverflow.Ellipsis)
+            }
+            Box(
+                Modifier
+                    .size(26.dp)
+                    .clip(CircleShape)
+                    .background(if (selected) Palette.primary else Color.Transparent)
+                    .border(2.dp, if (selected) Palette.primary else Palette.muted, CircleShape),
+                contentAlignment = Alignment.Center,
+            ) { if (selected) Text("✓", color = Palette.onPrimary, fontWeight = FontWeight.Bold, fontSize = 15.sp) }
+        }
+    }
+}
+
+/** Vignette : fond du thème, une carte et une pastille d'accent. */
+@Composable
+private fun ThemeSwatch(c: FoteliColors, modifier: Modifier) {
+    Box(modifier.background(c.bgTop).padding(8.dp)) {
+        Box(
+            Modifier
+                .fillMaxSize()
+                .clip(RoundedCornerShape(8.dp))
+                .background(c.card)
+                .border(1.dp, c.stroke, RoundedCornerShape(8.dp))
+                .padding(6.dp),
+        ) {
+            Box(
+                Modifier
+                    .size(16.dp)
+                    .clip(CircleShape)
+                    .background(c.primary),
+            )
+        }
     }
 }

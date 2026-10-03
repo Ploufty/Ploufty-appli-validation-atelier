@@ -11,6 +11,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.Update
 import androidx.room.Upsert
+import androidx.room.migration.Migration
+import androidx.sqlite.db.SupportSQLiteDatabase
 import kotlinx.coroutines.flow.Flow
 
 /**
@@ -27,7 +29,11 @@ data class Settings(
     val pinLockedUntil: Long = 0,
     val autoCloseTeacher: Boolean = true,
     val setupDone: Boolean = false,
+    val themeMode: ThemeMode = ThemeMode.SYSTEM,
 )
+
+/** Apparence : suivre la tablette (Système), toujours clair (Jour) ou toujours sombre (Nuit). */
+enum class ThemeMode { SYSTEM, LIGHT, DARK }
 
 /** Représentation de l'élève sur l'accueil. La photo arrive avec l'appareil photo (version 0.4). */
 enum class StudentLook { ROBOT, NAME }
@@ -74,7 +80,7 @@ interface FoteliDao {
 
 // Les évolutions du schéma se feront par migrations écrites à la main :
 // aucune donnée ne doit être perdue lors d'une mise à jour.
-@Database(entities = [Settings::class, Student::class], version = 1, exportSchema = false)
+@Database(entities = [Settings::class, Student::class], version = 2, exportSchema = false)
 abstract class FoteliDatabase : RoomDatabase() {
     abstract fun dao(): FoteliDao
 
@@ -85,8 +91,16 @@ abstract class FoteliDatabase : RoomDatabase() {
         fun get(context: Context): FoteliDatabase =
             instance ?: synchronized(this) {
                 instance ?: Room.databaseBuilder(context.applicationContext, FoteliDatabase::class.java, "foteli.db")
+                    .addMigrations(MIGRATION_1_2)
                     .build()
                     .also { instance = it }
             }
+    }
+}
+
+/** Version 0.2.2 : ajout du choix d'apparence (Système / Jour / Nuit). */
+val MIGRATION_1_2 = object : Migration(1, 2) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE settings ADD COLUMN themeMode TEXT NOT NULL DEFAULT 'SYSTEM'")
     }
 }

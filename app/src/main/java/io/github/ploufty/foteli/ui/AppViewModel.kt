@@ -10,6 +10,7 @@ import io.github.ploufty.foteli.data.FoteliDatabase
 import io.github.ploufty.foteli.data.Settings
 import io.github.ploufty.foteli.data.Student
 import io.github.ploufty.foteli.data.StudentLook
+import io.github.ploufty.foteli.data.ThemeMode
 import io.github.ploufty.foteli.security.PinRules
 import io.github.ploufty.foteli.security.RescueCode
 import io.github.ploufty.foteli.security.Secrets
@@ -263,6 +264,13 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
+    fun setThemeMode(mode: ThemeMode) {
+        viewModelScope.launch {
+            val current = dao.settingsNow() ?: return@launch
+            dao.saveSettings(current.copy(themeMode = mode))
+        }
+    }
+
     /** « Tout effacer » : la classe est vidée ; PIN, code de secours et réglages restent. */
     fun wipeClass() {
         viewModelScope.launch {
@@ -289,6 +297,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             go(
                 when (target) {
                     "teacher" -> Screen.Teacher(TeacherTab.CLASS)
+                    "settings" -> Screen.Teacher(TeacherTab.SETTINGS)
                     "edit" -> Screen.EditStudent(null)
                     "pin" -> Screen.PinEntry
                     else -> Screen.Home

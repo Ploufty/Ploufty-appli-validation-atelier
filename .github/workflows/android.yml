@@ -127,6 +127,8 @@ jobs:
             ![Classe](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-4-classe.png)
             ![Ajouter un élève](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-5-ajout-eleve.png)
             ![Code enseignant sur un écran de téléphone](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-6-code-sur-telephone.png)
+            ![Accueil des élèves, mode Nuit](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-7-accueil-nuit.png)
+            ![Réglages et choix de l'apparence, mode Nuit](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-8-reglages-nuit.png)
 
             **Installer sur la tablette** : touchez `foteli.apk` ci-dessous depuis le navigateur de la tablette, puis acceptez « Installer des applis inconnues ».
 
@@ -178,6 +180,14 @@ jobs:
             adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen edit
             sleep 6
             adb exec-out screencap -p > capture-5-ajout-eleve.png
+            adb shell cmd uimode night yes
+            adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true
+            sleep 6
+            adb exec-out screencap -p > capture-7-accueil-nuit.png
+            adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen settings
+            sleep 6
+            adb exec-out screencap -p > capture-8-reglages-nuit.png
+            adb shell cmd uimode night no
             adb shell wm size 2400x1080
             adb shell wm density 420
             adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen pin

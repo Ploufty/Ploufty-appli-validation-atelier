@@ -1,9 +1,9 @@
 package io.github.ploufty.foteli.ui
 
 import androidx.activity.compose.BackHandler
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.safeDrawingPadding
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -21,7 +21,9 @@ fun FoteliApp(vm: AppViewModel) {
     Box(
         Modifier
             .fillMaxSize()
-            .background(Paper)
+            .screenBackground()
+            // Plein écran : le fond passe sous les barres système, le contenu reste à l'abri.
+            .safeDrawingPadding()
             // Tout toucher compte comme une activité (retours automatiques après inactivité).
             .pointerInput(Unit) {
                 awaitPointerEventScope {
