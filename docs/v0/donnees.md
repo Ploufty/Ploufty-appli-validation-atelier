@@ -46,19 +46,19 @@ Exigence : une procédure **faisable par un adulte**, et **pas par un enfant jus
 
 ### Au premier lancement
 1. L'enseignant choisit son PIN (4 chiffres) et le confirme.
-2. L'appli affiche un **code de secours de 12 caractères** (ex. `K7PM-4XRT-9HWB`), **une seule fois**.
+2. L'appli affiche un **code de secours de 8 chiffres** (ex. `4827 1953`), **une seule fois**.
 3. Consigne à l'écran : « Recopiez ce code sur papier et rangez-le **hors de la classe**. Il permet de changer le code PIN si vous l'oubliez. »
-4. Pour continuer, l'enseignant doit **retaper les 4 derniers caractères** (preuve qu'il l'a noté).
+4. Il touche **« J'ai noté mon code »** pour continuer (simplifié : plus de ressaisie).
 
 ### PIN oublié
 1. Appui long de 3 s → écran PIN → lien discret **« Code oublié ? »**.
-2. Saisie du **code de secours complet** (12 caractères, lettres et chiffres).
+2. Saisie du **code de secours** (8 chiffres) avec le clavier de Foteli. Les essais faux comptent dans le même blocage que le PIN.
 3. Choix d'un nouveau PIN, puis **un nouveau code de secours** est généré (l'ancien ne marche plus).
 
 ### Pourquoi un enfant n'y arrive pas
 - Il faut déjà connaître le **geste caché** (appui long 3 s dans un coin).
-- Le code de secours est **long, sans signification**, et **n'est pas dans la classe**.
-- Le saisir demande de **lire et recopier** 12 caractères au clavier : hors de portée d'un enfant de maternelle, et très improbable pour un enfant de 9 ans sans le papier.
+- Le code de secours **n'est pas dans la classe**.
+- Il faut **8 chiffres précis** (100 millions de combinaisons) qui ne sont écrits que sur un papier hors de la classe, et le blocage après 5 essais rend tout essai au hasard inutile.
 
 ### Contre les essais au hasard
 - Après **5 PIN faux** : blocage **1 minute**, puis 5 minutes, puis 15 minutes.

@@ -44,7 +44,7 @@ Ce que l'enfant **ne voit jamais** : compétences, domaines, dates, réglages, b
 
 1. L'appli affiche un écran de bienvenue avec deux choix : **Nouvelle classe** ou **Restaurer une sauvegarde** (nouvelle tablette : fichier → mot de passe → puis choix d'un nouveau PIN).
 2. L'enseignant **choisit un code PIN** à 4 chiffres, puis le **confirme**. Les codes évidents (`0000`, `1234`…) sont refusés.
-2 bis. L'appli affiche le **code de secours** (12 caractères) une seule fois. L'enseignant le recopie sur papier, le range hors de la classe, et retape ses 4 derniers caractères pour continuer (voir `donnees.md` § 3).
+2 bis. L'appli affiche le **code de secours** (8 chiffres) une seule fois. L'enseignant le note sur papier, le range hors de la classe, puis touche « J'ai noté mon code » (voir `donnees.md` § 3).
 3. L'appli demande l'**autorisation d'utiliser l'appareil photo** (fenêtre Android). C'est fait ici, pour qu'un enfant ne tombe jamais sur cette fenêtre.
 4. L'enseignant donne un **nom à la classe** (ex. « MS-GS Mme X — 2026-2027 »). Ce nom servira d'**en-tête** lors de l'extraction des photos (export, prévu après la V0) et dans le nom du fichier de sauvegarde.
 5. L'appli ouvre l'espace enseignant sur la rubrique **Classe**, vide.

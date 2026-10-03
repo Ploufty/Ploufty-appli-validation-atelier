@@ -126,6 +126,7 @@ jobs:
             ![Code enseignant](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-3-code-enseignant.png)
             ![Classe](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-4-classe.png)
             ![Ajouter un élève](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-5-ajout-eleve.png)
+            ![Code enseignant sur un écran de téléphone](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-6-code-sur-telephone.png)
 
             **Installer sur la tablette** : touchez `foteli.apk` ci-dessous depuis le navigateur de la tablette, puis acceptez « Installer des applis inconnues ».
 
@@ -177,6 +178,13 @@ jobs:
             adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen edit
             sleep 6
             adb exec-out screencap -p > capture-5-ajout-eleve.png
+            adb shell wm size 2400x1080
+            adb shell wm density 420
+            adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen pin
+            sleep 6
+            adb exec-out screencap -p > capture-6-code-sur-telephone.png
+            adb shell wm size reset
+            adb shell wm density reset
 
       - uses: actions/upload-artifact@v4
         with:

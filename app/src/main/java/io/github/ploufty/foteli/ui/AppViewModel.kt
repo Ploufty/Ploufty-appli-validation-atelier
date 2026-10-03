@@ -141,11 +141,9 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    /** L'enseignant a recopié le code : il retape les 4 derniers caractères pour continuer. */
-    fun rescueNoted(state: Screen.ShowRescue, lastFour: String): Boolean {
-        if (RescueCode.normalize(lastFour) != RescueCode.normalize(state.code).takeLast(4)) return false
+    /** L'enseignant confirme avoir recopié son code de secours. */
+    fun rescueNoted(state: Screen.ShowRescue) {
         go(if (state.reset) Screen.Teacher() else Screen.ClassName)
-        return true
     }
 
     fun saveClassName(name: String) {
@@ -168,6 +166,25 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             go(Screen.Teacher())
             return null
         }
+        recordFailure(s)
+        return "Code incorrect."
+    }
+
+    /** Code de secours : mêmes règles de blocage que le PIN (essais faux cumulés). */
+    suspend fun tryRescue(input: String): String? {
+        val s = dao.settingsNow() ?: return "Réglages introuvables."
+        if (s.pinLockedUntil > System.currentTimeMillis()) return null
+        val ok = withContext(Dispatchers.Default) { Secrets.verify(RescueCode.normalize(input), s.rescueHash) }
+        if (ok) {
+            dao.saveSettings(s.copy(failedPinAttempts = 0, pinLockedUntil = 0))
+            go(Screen.ChoosePin(reset = true))
+            return null
+        }
+        recordFailure(s)
+        return "Code de secours incorrect."
+    }
+
+    private suspend fun recordFailure(s: Settings) {
         val failed = s.failedPinAttempts + 1
         val lock = PinRules.lockDurationMillis(failed)
         dao.saveSettings(
@@ -176,14 +193,6 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                 pinLockedUntil = if (lock > 0) System.currentTimeMillis() + lock else s.pinLockedUntil,
             ),
         )
-        return "Code incorrect."
-    }
-
-    suspend fun tryRescue(input: String): Boolean {
-        val s = dao.settingsNow() ?: return false
-        val ok = withContext(Dispatchers.Default) { Secrets.verify(RescueCode.normalize(input), s.rescueHash) }
-        if (ok) go(Screen.ChoosePin(reset = true))
-        return ok
     }
 
     suspend fun checkPin(pin: String): Boolean {

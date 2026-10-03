@@ -42,7 +42,7 @@ fun FoteliApp(vm: AppViewModel) {
             Screen.Home -> HomeScreen(students, vm)
             is Screen.Child -> ChildScreen(students.firstOrNull { it.id == s.studentId }, vm)
             Screen.PinEntry -> PinEntryScreen(settings, vm)
-            Screen.RescueEntry -> RescueEntryScreen(vm)
+            Screen.RescueEntry -> RescueEntryScreen(settings, vm)
             is Screen.Teacher -> TeacherFrame(settings, s.tab, vm) {
                 when (s.tab) {
                     TeacherTab.CLASS -> ClassTab(students, vm)

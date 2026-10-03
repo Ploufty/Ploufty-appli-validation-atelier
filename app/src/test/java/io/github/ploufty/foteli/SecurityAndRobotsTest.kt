@@ -45,12 +45,15 @@ class SecurityAndRobotsTest {
     }
 
     @Test
-    fun rescueCodeFormatAndNormalisation() {
+    fun rescueCodeIsEightDigitsInTwoGroups() {
+        repeat(50) {
+            val code = RescueCode.generate()
+            assertTrue(code, Regex("^\\d{4} \\d{4}$").matches(code))
+        }
         val code = RescueCode.generate()
-        assertTrue(code, Regex("^[A-HJ-NP-Z2-9]{4}-[A-HJ-NP-Z2-9]{4}-[A-HJ-NP-Z2-9]{4}$").matches(code))
-        assertEquals(RescueCode.normalize(code), RescueCode.normalize(" ${code.lowercase().replace("-", " ")} "))
+        assertEquals(RescueCode.LENGTH, RescueCode.normalize(code).length)
         val stored = Secrets.hash(RescueCode.normalize(code))
-        assertTrue(Secrets.verify(RescueCode.normalize(code.lowercase()), stored))
+        assertTrue(Secrets.verify(RescueCode.normalize(code.replace(" ", "")), stored))
     }
 
     @Test

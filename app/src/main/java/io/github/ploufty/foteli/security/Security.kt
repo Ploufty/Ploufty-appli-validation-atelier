@@ -64,15 +64,18 @@ object PinRules {
     }
 }
 
-/** Code de secours : 12 caractères sans ambiguïté (pas de O/0, I/1), affiché en 3 groupes. */
+/**
+ * Code de secours : 8 chiffres, affichés en deux groupes (ex. « 4827 1953 »),
+ * tapés avec le clavier de Foteli. Facile à recopier pour un adulte, inutile sans le papier.
+ */
 object RescueCode {
-    private const val ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
+    const val LENGTH = 8
 
-    fun generate(random: SecureRandom = SecureRandom()): String =
-        (0 until 12).map { ALPHABET[random.nextInt(ALPHABET.length)] }
-            .chunked(4) { it.joinToString("") }
-            .joinToString("-")
+    fun generate(random: SecureRandom = SecureRandom()): String {
+        val digits = (0 until LENGTH).map { random.nextInt(10) }.joinToString("")
+        return digits.chunked(4).joinToString(" ")
+    }
 
-    /** Ce qui est réellement comparé : majuscules, sans tirets ni espaces. */
-    fun normalize(input: String): String = input.uppercase().filter(Char::isLetterOrDigit)
+    /** Ce qui est réellement comparé : les chiffres seuls. */
+    fun normalize(input: String): String = input.filter(Char::isDigit)
 }
