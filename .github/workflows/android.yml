@@ -120,6 +120,9 @@ jobs:
           overwrite_files: true
           files: foteli.apk
           body: |
+            ### 🎬 Vidéo : visite guidée de l'appli sur une tablette virtuelle
+            https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/visite-guidee.mp4
+
             ### Aperçu (tablette virtuelle Android 14, classe de démonstration)
             ![Premier lancement](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-1-premier-lancement.png)
             ![Accueil des élèves](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-2-accueil-eleves.png)
@@ -148,6 +151,8 @@ jobs:
           echo 'KERNEL=="kvm", GROUP="kvm", MODE="0666", OPTIONS+="static_node=kvm"' | sudo tee /etc/udev/rules.d/99-kvm4all.rules
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
+
+      - uses: actions/checkout@v4
 
       - uses: actions/download-artifact@v4
         with:
@@ -185,11 +190,14 @@ jobs:
             adb exec-out screencap -p > capture-6-code-sur-telephone.png
             adb shell wm size reset
             adb shell wm density reset
+            bash .github/scripts/visite-guidee.sh || true
 
       - uses: actions/upload-artifact@v4
         with:
           name: captures-ecran
-          path: capture-*.png
+          path: |
+            capture-*.png
+            visite-guidee.mp4
 
       # Les captures s'affichent directement sur la page Releases : rien à télécharger ni à installer.
       - name: Ajouter les captures à la page Releases
@@ -197,4 +205,6 @@ jobs:
         with:
           tag_name: v${{ needs.build.outputs.version }}
           overwrite_files: true
-          files: capture-*.png
+          files: |
+            capture-*.png
+            visite-guidee.mp4
