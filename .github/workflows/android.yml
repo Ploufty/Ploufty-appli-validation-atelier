@@ -38,6 +38,9 @@ jobs:
             echo "SIGNED=test" >> "$GITHUB_ENV"
           fi
 
+      - name: Tests automatiques (code PIN, code de secours, robots)
+        run: ./gradlew --no-daemon testDebugUnitTest
+
       - name: Compiler (version finale + version d'aperçu)
         env:
           FOTELI_KEYSTORE_PASSWORD: ${{ secrets.FOTELI_KEYSTORE_PASSWORD }}
@@ -117,8 +120,12 @@ jobs:
           overwrite_files: true
           files: foteli.apk
           body: |
-            ### Aperçu (tablette virtuelle Android 14)
-            ![Écran de Foteli](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-accueil.png)
+            ### Aperçu (tablette virtuelle Android 14, classe de démonstration)
+            ![Premier lancement](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-1-premier-lancement.png)
+            ![Accueil des élèves](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-2-accueil-eleves.png)
+            ![Code enseignant](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-3-code-enseignant.png)
+            ![Classe](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-4-classe.png)
+            ![Ajouter un élève](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-5-ajout-eleve.png)
 
             **Installer sur la tablette** : touchez `foteli.apk` ci-dessous depuis le navigateur de la tablette, puis acceptez « Installer des applis inconnues ».
 
@@ -155,9 +162,21 @@ jobs:
           disable-animations: true
           script: |
             adb install -r foteli-apercu.apk
-            adb shell am start -n io.github.ploufty.foteli/.MainActivity
-            sleep 10
-            adb exec-out screencap -p > capture-accueil.png
+            adb shell am start -W -n io.github.ploufty.foteli/.MainActivity
+            sleep 8
+            adb exec-out screencap -p > capture-1-premier-lancement.png
+            adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true
+            sleep 8
+            adb exec-out screencap -p > capture-2-accueil-eleves.png
+            adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen pin
+            sleep 6
+            adb exec-out screencap -p > capture-3-code-enseignant.png
+            adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen teacher
+            sleep 6
+            adb exec-out screencap -p > capture-4-classe.png
+            adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen edit
+            sleep 6
+            adb exec-out screencap -p > capture-5-ajout-eleve.png
 
       - uses: actions/upload-artifact@v4
         with:
