@@ -16,7 +16,17 @@ Toutes les versions et leurs notes : onglet **Releases** du dépôt (colonne de 
 
 Onglet **Actions** → dernière exécution réussie (✓ verte) → rubrique **Artifacts** en bas de page → `foteli-<version>-signee` (ou `-test`). C'est un `.zip` contenant l'`.apk`. Il faut être connecté à GitHub et passer par un navigateur (pas l'appli GitHub).
 
-## 2. Tester sur Windows, sans tablette
+## 2. Voir l'appli sans rien installer (le plus simple)
+
+Ouvrir la page **Releases** : https://github.com/Ploufty/Ploufty-appli-validation-atelier/releases/latest
+
+À chaque version, GitHub lance Foteli sur une tablette virtuelle et **affiche la capture d'écran directement sur cette page**, au-dessus du fichier `foteli.apk`. Aucun compte, aucun logiciel.
+
+## 2 bis. Essayer pour de vrai : une tablette ou un téléphone Android 13+
+
+C'est la seule façon de **toucher** l'appli, et c'est plus simple qu'Android Studio : voir § 3. N'importe quel téléphone Android 13 ou plus récent convient aussi pour essayer.
+
+## 2 ter. Pour les curieux : Android Studio sur Windows (facultatif, technique)
 
 ### Solution conseillée : l'émulateur d'Android Studio (gratuit, officiel)
 
@@ -63,10 +73,6 @@ Sur l'écran d'accueil de la tablette virtuelle, **glisser de bas en haut** pour
 
 - **Windows Subsystem for Android** : arrêté par Microsoft en 2025.
 - **BlueStacks** et émulateurs de jeux similaires : ils fonctionnent, mais contiennent de la publicité et du pistage. Acceptables pour regarder une version vide, **jamais avec de vraies photos d'élèves**.
-
-### Sans rien installer
-
-À chaque version, GitHub lance aussi Foteli sur une **tablette virtuelle** et publie des **captures d'écran** : artifact **`captures-ecran`** de la même exécution.
 
 ## 3. Installer sur la tablette (Android 13+)
 
