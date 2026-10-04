@@ -71,7 +71,7 @@ fun TeacherFrame(settings: Settings?, tab: TeacherTab?, vm: AppViewModel, conten
                 modifier = Modifier.weight(1f),
             )
             TabButton("Classe", tab == TeacherTab.CLASS) { vm.go(Screen.Teacher(TeacherTab.CLASS)) }
-            TabButton("Ateliers · 0.3", selected = false, enabled = false) {}
+            TabButton("Ateliers", tab == TeacherTab.WORKSHOPS) { vm.go(Screen.Teacher(TeacherTab.WORKSHOPS)) }
             TabButton("Photos · 0.4", selected = false, enabled = false) {}
             TabButton("Réglages", tab == TeacherTab.SETTINGS) { vm.go(Screen.Teacher(TeacherTab.SETTINGS)) }
             Spacer(Modifier.width(8.dp))
@@ -116,13 +116,13 @@ private fun TabButton(text: String, selected: Boolean, enabled: Boolean = true, 
 }
 
 @Composable
-private fun Heading(text: String) = Text(text, color = Navy, fontWeight = FontWeight.Bold, fontSize = 22.sp)
+internal fun Heading(text: String) = Text(text, color = Navy, fontWeight = FontWeight.Bold, fontSize = 22.sp)
 
 @Composable
-private fun Hint(text: String) = Text(text, color = Muted, fontSize = 15.sp)
+internal fun Hint(text: String) = Text(text, color = Muted, fontSize = 15.sp)
 
 @Composable
-private fun WhitePanel(content: @Composable () -> Unit) {
+internal fun WhitePanel(content: @Composable () -> Unit) {
     Column(
         Modifier
             .fillMaxWidth()
@@ -276,7 +276,7 @@ fun BulkAddScreen(vm: AppViewModel) {
 // ---------- Réglages ----------
 
 @Composable
-fun SettingsTab(settings: Settings?, students: List<Student>, vm: AppViewModel) {
+fun SettingsTab(settings: Settings?, students: List<Student>, workshopCount: Int, vm: AppViewModel) {
     val scope = rememberCoroutineScope()
     var className by remember { mutableStateOf(settings?.className.orEmpty()) }
     LaunchedEffect(settings?.className) { className = settings?.className.orEmpty() }
@@ -288,6 +288,22 @@ fun SettingsTab(settings: Settings?, students: List<Student>, vm: AppViewModel) 
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             OutlinedTextField(value = className, onValueChange = { className = it }, singleLine = true, modifier = Modifier.width(420.dp))
             SecondaryButton("Enregistrer", { vm.renameClass(className) })
+        }
+    }
+    WhitePanel {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Column(Modifier.weight(1f)) {
+                Text("Mode libre (Souvenirs)", color = Navy, fontWeight = FontWeight.Bold, fontSize = 17.sp)
+                Hint("Ajoute une carte « Photo libre » pour les enfants : ils photographient ce qu’ils veulent, sans compétence. Pensez à le désactiver pendant les séances d’ateliers.")
+            }
+            Switch(checked = settings?.freeMode == true, onCheckedChange = { vm.setFreeMode(it) })
+        }
+        if (settings?.freeMode == true) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                Hint("Caméra :")
+                Chip("Arrière", settings?.freeModeFrontCamera != true) { vm.setFreeModeFrontCamera(false) }
+                Chip("Avant", settings?.freeModeFrontCamera == true) { vm.setFreeModeFrontCamera(true) }
+            }
         }
     }
     WhitePanel {
@@ -305,7 +321,8 @@ fun SettingsTab(settings: Settings?, students: List<Student>, vm: AppViewModel) 
     var error by remember { mutableStateOf<String?>(null) }
     DangerZone {
         Text(
-            "Tout effacer supprime toute la classe : ${students.size} élève${if (students.size > 1) "s" else ""} et toutes leurs photos. " +
+            "Tout effacer supprime toute la classe : ${students.size} élève${if (students.size > 1) "s" else ""}, " +
+                "$workshopCount atelier${if (workshopCount > 1) "s" else ""} et toutes les photos. " +
                 "Le code PIN et les réglages sont conservés. Rien ne pourra être récupéré sans sauvegarde.",
             color = Navy,
             fontSize = 16.sp,

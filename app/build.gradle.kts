@@ -13,8 +13,8 @@ android {
         applicationId = "io.github.ploufty.foteli"
         minSdk = 33
         targetSdk = 35
-        versionCode = 3
-        versionName = "0.2.1"
+        versionCode = 4
+        versionName = "0.3.0"
     }
 
     // La clé de signature n'est jamais dans le dépôt : GitHub Actions la fournit
@@ -51,7 +51,20 @@ android {
         compose = true
         buildConfig = true
     }
+
+    // Le référentiel de compétences (references/) est embarqué tel quel dans l'appli.
+    sourceSets {
+        getByName("main") {
+            assets.srcDir(layout.buildDirectory.dir("generated/referentiel"))
+        }
+    }
 }
+
+val copyReferentiel by tasks.registering(Copy::class) {
+    from(rootProject.file("references/referentiel-competences.csv"))
+    into(layout.buildDirectory.dir("generated/referentiel"))
+}
+tasks.named("preBuild") { dependsOn(copyReferentiel) }
 
 dependencies {
     val composeBom = platform("androidx.compose:compose-bom:2024.12.01")

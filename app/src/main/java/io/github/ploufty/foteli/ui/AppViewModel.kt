@@ -7,9 +7,11 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.ploufty.foteli.data.FoteliDatabase
+import io.github.ploufty.foteli.data.Referentiel
 import io.github.ploufty.foteli.data.Settings
 import io.github.ploufty.foteli.data.Student
 import io.github.ploufty.foteli.data.StudentLook
+import io.github.ploufty.foteli.data.Workshop
 import io.github.ploufty.foteli.security.PinRules
 import io.github.ploufty.foteli.security.RescueCode
 import io.github.ploufty.foteli.security.Secrets
@@ -37,7 +39,10 @@ sealed interface Screen {
 
     // Espace élève
     data object Home : Screen
-    data class Child(val studentId: Long) : Screen
+    /** L'enfant a touché son robot : il choisit son atelier (mode B). */
+    data class ChooseWorkshop(val studentId: Long) : Screen
+    /** Atelier choisi (workshopId = null : photo libre). L'appareil photo arrive en 0.4. */
+    data class CameraSoon(val studentId: Long, val workshopId: Long?) : Screen
 
     // Accès enseignant
     data object PinEntry : Screen
@@ -47,9 +52,13 @@ sealed interface Screen {
     data class Teacher(val tab: TeacherTab = TeacherTab.CLASS) : Screen
     data class EditStudent(val studentId: Long?) : Screen
     data object BulkAdd : Screen
+    data class EditWorkshop(val workshopId: Long?) : Screen
 }
 
-enum class TeacherTab { CLASS, SETTINGS }
+enum class TeacherTab { CLASS, WORKSHOPS, SETTINGS }
+
+/** Au-delà, les cartes deviennent trop petites pour les enfants (docs/v0/verification.md E4). */
+const val MAX_COMFORTABLE_CARDS = 6
 
 private const val CHILD_IDLE_MS = 60_000L
 private const val TEACHER_IDLE_MS = 5 * 60_000L
@@ -69,6 +78,11 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             .map { list -> list.sortedWith(compareBy(collator) { it.firstName }) }
             .stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
+    val workshops: StateFlow<List<Workshop>> =
+        dao.workshops().stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
+    val referentiel: Referentiel by lazy { Referentiel.get(app) }
+
     private var lastInteraction = System.currentTimeMillis()
 
     init {
@@ -84,9 +98,9 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                 delay(1_000)
                 val idle = System.currentTimeMillis() - lastInteraction
                 when (screen) {
-                    is Screen.Child, Screen.PinEntry, Screen.RescueEntry ->
+                    is Screen.ChooseWorkshop, is Screen.CameraSoon, Screen.PinEntry, Screen.RescueEntry ->
                         if (idle > CHILD_IDLE_MS) go(Screen.Home)
-                    is Screen.Teacher, is Screen.EditStudent, Screen.BulkAdd ->
+                    is Screen.Teacher, is Screen.EditStudent, Screen.BulkAdd, is Screen.EditWorkshop ->
                         if (settings.value?.autoCloseTeacher != false && idle > TEACHER_IDLE_MS) go(Screen.Home)
                     else -> Unit
                 }
@@ -105,9 +119,11 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     /** Bouton retour d'Android : jamais de sortie de l'appli depuis l'espace élève. */
     fun onBack() {
-        when (screen) {
-            is Screen.Child, Screen.PinEntry, Screen.RescueEntry -> go(Screen.Home)
+        when (val s = screen) {
+            is Screen.ChooseWorkshop, Screen.PinEntry, Screen.RescueEntry -> go(Screen.Home)
+            is Screen.CameraSoon -> go(Screen.ChooseWorkshop(s.studentId))
             is Screen.EditStudent, Screen.BulkAdd -> go(Screen.Teacher(TeacherTab.CLASS))
+            is Screen.EditWorkshop -> go(Screen.Teacher(TeacherTab.WORKSHOPS))
             is Screen.Teacher -> go(Screen.Home)
             else -> Unit
         }
@@ -263,12 +279,77 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    /** « Tout effacer » : la classe est vidée ; PIN, code de secours et réglages restent. */
+    fun setFreeMode(enabled: Boolean) {
+        viewModelScope.launch {
+            val current = dao.settingsNow() ?: return@launch
+            dao.saveSettings(current.copy(freeMode = enabled))
+        }
+    }
+
+    fun setFreeModeFrontCamera(front: Boolean) {
+        viewModelScope.launch {
+            val current = dao.settingsNow() ?: return@launch
+            dao.saveSettings(current.copy(freeModeFrontCamera = front))
+        }
+    }
+
+    /** « Tout effacer » : élèves et ateliers sont supprimés ; PIN, code de secours et réglages restent. */
     fun wipeClass() {
         viewModelScope.launch {
             dao.deleteAllStudents()
+            dao.deleteAllWorkshops()
             go(Screen.Teacher(TeacherTab.CLASS))
         }
+    }
+
+    // ---------- Ateliers ----------
+
+    /** Enregistre l'atelier. [activate] : « Enregistrer et activer ». */
+    fun saveWorkshop(id: Long?, title: String, image: String, competencies: List<String>, frontCamera: Boolean, activate: Boolean) {
+        val name = title.trim()
+        if (name.isEmpty() || competencies.isEmpty()) return
+        viewModelScope.launch {
+            val existing = workshops.value.firstOrNull { it.id == id }
+            if (existing != null) {
+                dao.updateWorkshop(
+                    existing.copy(title = name, image = image, competencies = competencies, frontCamera = frontCamera, active = existing.active || activate),
+                )
+            } else {
+                dao.insertWorkshop(Workshop(title = name, image = image, competencies = competencies, frontCamera = frontCamera, active = activate))
+            }
+            go(Screen.Teacher(TeacherTab.WORKSHOPS))
+        }
+    }
+
+    fun setWorkshopActive(id: Long, active: Boolean) {
+        viewModelScope.launch { dao.setWorkshopActive(id, active) }
+    }
+
+    fun deactivateAllWorkshops() {
+        viewModelScope.launch { dao.deactivateAllWorkshops() }
+    }
+
+    /** Puzzle 6 → Puzzle 12 : copie inactive, ouverte aussitôt pour la modifier. */
+    fun duplicateWorkshop(id: Long) {
+        val source = workshops.value.firstOrNull { it.id == id } ?: return
+        viewModelScope.launch {
+            val newId = dao.insertWorkshop(source.copy(id = 0, title = "${source.title} (copie)", active = false, createdAt = System.currentTimeMillis()))
+            go(Screen.EditWorkshop(newId))
+        }
+    }
+
+    fun deleteWorkshop(id: Long) {
+        viewModelScope.launch {
+            dao.deleteWorkshop(id)
+            go(Screen.Teacher(TeacherTab.WORKSHOPS))
+        }
+    }
+
+    private suspend fun workshopIdForDemo(): Long? {
+        var list = workshops.value
+        var tries = 0
+        while (list.size < 2 && tries < 20) { delay(100); list = workshops.value; tries++ }
+        return list.getOrNull(1)?.id
     }
 
     // ---------- Démonstration (versions de test uniquement, pour les captures automatiques) ----------
@@ -285,11 +366,21 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                         else Student(firstName = n, look = StudentLook.ROBOT, robot = (i * 7) % Robots.COUNT)
                     },
                 )
+                dao.saveSettings((dao.settingsNow() ?: Settings()).copy(freeMode = true))
+                listOf(
+                    Workshop(title = "Puzzle 12 pièces", image = "puzzle", competencies = listOf("MAT-FOR-MS-04"), active = true),
+                    Workshop(title = "Construction Kapla", image = "kapla", competencies = listOf("MAT-FOR-MS-03", "TES-ESP-GS-01"), active = true),
+                    Workshop(title = "Collier de perles", image = "perles", competencies = listOf("MAT-MOT-MS-04"), active = true),
+                    Workshop(title = "Spirales", image = "graphisme", competencies = listOf("ART-GRA-MS-02"), active = false),
+                ).forEach { dao.insertWorkshop(it) }
             }
             go(
                 when (target) {
                     "teacher" -> Screen.Teacher(TeacherTab.CLASS)
                     "edit" -> Screen.EditStudent(null)
+                    "workshops" -> Screen.Teacher(TeacherTab.WORKSHOPS)
+                    "edit-workshop" -> Screen.EditWorkshop(workshopIdForDemo())
+                    "choose" -> Screen.ChooseWorkshop(dao.studentsNow().first().id)
                     "pin" -> Screen.PinEntry
                     else -> Screen.Home
                 },
