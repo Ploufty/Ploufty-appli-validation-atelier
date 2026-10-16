@@ -2,9 +2,13 @@
 <!--
   Vie privée (docs/v0/technique.md § 4) :
   - aucune permission Internet : Android interdit toute connexion à l'appli ;
-  - aucune sauvegarde automatique vers le compte Google, ni transfert entre appareils.
+  - aucune sauvegarde automatique vers le compte Google, ni transfert entre appareils ;
+  - une seule permission : l'appareil photo.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-feature android:name="android.hardware.camera.any" android:required="false" />
 
     <application
         android:allowBackup="false"

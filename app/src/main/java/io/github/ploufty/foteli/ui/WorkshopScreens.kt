@@ -32,6 +32,8 @@ import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import io.github.ploufty.foteli.data.ImageKeys
+import io.github.ploufty.foteli.data.Trace
 import io.github.ploufty.foteli.data.Workshop
 
 private fun domainsOf(w: Workshop): List<String> = w.competencies.map { it.substringBefore('-') }.distinct()
@@ -39,7 +41,7 @@ private fun domainsOf(w: Workshop): List<String> = w.competencies.map { it.subst
 // ---------- Liste des ateliers ----------
 
 @Composable
-fun WorkshopsTab(workshops: List<Workshop>, freeMode: Boolean, vm: AppViewModel) {
+fun WorkshopsTab(workshops: List<Workshop>, traces: List<Trace>, freeMode: Boolean, vm: AppViewModel) {
     val activeCount = workshops.count { it.active }
     val cards = activeCount + if (freeMode) 1 else 0
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -66,14 +68,14 @@ fun WorkshopsTab(workshops: List<Workshop>, freeMode: Boolean, vm: AppViewModel)
     }
     workshops.chunked(3).forEach { row ->
         Row(horizontalArrangement = Arrangement.spacedBy(14.dp)) {
-            row.forEach { w -> WorkshopAdminCard(w, vm, Modifier.weight(1f)) }
+            row.forEach { w -> WorkshopAdminCard(w, traces.count { it.workshopId == w.id }, vm, Modifier.weight(1f)) }
             repeat(3 - row.size) { Spacer(Modifier.weight(1f)) }
         }
     }
 }
 
 @Composable
-private fun WorkshopAdminCard(w: Workshop, vm: AppViewModel, modifier: Modifier) {
+private fun WorkshopAdminCard(w: Workshop, photoCount: Int, vm: AppViewModel, modifier: Modifier) {
     Column(
         modifier
             .clip(RoundedCornerShape(14.dp))
@@ -102,6 +104,7 @@ private fun WorkshopAdminCard(w: Workshop, vm: AppViewModel, modifier: Modifier)
                 )
             }
             Hint("${w.competencies.size} compétence${if (w.competencies.size > 1) "s" else ""} · caméra ${if (w.frontCamera) "avant" else "arrière"}")
+            Text(photos(photoCount), color = Navy, fontWeight = FontWeight.Bold, fontSize = 15.sp)
             Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 Switch(checked = w.active, onCheckedChange = { vm.setWorkshopActive(w.id, it) })
                 Text(if (w.active) "Actif" else "Inactif", color = Navy, fontWeight = FontWeight.Bold)
@@ -117,10 +120,12 @@ private fun WorkshopAdminCard(w: Workshop, vm: AppViewModel, modifier: Modifier)
 // ---------- Créer / modifier un atelier ----------
 
 @Composable
-fun EditWorkshopScreen(workshop: Workshop?, vm: AppViewModel) {
+fun EditWorkshopScreen(workshop: Workshop?, traces: List<Trace>, vm: AppViewModel) {
     val ref = vm.referentiel
     var title by remember(workshop) { mutableStateOf(workshop?.title.orEmpty()) }
     var image by remember(workshop) { mutableStateOf(workshop?.image ?: WorkshopImage.PUZZLE.key) }
+    // Photo du modèle (enregistrée ou tout juste prise), gardée même si une illustration est choisie entre-temps.
+    var model by remember(workshop) { mutableStateOf(workshop?.image?.takeIf { ImageKeys.isPhoto(it) }) }
     var selected by remember(workshop) { mutableStateOf(workshop?.competencies.orEmpty()) }
     var front by remember(workshop) { mutableStateOf(workshop?.frontCamera ?: false) }
     val first = workshop?.competencies?.firstOrNull()?.let { ref[it] }
@@ -142,22 +147,29 @@ fun EditWorkshopScreen(workshop: Workshop?, vm: AppViewModel) {
         )
 
         Text("Image de l’atelier", color = Navy, fontWeight = FontWeight.Bold)
-        Hint("Les enfants reconnaîtront l’atelier grâce à elle. Avec la version 0.4, vous pourrez la remplacer par une photo du modèle.")
+        Hint("Les enfants reconnaîtront l’atelier grâce à elle. Le plus parlant : une photo du modèle terminé.")
         Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
-            WorkshopImage.entries.forEach { img ->
+            val tiles = listOfNotNull(model?.let { it to "Photo du modèle" }) + WorkshopImage.entries.map { it.key to it.label }
+            tiles.forEach { (key, label) ->
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     WorkshopArt(
-                        img.key,
+                        key,
                         Modifier
                             .size(width = 128.dp, height = 96.dp)
                             .clip(RoundedCornerShape(10.dp))
-                            .border(3.dp, if (image == img.key) Blue else Color.Transparent, RoundedCornerShape(10.dp))
-                            .clickable { image = img.key },
+                            .border(3.dp, if (image == key) Blue else Color.Transparent, RoundedCornerShape(10.dp))
+                            .clickable { image = key },
                     )
-                    Hint(img.label)
+                    Hint(label)
                 }
             }
         }
+        SecondaryButton(if (model == null) "📷 Photographier le modèle" else "📷 Reprendre la photo du modèle", {
+            vm.openTeacherCamera { file ->
+                model = ImageKeys.PENDING + file.name
+                image = model!!
+            }
+        })
 
         Text("Compétences", color = Navy, fontWeight = FontWeight.Bold)
         if (selected.isEmpty()) Hint("Aucune compétence choisie : touchez un domaine, puis un sous-domaine et un niveau, et cochez.")
@@ -231,9 +243,16 @@ fun EditWorkshopScreen(workshop: Workshop?, vm: AppViewModel) {
     }
     if (workshop != null) {
         var confirm by remember(workshop) { mutableStateOf("") }
+        val own = traces.filter { it.workshopId == workshop.id }
+        val kids = own.map { it.studentId }.distinct().size
         DangerZone {
             Text(
-                "Supprimer « ${workshop.title} » efface aussi toutes ses photos. Pour garder les photos, désactivez plutôt l’atelier.",
+                if (own.isEmpty()) {
+                    "Supprimer « ${workshop.title} » : aucune photo dans cet atelier pour l’instant."
+                } else {
+                    "Supprimer « ${workshop.title} » efface aussi ${if (own.size > 1) "ses" else "sa"} ${photos(own.size)} " +
+                        "($kids élève${if (kids > 1) "s" else ""}). Pour garder les photos, désactivez plutôt l’atelier."
+                },
                 color = Navy,
                 fontSize = 16.sp,
             )

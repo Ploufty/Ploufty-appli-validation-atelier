@@ -13,8 +13,8 @@ android {
         applicationId = "io.github.ploufty.foteli"
         minSdk = 33
         targetSdk = 35
-        versionCode = 4
-        versionName = "0.3.0"
+        versionCode = 5
+        versionName = "0.4.0"
     }
 
     // La clé de signature n'est jamais dans le dépôt : GitHub Actions la fournit
@@ -75,6 +75,13 @@ dependencies {
     implementation("androidx.compose.material3:material3")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.7")
     implementation("androidx.lifecycle:lifecycle-runtime-compose:2.8.7")
+
+    // Appareil photo dans l'appli (la photo ne passe jamais par la galerie).
+    val camerax = "1.4.1"
+    implementation("androidx.camera:camera-core:$camerax")
+    implementation("androidx.camera:camera-camera2:$camerax")
+    implementation("androidx.camera:camera-lifecycle:$camerax")
+    implementation("androidx.camera:camera-view:$camerax")
 
     val room = "2.6.1"
     implementation("androidx.room:room-runtime:$room")

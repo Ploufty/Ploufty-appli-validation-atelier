@@ -43,6 +43,7 @@ import androidx.compose.ui.unit.sp
 import io.github.ploufty.foteli.data.Settings
 import io.github.ploufty.foteli.data.Student
 import io.github.ploufty.foteli.data.StudentLook
+import io.github.ploufty.foteli.data.Trace
 import kotlinx.coroutines.launch
 
 /** Cadre de l'espace enseignant : barre du haut, onglets, bouton « Mode élève ». */
@@ -72,7 +73,7 @@ fun TeacherFrame(settings: Settings?, tab: TeacherTab?, vm: AppViewModel, conten
             )
             TabButton("Classe", tab == TeacherTab.CLASS) { vm.go(Screen.Teacher(TeacherTab.CLASS)) }
             TabButton("Ateliers", tab == TeacherTab.WORKSHOPS) { vm.go(Screen.Teacher(TeacherTab.WORKSHOPS)) }
-            TabButton("Photos · 0.4", selected = false, enabled = false) {}
+            TabButton("Photos · 0.5", selected = false, enabled = false) {}
             TabButton("Réglages", tab == TeacherTab.SETTINGS) { vm.go(Screen.Teacher(TeacherTab.SETTINGS)) }
             Spacer(Modifier.width(8.dp))
             Box(
@@ -89,9 +90,38 @@ fun TeacherFrame(settings: Settings?, tab: TeacherTab?, vm: AppViewModel, conten
                 .verticalScroll(rememberScrollState())
                 .padding(24.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) { content() }
+        ) {
+            CameraBanner()
+            content()
+        }
     }
 }
+
+/** Sans l'appareil photo, les enfants ne peuvent rien faire : l'enseignant le voit et le règle en un geste. */
+@Composable
+private fun CameraBanner() {
+    val access = LocalCameraAccess.current
+    if (access.allowed) return
+    Column(
+        Modifier
+            .fillMaxWidth()
+            .clip(RoundedCornerShape(12.dp))
+            .background(Color(0xFFFFF6DC))
+            .border(1.dp, Yellow, RoundedCornerShape(12.dp))
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(10.dp),
+    ) {
+        Text("L’appareil photo n’est pas autorisé", color = Navy, fontWeight = FontWeight.Bold, fontSize = 17.sp)
+        Hint("Sans lui, les enfants ne peuvent pas prendre de photos (l’accueil affiche la lune). Foteli n’utilise l’appareil photo que dans l’appli : les photos ne vont jamais dans la galerie.")
+        Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+            PrimaryButton("Autoriser l’appareil photo", access.request)
+            SecondaryButton("Rien ne s’affiche ? Ouvrir les réglages Android", access.openSystemSettings)
+        }
+    }
+}
+
+/** « 1 photo », « 3 photos ». */
+internal fun photos(n: Int) = if (n > 1) "$n photos" else "$n photo"
 
 @Composable
 private fun TabButton(text: String, selected: Boolean, enabled: Boolean = true, onClick: () -> Unit) {
@@ -137,7 +167,7 @@ internal fun WhitePanel(content: @Composable () -> Unit) {
 // ---------- Classe ----------
 
 @Composable
-fun ClassTab(students: List<Student>, vm: AppViewModel) {
+fun ClassTab(students: List<Student>, traces: List<Trace>, vm: AppViewModel) {
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         Heading("Élèves (${students.size})")
         Spacer(Modifier.weight(1f))
@@ -164,7 +194,7 @@ fun ClassTab(students: List<Student>, vm: AppViewModel) {
                     StudentFace(s, 56.dp)
                     Column(Modifier.weight(1f)) {
                         Text(s.firstName, color = Navy, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                        Hint(if (s.look == StudentLook.ROBOT) "robot" else "prénom en grand")
+                        Hint("${if (s.look == StudentLook.ROBOT) "robot" else "prénom en grand"} · ${photos(traces.count { it.studentId == s.id })}")
                     }
                     Text("Modifier", color = Blue, fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 }
@@ -175,7 +205,7 @@ fun ClassTab(students: List<Student>, vm: AppViewModel) {
 }
 
 @Composable
-fun EditStudentScreen(student: Student?, vm: AppViewModel) {
+fun EditStudentScreen(student: Student?, traces: List<Trace>, vm: AppViewModel) {
     val initialRobot = remember(student) { student?.robot ?: vm.freeRobots().firstOrNull() ?: 0 }
     var name by remember(student) { mutableStateOf(student?.firstName.orEmpty()) }
     var look by remember(student) { mutableStateOf(student?.look ?: StudentLook.ROBOT) }
@@ -199,7 +229,6 @@ fun EditStudentScreen(student: Student?, vm: AppViewModel) {
             Chip("Un robot", look == StudentLook.ROBOT) { look = StudentLook.ROBOT }
             Chip("Son prénom en grand", look == StudentLook.NAME) { look = StudentLook.NAME }
         }
-        Hint("Sa photo : disponible avec l’appareil photo (version 0.4).")
         if (look == StudentLook.ROBOT) {
             Text("Choisir un robot (ceux déjà donnés sont grisés)", color = Navy, fontWeight = FontWeight.Bold)
             (0 until Robots.COUNT).chunked(12).forEach { line ->
@@ -233,9 +262,17 @@ fun EditStudentScreen(student: Student?, vm: AppViewModel) {
     }
     if (student != null) {
         var confirm by remember(student) { mutableStateOf("") }
+        val own = traces.filter { it.studentId == student.id }
+        val inWorkshops = own.mapNotNull { it.workshopId }.distinct().size
         DangerZone {
             Text(
-                "Supprimer ${student.firstName} efface aussi toutes ses photos. C’est définitif.",
+                if (own.isEmpty()) {
+                    "Supprimer ${student.firstName} : aucune photo de cet élève pour l’instant. C’est définitif."
+                } else {
+                    "Supprimer ${student.firstName} efface aussi ${if (own.size > 1) "ses" else "sa"} ${photos(own.size)}" +
+                        (if (inWorkshops > 0) " (dans $inWorkshops atelier${if (inWorkshops > 1) "s" else ""})" else "") +
+                        ". C’est définitif."
+                },
                 color = Navy,
                 fontSize = 16.sp,
             )
@@ -276,7 +313,7 @@ fun BulkAddScreen(vm: AppViewModel) {
 // ---------- Réglages ----------
 
 @Composable
-fun SettingsTab(settings: Settings?, students: List<Student>, workshopCount: Int, vm: AppViewModel) {
+fun SettingsTab(settings: Settings?, students: List<Student>, workshopCount: Int, traces: List<Trace>, vm: AppViewModel) {
     val scope = rememberCoroutineScope()
     var className by remember { mutableStateOf(settings?.className.orEmpty()) }
     LaunchedEffect(settings?.className) { className = settings?.className.orEmpty() }
@@ -295,6 +332,7 @@ fun SettingsTab(settings: Settings?, students: List<Student>, workshopCount: Int
             Column(Modifier.weight(1f)) {
                 Text("Mode libre (Souvenirs)", color = Navy, fontWeight = FontWeight.Bold, fontSize = 17.sp)
                 Hint("Ajoute une carte « Photo libre » pour les enfants : ils photographient ce qu’ils veulent, sans compétence. Pensez à le désactiver pendant les séances d’ateliers.")
+                Hint("Souvenirs déjà pris : ${photos(traces.count { it.workshopId == null })}.")
             }
             Switch(checked = settings?.freeMode == true, onCheckedChange = { vm.setFreeMode(it) })
         }
@@ -322,7 +360,7 @@ fun SettingsTab(settings: Settings?, students: List<Student>, workshopCount: Int
     DangerZone {
         Text(
             "Tout effacer supprime toute la classe : ${students.size} élève${if (students.size > 1) "s" else ""}, " +
-                "$workshopCount atelier${if (workshopCount > 1) "s" else ""} et toutes les photos. " +
+                "$workshopCount atelier${if (workshopCount > 1) "s" else ""} et ${photos(traces.size)}. " +
                 "Le code PIN et les réglages sont conservés. Rien ne pourra être récupéré sans sauvegarde.",
             color = Navy,
             fontSize = 16.sp,

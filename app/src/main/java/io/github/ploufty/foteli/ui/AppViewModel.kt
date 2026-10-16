@@ -1,20 +1,27 @@
 package io.github.ploufty.foteli.ui
 
 import android.app.Application
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import io.github.ploufty.foteli.data.FoteliDatabase
+import io.github.ploufty.foteli.data.PhotoStore
 import io.github.ploufty.foteli.data.Referentiel
 import io.github.ploufty.foteli.data.Settings
 import io.github.ploufty.foteli.data.Student
 import io.github.ploufty.foteli.data.StudentLook
+import io.github.ploufty.foteli.data.Trace
 import io.github.ploufty.foteli.data.Workshop
 import io.github.ploufty.foteli.security.PinRules
 import io.github.ploufty.foteli.security.RescueCode
 import io.github.ploufty.foteli.security.Secrets
+import java.io.File
+import java.io.FileOutputStream
 import java.text.Collator
 import java.util.Locale
 import kotlinx.coroutines.Dispatchers
@@ -41,8 +48,12 @@ sealed interface Screen {
     data object Home : Screen
     /** L'enfant a touché son robot : il choisit son atelier (mode B). */
     data class ChooseWorkshop(val studentId: Long) : Screen
-    /** Atelier choisi (workshopId = null : photo libre). L'appareil photo arrive en 0.4. */
-    data class CameraSoon(val studentId: Long, val workshopId: Long?) : Screen
+    /** Appareil photo pour l'atelier choisi (workshopId = null : photo libre, rangée dans Souvenirs). */
+    data class Camera(val studentId: Long, val workshopId: Long?) : Screen
+    /** Photo prise, pas encore validée : ✅ l'enregistre, ↻ l'efface. */
+    data class Review(val studentId: Long, val workshopId: Long?, val file: String) : Screen
+    /** Coche de réussite, puis retour à l'accueil. */
+    data class Bravo(val studentId: Long) : Screen
 
     // Accès enseignant
     data object PinEntry : Screen
@@ -57,6 +68,9 @@ sealed interface Screen {
 
 enum class TeacherTab { CLASS, WORKSHOPS, SETTINGS }
 
+/** Appareil photo de l'enseignant (photo du modèle), affiché par-dessus l'écran en cours. */
+class TeacherCameraRequest(val onPhoto: (File) -> Unit)
+
 /** Au-delà, les cartes deviennent trop petites pour les enfants (docs/v0/verification.md E4). */
 const val MAX_COMFORTABLE_CARDS = 6
 
@@ -65,6 +79,7 @@ private const val TEACHER_IDLE_MS = 5 * 60_000L
 
 class AppViewModel(app: Application) : AndroidViewModel(app) {
     private val dao = FoteliDatabase.get(app).dao()
+    val photos = PhotoStore(app.filesDir)
     private val collator = Collator.getInstance(Locale.FRENCH)
 
     var screen by mutableStateOf<Screen>(Screen.Loading)
@@ -81,12 +96,21 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     val workshops: StateFlow<List<Workshop>> =
         dao.workshops().stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
 
+    val traces: StateFlow<List<Trace>> =
+        dao.traces().stateIn(viewModelScope, SharingStarted.Eagerly, emptyList())
+
     val referentiel: Referentiel by lazy { Referentiel.get(app) }
 
+    var teacherCamera by mutableStateOf<TeacherCameraRequest?>(null)
+        private set
+
     private var lastInteraction = System.currentTimeMillis()
+    private var saving = false
 
     init {
         viewModelScope.launch {
+            // Une photo jamais validée (appli fermée en cours de route) ne survit pas.
+            withContext(Dispatchers.IO) { photos.clearPending() }
             val s = dao.settingsNow()
             if (screen == Screen.Loading) {
                 screen = if (s?.setupDone == true) Screen.Home else Screen.Welcome
@@ -98,7 +122,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                 delay(1_000)
                 val idle = System.currentTimeMillis() - lastInteraction
                 when (screen) {
-                    is Screen.ChooseWorkshop, is Screen.CameraSoon, Screen.PinEntry, Screen.RescueEntry ->
+                    is Screen.ChooseWorkshop, is Screen.Camera, is Screen.Review, is Screen.Bravo, Screen.PinEntry, Screen.RescueEntry ->
                         if (idle > CHILD_IDLE_MS) go(Screen.Home)
                     is Screen.Teacher, is Screen.EditStudent, Screen.BulkAdd, is Screen.EditWorkshop ->
                         if (settings.value?.autoCloseTeacher != false && idle > TEACHER_IDLE_MS) go(Screen.Home)
@@ -114,14 +138,24 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     fun go(target: Screen) {
         touch()
+        // Une photo non validée est effacée immédiatement (↻, retour, inactivité) : docs/v0/donnees.md § 7.
+        val previous = screen
+        if (previous is Screen.Review && target !is Screen.Bravo) File(previous.file).delete()
+        if (target == Screen.Home) photos.clearPending()
+        teacherCamera = null
         screen = target
     }
 
     /** Bouton retour d'Android : jamais de sortie de l'appli depuis l'espace élève. */
     fun onBack() {
+        if (teacherCamera != null) {
+            closeTeacherCamera()
+            return
+        }
         when (val s = screen) {
-            is Screen.ChooseWorkshop, Screen.PinEntry, Screen.RescueEntry -> go(Screen.Home)
-            is Screen.CameraSoon -> go(Screen.ChooseWorkshop(s.studentId))
+            is Screen.ChooseWorkshop, Screen.PinEntry, Screen.RescueEntry, is Screen.Bravo -> go(Screen.Home)
+            is Screen.Camera -> go(Screen.ChooseWorkshop(s.studentId))
+            is Screen.Review -> retake(s)
             is Screen.EditStudent, Screen.BulkAdd -> go(Screen.Teacher(TeacherTab.CLASS))
             is Screen.EditWorkshop -> go(Screen.Teacher(TeacherTab.WORKSHOPS))
             is Screen.Teacher -> go(Screen.Home)
@@ -168,6 +202,58 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             dao.saveSettings(current.copy(className = name.trim(), setupDone = true))
             go(Screen.Teacher(TeacherTab.CLASS))
         }
+    }
+
+    // ---------- Photos des enfants ----------
+
+    /** La photo est prise : l'enfant la regarde avant de la valider. */
+    fun photoTaken(from: Screen.Camera, file: File) {
+        if (screen != from) {
+            // L'enfant est déjà reparti (retour, inactivité) : la photo n'est pas gardée.
+            file.delete()
+            return
+        }
+        go(Screen.Review(from.studentId, from.workshopId, file.path))
+    }
+
+    fun retake(review: Screen.Review) {
+        go(Screen.Camera(review.studentId, review.workshopId))
+    }
+
+    /** ✅ : la trace est enregistrée avec une copie des compétences de l'atelier (Q4). */
+    fun validate(review: Screen.Review) {
+        if (saving || screen != review) return
+        saving = true
+        viewModelScope.launch {
+            try {
+                val name = withContext(Dispatchers.IO) { photos.keepPhoto(File(review.file)) }
+                if (name != null) {
+                    val workshop = workshops.value.firstOrNull { it.id == review.workshopId }
+                    dao.insertTrace(
+                        Trace(studentId = review.studentId, workshopId = workshop?.id, file = name, competencies = workshop?.competencies.orEmpty()),
+                    )
+                    go(Screen.Bravo(review.studentId))
+                } else {
+                    go(Screen.Camera(review.studentId, review.workshopId))
+                }
+            } finally {
+                saving = false
+            }
+        }
+    }
+
+    fun bravoDone(bravo: Screen.Bravo) {
+        if (screen == bravo) go(Screen.Home)
+    }
+
+    fun openTeacherCamera(onPhoto: (File) -> Unit) {
+        touch()
+        teacherCamera = TeacherCameraRequest(onPhoto)
+    }
+
+    fun closeTeacherCamera() {
+        touch()
+        teacherCamera = null
     }
 
     // ---------- Accès enseignant ----------
@@ -258,6 +344,9 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     fun deleteStudent(id: Long) {
         viewModelScope.launch {
+            val files = dao.traceFilesOfStudent(id)
+            dao.deleteTracesOfStudent(id)
+            withContext(Dispatchers.IO) { photos.deletePhotos(files) }
             dao.deleteStudent(id)
             go(Screen.Teacher(TeacherTab.CLASS))
         }
@@ -293,11 +382,13 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    /** « Tout effacer » : élèves et ateliers sont supprimés ; PIN, code de secours et réglages restent. */
+    /** « Tout effacer » : élèves, ateliers et photos sont supprimés ; PIN, code de secours et réglages restent. */
     fun wipeClass() {
         viewModelScope.launch {
+            dao.deleteAllTraces()
             dao.deleteAllStudents()
             dao.deleteAllWorkshops()
+            withContext(Dispatchers.IO) { photos.deleteAll() }
             go(Screen.Teacher(TeacherTab.CLASS))
         }
     }
@@ -310,12 +401,14 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         if (name.isEmpty() || competencies.isEmpty()) return
         viewModelScope.launch {
             val existing = workshops.value.firstOrNull { it.id == id }
+            val finalImage = withContext(Dispatchers.IO) { photos.keepImage(image) }
             if (existing != null) {
                 dao.updateWorkshop(
-                    existing.copy(title = name, image = image, competencies = competencies, frontCamera = frontCamera, active = existing.active || activate),
+                    existing.copy(title = name, image = finalImage, competencies = competencies, frontCamera = frontCamera, active = existing.active || activate),
                 )
+                if (existing.image != finalImage) withContext(Dispatchers.IO) { photos.deleteImage(existing.image) }
             } else {
-                dao.insertWorkshop(Workshop(title = name, image = image, competencies = competencies, frontCamera = frontCamera, active = activate))
+                dao.insertWorkshop(Workshop(title = name, image = finalImage, competencies = competencies, frontCamera = frontCamera, active = activate))
             }
             go(Screen.Teacher(TeacherTab.WORKSHOPS))
         }
@@ -333,23 +426,26 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     fun duplicateWorkshop(id: Long) {
         val source = workshops.value.firstOrNull { it.id == id } ?: return
         viewModelScope.launch {
-            val newId = dao.insertWorkshop(source.copy(id = 0, title = "${source.title} (copie)", active = false, createdAt = System.currentTimeMillis()))
+            val image = withContext(Dispatchers.IO) { photos.copyImage(source.image) }
+            val newId = dao.insertWorkshop(
+                source.copy(id = 0, title = "${source.title} (copie)", image = image, active = false, createdAt = System.currentTimeMillis()),
+            )
             go(Screen.EditWorkshop(newId))
         }
     }
 
     fun deleteWorkshop(id: Long) {
+        val workshop = workshops.value.firstOrNull { it.id == id } ?: return
         viewModelScope.launch {
+            val files = dao.traceFilesOfWorkshop(id)
+            dao.deleteTracesOfWorkshop(id)
+            withContext(Dispatchers.IO) {
+                photos.deletePhotos(files)
+                photos.deleteImage(workshop.image)
+            }
             dao.deleteWorkshop(id)
             go(Screen.Teacher(TeacherTab.WORKSHOPS))
         }
-    }
-
-    private suspend fun workshopIdForDemo(): Long? {
-        var list = workshops.value
-        var tries = 0
-        while (list.size < 2 && tries < 20) { delay(100); list = workshops.value; tries++ }
-        return list.getOrNull(1)?.id
     }
 
     // ---------- Démonstration (versions de test uniquement, pour les captures automatiques) ----------
@@ -373,18 +469,57 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                     Workshop(title = "Collier de perles", image = "perles", competencies = listOf("MAT-MOT-MS-04"), active = true),
                     Workshop(title = "Spirales", image = "graphisme", competencies = listOf("ART-GRA-MS-02"), active = false),
                 ).forEach { dao.insertWorkshop(it) }
+                // Quelques photos factices (dessins) pour montrer les compteurs.
+                val kids = dao.studentsNow().sortedWith(compareBy(collator) { it.firstName })
+                val ws = dao.workshopsNow()
+                listOf(0 to 0, 1 to 0, 2 to 0, 3 to 1, 4 to 1, 0 to 2, 5 to null).forEachIndexed { i, (k, w) ->
+                    val file = photos.newPending()
+                    withContext(Dispatchers.IO) { drawDemoPhoto(file, i) }
+                    val workshop = w?.let { ws[it] }
+                    photos.keepPhoto(file)?.let { name ->
+                        dao.insertTrace(Trace(studentId = kids[k].id, workshopId = workshop?.id, file = name, competencies = workshop?.competencies.orEmpty()))
+                    }
+                }
             }
+            val firstStudent = dao.studentsNow().minWith(compareBy(collator) { it.firstName }).id
+            val ws = dao.workshopsNow()
             go(
                 when (target) {
                     "teacher" -> Screen.Teacher(TeacherTab.CLASS)
                     "edit" -> Screen.EditStudent(null)
                     "workshops" -> Screen.Teacher(TeacherTab.WORKSHOPS)
-                    "edit-workshop" -> Screen.EditWorkshop(workshopIdForDemo())
-                    "choose" -> Screen.ChooseWorkshop(dao.studentsNow().first().id)
+                    "edit-workshop" -> Screen.EditWorkshop(ws.getOrNull(1)?.id)
+                    "choose" -> Screen.ChooseWorkshop(firstStudent)
+                    "camera" -> Screen.Camera(firstStudent, ws.first().id)
+                    "review" -> {
+                        val file = photos.newPending()
+                        withContext(Dispatchers.IO) { drawDemoPhoto(file, 1) }
+                        Screen.Review(firstStudent, ws.first().id, file.path)
+                    }
+                    "bravo" -> Screen.Bravo(firstStudent)
                     "pin" -> Screen.PinEntry
                     else -> Screen.Home
                 },
             )
         }
+    }
+
+    /** Dessin coloré qui tient lieu de photo dans la classe de démonstration. */
+    private fun drawDemoPhoto(file: File, seed: Int) {
+        val bitmap = Bitmap.createBitmap(1600, 1200, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(bitmap)
+        canvas.drawColor(0xFFC9A77C.toInt())
+        val paint = Paint(Paint.ANTI_ALIAS_FLAG)
+        val colors = listOf(0xFF4DABF7, 0xFFFFD43B, 0xFFFF6B6B, 0xFF69DB7C, 0xFFDA77F2).map { it.toInt() }
+        val random = java.util.Random(seed.toLong())
+        repeat(9) { k ->
+            paint.color = colors[(k + seed) % colors.size]
+            val x = 250f + random.nextInt(1100)
+            val y = 200f + random.nextInt(800)
+            if (k % 2 == 0) canvas.drawCircle(x, y, 90f + random.nextInt(60), paint)
+            else canvas.drawRoundRect(x - 120, y - 80, x + 120, y + 80, 24f, 24f, paint)
+        }
+        FileOutputStream(file).use { bitmap.compress(Bitmap.CompressFormat.JPEG, 85, it) }
+        bitmap.recycle()
     }
 }

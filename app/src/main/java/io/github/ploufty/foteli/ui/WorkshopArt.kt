@@ -11,8 +11,10 @@ import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.StrokeCap
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.platform.LocalContext
+import io.github.ploufty.foteli.data.PhotoStore
 
-/** Illustrations provisoires des ateliers, en attendant la photo du modèle (version 0.4). */
+/** Illustrations intégrées des ateliers, quand l'enseignant n'a pas photographié le modèle. */
 enum class WorkshopImage(val key: String, val label: String) {
     PUZZLE("puzzle", "Puzzle"),
     KAPLA("kapla", "Construction"),
@@ -34,6 +36,11 @@ private val PlankEdge = Color(0xFFA9793F)
 
 @Composable
 fun WorkshopArt(key: String, modifier: Modifier = Modifier) {
+    val photo = PhotoStore(LocalContext.current.filesDir).imageFile(key)
+    if (photo != null) {
+        PhotoImage(photo, modifier, maxSide = 800)
+        return
+    }
     val image = WorkshopImage.of(key)
     Canvas(modifier) {
         drawRect(Wood)

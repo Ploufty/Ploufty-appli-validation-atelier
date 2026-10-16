@@ -38,7 +38,7 @@ jobs:
             echo "SIGNED=test" >> "$GITHUB_ENV"
           fi
 
-      - name: Tests automatiques (code PIN, code de secours, robots)
+      - name: Tests automatiques (code PIN, code de secours, robots, référentiel, photos)
         run: ./gradlew --no-daemon testDebugUnitTest
 
       - name: Compiler (version finale + version d'aperçu)
@@ -130,6 +130,9 @@ jobs:
             ![Ateliers](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-7-ateliers.png)
             ![Modifier un atelier](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-8-modifier-atelier.png)
             ![L'enfant choisit son atelier](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-9-enfant-choisit.png)
+            ![Appareil photo de l'enfant](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-10-appareil-photo.png)
+            ![L'enfant garde ou reprend sa photo](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-11-garder-ou-reprendre.png)
+            ![Bravo](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-12-bravo.png)
 
             **Installer sur la tablette** : touchez `foteli.apk` ci-dessous depuis le navigateur de la tablette, puis acceptez « Installer des applis inconnues ».
 
@@ -166,11 +169,15 @@ jobs:
           arch: x86_64
           profile: pixel_tablet
           disable-animations: true
+          # Caméras simulées par l'émulateur (scène animée), pour voir l'appareil photo de l'enfant.
+          emulator-options: -no-window -gpu swiftshader_indirect -no-snapshot -noaudio -no-boot-anim -camera-back emulated -camera-front emulated
           script: |
             adb install -r foteli-apercu.apk
             adb shell am start -W -n io.github.ploufty.foteli/.MainActivity
             sleep 8
             adb exec-out screencap -p > capture-1-premier-lancement.png
+            # Sur une vraie tablette, l'enseignant donne cette autorisation à la fin du premier lancement.
+            adb shell pm grant io.github.ploufty.foteli android.permission.CAMERA
             adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true
             sleep 8
             adb exec-out screencap -p > capture-2-accueil-eleves.png
@@ -192,6 +199,15 @@ jobs:
             adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen choose
             sleep 6
             adb exec-out screencap -p > capture-9-enfant-choisit.png
+            adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen camera
+            sleep 10
+            adb exec-out screencap -p > capture-10-appareil-photo.png
+            adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen review
+            sleep 6
+            adb exec-out screencap -p > capture-11-garder-ou-reprendre.png
+            adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen bravo
+            sleep 1
+            adb exec-out screencap -p > capture-12-bravo.png
             adb shell wm size 2400x1080
             adb shell wm density 420
             adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen pin

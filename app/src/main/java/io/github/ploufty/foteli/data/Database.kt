@@ -37,7 +37,7 @@ data class Settings(
     @ColumnInfo(defaultValue = "0") val freeModeFrontCamera: Boolean = false,
 )
 
-/** Représentation de l'élève sur l'accueil. La photo arrive avec l'appareil photo (version 0.4). */
+/** Représentation de l'élève sur l'accueil. */
 enum class StudentLook { ROBOT, NAME }
 
 /** Donnée personnelle minimale : prénom et représentation (docs/v0/donnees.md § 1 B). */
@@ -52,7 +52,7 @@ data class Student(
 
 /**
  * Atelier (donnée pédagogique, sans donnée d'élève) : docs/v0/donnees.md § 1 A.
- * [image] désigne l'illustration provisoire ; la vraie photo du modèle arrive en 0.4.
+ * [image] : une illustration intégrée, ou la photo du modèle (voir [ImageKeys]).
  */
 @Entity(tableName = "workshops")
 data class Workshop(
@@ -63,6 +63,22 @@ data class Workshop(
     val frontCamera: Boolean = false,
     val active: Boolean = false,
     val createdAt: Long = System.currentTimeMillis(),
+)
+
+/**
+ * Trace : une photo validée par un enfant (docs/v0/donnees.md § 1 B).
+ * [workshopId] = null : photo libre, rangée dans Souvenirs.
+ */
+@Entity(tableName = "traces")
+data class Trace(
+    @PrimaryKey(autoGenerate = true) val id: Long = 0,
+    val studentId: Long,
+    val workshopId: Long?,
+    /** Nom du fichier dans le dossier privé des photos. */
+    val file: String,
+    /** Copie des compétences au moment de la photo : modifier l'atelier ne réécrit pas l'historique (Q4). */
+    val competencies: List<String>,
+    val takenAt: Long = System.currentTimeMillis(),
 )
 
 class Converters {
@@ -105,6 +121,9 @@ interface FoteliDao {
     @Query("SELECT * FROM workshops ORDER BY createdAt")
     fun workshops(): Flow<List<Workshop>>
 
+    @Query("SELECT * FROM workshops ORDER BY createdAt")
+    suspend fun workshopsNow(): List<Workshop>
+
     @Insert
     suspend fun insertWorkshop(workshop: Workshop): Long
 
@@ -122,6 +141,27 @@ interface FoteliDao {
 
     @Query("DELETE FROM workshops")
     suspend fun deleteAllWorkshops()
+
+    @Query("SELECT * FROM traces ORDER BY takenAt DESC")
+    fun traces(): Flow<List<Trace>>
+
+    @Insert
+    suspend fun insertTrace(trace: Trace): Long
+
+    @Query("SELECT file FROM traces WHERE studentId = :studentId")
+    suspend fun traceFilesOfStudent(studentId: Long): List<String>
+
+    @Query("SELECT file FROM traces WHERE workshopId = :workshopId")
+    suspend fun traceFilesOfWorkshop(workshopId: Long): List<String>
+
+    @Query("DELETE FROM traces WHERE studentId = :studentId")
+    suspend fun deleteTracesOfStudent(studentId: Long)
+
+    @Query("DELETE FROM traces WHERE workshopId = :workshopId")
+    suspend fun deleteTracesOfWorkshop(workshopId: Long)
+
+    @Query("DELETE FROM traces")
+    suspend fun deleteAllTraces()
 }
 
 /** 0.2 → 0.3 : ajout des ateliers et du mode libre, sans toucher à la classe existante. */
@@ -137,9 +177,20 @@ val MIGRATION_1_2 = object : Migration(1, 2) {
     }
 }
 
+/** 0.3 → 0.4 : ajout des traces (photos validées). */
+val MIGRATION_2_3 = object : Migration(2, 3) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL(
+            "CREATE TABLE IF NOT EXISTS traces (" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, studentId INTEGER NOT NULL, workshopId INTEGER, " +
+                "file TEXT NOT NULL, competencies TEXT NOT NULL, takenAt INTEGER NOT NULL)",
+        )
+    }
+}
+
 // Les évolutions du schéma se feront par migrations écrites à la main :
 // aucune donnée ne doit être perdue lors d'une mise à jour.
-@Database(entities = [Settings::class, Student::class, Workshop::class], version = 2, exportSchema = false)
+@Database(entities = [Settings::class, Student::class, Workshop::class, Trace::class], version = 3, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class FoteliDatabase : RoomDatabase() {
     abstract fun dao(): FoteliDao
@@ -151,7 +202,7 @@ abstract class FoteliDatabase : RoomDatabase() {
         fun get(context: Context): FoteliDatabase =
             instance ?: synchronized(this) {
                 instance ?: Room.databaseBuilder(context.applicationContext, FoteliDatabase::class.java, "foteli.db")
-                    .addMigrations(MIGRATION_1_2)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
                     .build()
                     .also { instance = it }
             }

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -28,6 +29,7 @@ import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.min
 import androidx.compose.ui.unit.sp
@@ -160,15 +162,7 @@ fun ChooseWorkshopScreen(student: Student?, workshops: List<Workshop>, freeMode:
     ) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(20.dp)) {
             BigBackButton { vm.go(Screen.Home) }
-            if (student != null) {
-                Box(
-                    Modifier
-                        .size(96.dp)
-                        .clip(RoundedCornerShape(48.dp))
-                        .background(Color.White),
-                    contentAlignment = Alignment.Center,
-                ) { StudentFace(student, 80.dp) }
-            }
+            if (student != null) StudentBubble(student, 96.dp)
         }
         val columns = if (count <= 3) count.coerceAtLeast(1) else 3
         val rows = (count + columns - 1) / columns
@@ -194,9 +188,9 @@ fun ChooseWorkshopScreen(student: Student?, workshops: List<Workshop>, freeMode:
                             val m = Modifier.weight(1f, fill = false).fillMaxHeight().aspectRatio(1.05f)
                             val w = cards[index]
                             if (w != null) {
-                                WorkshopCard(w, m) { vm.go(Screen.CameraSoon(sid, w.id)) }
+                                WorkshopCard(w, m) { vm.go(Screen.Camera(sid, w.id)) }
                             } else {
-                                FreeCard(m) { vm.go(Screen.CameraSoon(sid, null)) }
+                                FreeCard(m) { vm.go(Screen.Camera(sid, null)) }
                             }
                         }
                     }
@@ -253,37 +247,14 @@ private fun FreeCard(modifier: Modifier, onClick: () -> Unit) {
     }
 }
 
-/** Version 0.3 : l'atelier est choisi ; l'appareil photo arrive en version 0.4. */
+/** « C'est moi » : le robot (ou le prénom) de l'enfant dans une bulle blanche. */
 @Composable
-fun CameraSoonScreen(student: Student?, workshop: Workshop?, vm: AppViewModel, studentId: Long) {
-    Column(
+internal fun StudentBubble(student: Student, size: Dp) {
+    Box(
         Modifier
-            .fillMaxSize()
-            .background(Paper)
-            .padding(28.dp),
-    ) {
-        BigBackButton { vm.go(Screen.ChooseWorkshop(studentId)) }
-        Row(
-            Modifier.fillMaxSize(),
-            horizontalArrangement = Arrangement.spacedBy(32.dp, Alignment.CenterHorizontally),
-            verticalAlignment = Alignment.CenterVertically,
-        ) {
-            if (student != null) StudentFace(student, 180.dp)
-            Box(
-                Modifier
-                    .size(width = 260.dp, height = 200.dp)
-                    .clip(RoundedCornerShape(20.dp))
-                    .background(if (workshop == null) Color(0xFF8B5CF6) else Color.White),
-                contentAlignment = Alignment.Center,
-            ) {
-                if (workshop != null) WorkshopArt(workshop.image, Modifier.fillMaxSize()) else FreePhotoIcon(Modifier.fillMaxSize(0.6f))
-            }
-            Text(
-                "L’appareil photo arrivera\ndans la version 0.4.",
-                color = Muted,
-                fontSize = 20.sp,
-                textAlign = TextAlign.Center,
-            )
-        }
-    }
+            .size(size)
+            .clip(CircleShape)
+            .background(Color.White),
+        contentAlignment = Alignment.Center,
+    ) { StudentFace(student, size * 0.83f) }
 }
