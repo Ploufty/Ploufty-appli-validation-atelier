@@ -199,6 +199,9 @@ jobs:
             adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen choose
             sleep 6
             adb exec-out screencap -p > capture-9-enfant-choisit.png
+            # Rotation figée en paysage : la caméra simulée ne doit pas faire pivoter l'écran virtuel.
+            adb shell settings put system accelerometer_rotation 0
+            adb shell settings put system user_rotation 0
             adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen camera
             sleep 10
             adb exec-out screencap -p > capture-10-appareil-photo.png

@@ -1,7 +1,7 @@
 package io.github.ploufty.foteli.ui
 
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.Animatable
 import androidx.compose.animation.core.spring
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -149,11 +149,11 @@ fun ReviewScreen(state: Screen.Review, student: Student?, workshop: Workshop?, v
 /** Bravo : grande coche verte à côté du robot de l'enfant, puis retour à l'accueil. */
 @Composable
 fun BravoScreen(state: Screen.Bravo, student: Student?, vm: AppViewModel) {
-    var shown by remember { mutableStateOf(false) }
-    val grow by animateFloatAsState(if (shown) 1f else 0.3f, spring(dampingRatio = Spring.DampingRatioMediumBouncy), label = "bravo")
+    val grow = remember { Animatable(0.6f) }
     LaunchedEffect(state) {
-        shown = true
-        delay(2_200)
+        grow.animateTo(1f, spring(dampingRatio = Spring.DampingRatioMediumBouncy))
+        grow.snapTo(1f)
+        delay(1_800)
         vm.bravoDone(state)
     }
     BoxWithConstraints(
@@ -169,7 +169,7 @@ fun BravoScreen(state: Screen.Bravo, student: Student?, vm: AppViewModel) {
             Box(
                 Modifier
                     .size(big)
-                    .scale(grow)
+                    .scale(grow.value)
                     .clip(CircleShape)
                     .background(CheckGreen)
                     .semantics { contentDescription = "Bravo, photo enregistrée" },
@@ -208,17 +208,18 @@ private fun ShutterButton(size: Dp, enabled: Boolean, modifier: Modifier, onClic
         modifier
             .size(size)
             .clip(CircleShape)
-            .background(Color.White.copy(alpha = 0.35f))
+            // Anneau sombre + disque blanc : visible sur une scène claire comme sur une scène sombre.
+            .background(Color.Black.copy(alpha = 0.45f))
+            .border(3.dp, Color.White, CircleShape)
             .clickable(enabled = enabled, onClick = onClick)
             .semantics { contentDescription = "Prendre la photo" },
         contentAlignment = Alignment.Center,
     ) {
         Box(
             Modifier
-                .size(size * 0.78f)
+                .size(size * 0.72f)
                 .clip(CircleShape)
-                .background(Color.White)
-                .border(4.dp, Navy.copy(alpha = 0.15f), CircleShape),
+                .background(Color.White),
         )
     }
 }
