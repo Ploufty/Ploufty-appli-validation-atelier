@@ -109,6 +109,8 @@ Chaque version produit une APK que tu installes et testes sur la tablette. On ne
 | **0.5 Suivi et tri** | Photos par atelier / par élève, « 5/12 élèves », suppression photo, zones dangereuses, tout effacer | « Qui est passé ? » en un coup d'œil |
 | **0.6 Verrouillage** | Mode classe (épinglage), écran protégé, blocage PIN, fermeture auto 5 min | Un enfant ne peut pas sortir |
 | **0.7 Sauvegarde** | ZIP chiffré, restauration, rappel 14 jours, restauration au premier lancement | Sauvegarder sur clé USB, restaurer sur une tablette vierge |
+| **0.7 bis Photo de l'élève** | Fiche élève : prendre la photo (caméra avant/arrière) **ou** l'importer depuis la tablette (sélecteur Android, sans autorisation) ; recadrage carré, copie dans l'espace privé | L'élève se reconnaît sur l'accueil |
+| **0.7 ter Aide** | Aide intégrée (« ? » dans l'espace enseignant) + wiki des fonctionnalités dans `docs/` : parcours, gestes, réglages, questions fréquentes | Un collègue s'en sert sans explication |
 | **0.8 Finitions = V0** | Accessibilité de base (TalkBack, contrastes, tailles), relecture complète | Test en classe sur plusieurs semaines |
 
 ## 7. Vérifications à chaque version
