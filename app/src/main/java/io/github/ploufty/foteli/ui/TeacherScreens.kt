@@ -82,7 +82,7 @@ fun TeacherFrame(settings: Settings?, tab: TeacherTab?, vm: AppViewModel, scroll
             )
             TabButton("Classe", tab == TeacherTab.CLASS) { vm.go(Screen.Teacher(TeacherTab.CLASS)) }
             TabButton("Ateliers", tab == TeacherTab.WORKSHOPS) { vm.go(Screen.Teacher(TeacherTab.WORKSHOPS)) }
-            TabButton("Photos · 0.5", selected = false, enabled = false) {}
+            TabButton("Photos", tab == TeacherTab.PHOTOS) { vm.go(Screen.Teacher(TeacherTab.PHOTOS)) }
             TabButton("Réglages", tab == TeacherTab.SETTINGS) { vm.go(Screen.Teacher(TeacherTab.SETTINGS)) }
             Spacer(Modifier.width(8.dp))
             Box(

@@ -61,7 +61,10 @@ fun FoteliApp(vm: AppViewModel) {
         },
     )
     // Premier passage dans l'espace enseignant (fin du premier lancement) : Android demande l'autorisation une fois.
-    val inTeacherSpace = vm.screen.let { it is Screen.Teacher || it is Screen.EditStudent || it is Screen.EditWorkshop || it == Screen.BulkAdd }
+    val inTeacherSpace = vm.screen.let {
+        it is Screen.Teacher || it is Screen.EditStudent || it is Screen.EditWorkshop || it == Screen.BulkAdd ||
+            it is Screen.WorkshopPhotos || it is Screen.StudentPhotos || it is Screen.PhotoView
+    }
     LaunchedEffect(inTeacherSpace) {
         if (inTeacherSpace && !allowed && !asked) {
             asked = true
@@ -115,6 +118,7 @@ fun FoteliApp(vm: AppViewModel) {
                     when (s.tab) {
                         TeacherTab.CLASS -> ClassTab(students, traces, vm)
                         TeacherTab.WORKSHOPS -> WorkshopsTab(workshops, traces, freeMode, vm)
+                        TeacherTab.PHOTOS -> PhotosTab(students, workshops, traces, vm)
                         TeacherTab.SETTINGS -> SettingsTab(settings, students, workshops.size, traces, vm)
                     }
                 }
@@ -122,6 +126,16 @@ fun FoteliApp(vm: AppViewModel) {
                     EditStudentScreen(students.firstOrNull { it.id == s.studentId }, traces, vm)
                 }
                 Screen.BulkAdd -> TeacherFrame(settings, TeacherTab.CLASS, vm) { BulkAddScreen(vm) }
+                is Screen.WorkshopPhotos -> TeacherFrame(settings, TeacherTab.PHOTOS, vm) {
+                    WorkshopPhotosScreen(s, students, workshops.firstOrNull { it.id == s.workshopId }, traces, vm)
+                }
+                is Screen.StudentPhotos -> TeacherFrame(settings, TeacherTab.PHOTOS, vm) {
+                    StudentPhotosScreen(s, students.firstOrNull { it.id == s.studentId }, workshops, traces, vm)
+                }
+                is Screen.PhotoView -> TeacherFrame(settings, TeacherTab.PHOTOS, vm, scroll = false) {
+                    val trace = traces.firstOrNull { it.id == s.traceId }
+                    PhotoViewScreen(s, trace, students.firstOrNull { it.id == trace?.studentId }, workshops.firstOrNull { it.id == trace?.workshopId }, vm)
+                }
                 is Screen.EditWorkshop -> TeacherFrame(settings, TeacherTab.WORKSHOPS, vm, scroll = false) {
                     EditWorkshopScreen(workshops.firstOrNull { it.id == s.workshopId }, workshops, traces, vm)
                 }

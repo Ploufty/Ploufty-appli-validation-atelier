@@ -65,9 +65,14 @@ sealed interface Screen {
     data class EditStudent(val studentId: Long?) : Screen
     data object BulkAdd : Screen
     data class EditWorkshop(val workshopId: Long?) : Screen
+    /** Qui est passé à cet atelier (workshopId = null : Souvenirs). */
+    data class WorkshopPhotos(val workshopId: Long?) : Screen
+    data class StudentPhotos(val studentId: Long) : Screen
+    /** Une photo en grand ; [back] : l'écran d'où l'on vient. */
+    data class PhotoView(val traceId: Long, val back: Screen) : Screen
 }
 
-enum class TeacherTab { CLASS, WORKSHOPS, SETTINGS }
+enum class TeacherTab { CLASS, WORKSHOPS, PHOTOS, SETTINGS }
 
 /** Appareil photo de l'enseignant (photo du modèle), affiché par-dessus l'écran en cours. */
 class TeacherCameraRequest(val onPhoto: (File) -> Unit)
@@ -140,7 +145,8 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                 when (screen) {
                     is Screen.ChooseWorkshop, is Screen.Camera, is Screen.Review, is Screen.Bravo, Screen.PinEntry, Screen.RescueEntry ->
                         if (idle > CHILD_IDLE_MS) go(Screen.Home)
-                    is Screen.Teacher, is Screen.EditStudent, Screen.BulkAdd, is Screen.EditWorkshop ->
+                    is Screen.Teacher, is Screen.EditStudent, Screen.BulkAdd, is Screen.EditWorkshop,
+                    is Screen.WorkshopPhotos, is Screen.StudentPhotos, is Screen.PhotoView ->
                         if (settings.value?.autoCloseTeacher != false && idle > TEACHER_IDLE_MS) go(Screen.Home)
                     else -> Unit
                 }
@@ -174,6 +180,8 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             is Screen.Review -> retake(s)
             is Screen.EditStudent, Screen.BulkAdd -> go(Screen.Teacher(TeacherTab.CLASS))
             is Screen.EditWorkshop -> go(Screen.Teacher(TeacherTab.WORKSHOPS))
+            is Screen.WorkshopPhotos, is Screen.StudentPhotos -> go(Screen.Teacher(TeacherTab.PHOTOS))
+            is Screen.PhotoView -> go(s.back)
             is Screen.Teacher -> go(Screen.Home)
             else -> Unit
         }
@@ -260,6 +268,18 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     fun bravoDone(bravo: Screen.Bravo) {
         if (screen == bravo) go(Screen.Home)
+    }
+
+    /** Onglet Photos : « Par atelier » (false) ou « Par élève » (true), gardé pendant la séance. */
+    var photosByStudent by mutableStateOf(false)
+
+    /** Tri par l'enseignant (B7) : la photo est effacée de la tablette. */
+    fun deleteTrace(trace: Trace, back: Screen) {
+        viewModelScope.launch {
+            dao.deleteTrace(trace.id)
+            withContext(Dispatchers.IO) { photos.deletePhotos(listOf(trace.file)) }
+            go(back)
+        }
     }
 
     fun openTeacherCamera(onPhoto: (File) -> Unit) {
@@ -517,6 +537,9 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                         Screen.Review(firstStudent, ws.first().id, file.path)
                     }
                     "bravo" -> Screen.Bravo(firstStudent)
+                    "photos" -> Screen.Teacher(TeacherTab.PHOTOS)
+                    "photos-workshop" -> Screen.WorkshopPhotos(ws.first().id)
+                    "photo" -> Screen.PhotoView(dao.tracesNow().first().id, Screen.WorkshopPhotos(ws.first().id))
                     "pin" -> Screen.PinEntry
                     else -> Screen.Home
                 },
