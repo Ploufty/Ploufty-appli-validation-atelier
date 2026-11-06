@@ -363,7 +363,7 @@ private fun CompetencyPicker(selected: List<String>, onToggle: (String) -> Unit,
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Hint("Niveaux :")
             listOf("PS", "MS", "GS").forEach { lv ->
-                Chip(lv, lv in levels) { vm.setSearchLevels(if (lv in levels) levels - lv else levels + lv) }
+                Chip(lv, lv in levels) { vm.chooseSearchLevels(if (lv in levels) levels - lv else levels + lv) }
             }
         }
 

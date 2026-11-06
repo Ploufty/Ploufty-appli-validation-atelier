@@ -116,7 +116,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     var demoSearch: String = ""
         private set
 
-    fun setSearchLevels(levels: Set<String>) {
+    fun chooseSearchLevels(levels: Set<String>) {
         if (levels.isEmpty()) return
         searchLevels = levels
         prefs.edit().putStringSet("niveaux", levels).apply()
