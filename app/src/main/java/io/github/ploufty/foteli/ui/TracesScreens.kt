@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -74,12 +75,13 @@ fun PhotosTab(students: List<Student>, workshops: List<Workshop>, traces: List<T
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         Heading("Photos (${traces.size})")
         Spacer(Modifier.weight(1f))
-        Chip("Par atelier", !vm.photosByStudent) { vm.photosByStudent = false }
-        Chip("Par élève", vm.photosByStudent) { vm.photosByStudent = true }
+        PhotosView.entries.forEach { v -> Chip(v.label, vm.photosView == v) { vm.photosView = v } }
     }
     if (traces.isEmpty()) Hint("Aucune photo pour l’instant. Les photos validées par les enfants apparaîtront ici.")
 
-    if (!vm.photosByStudent) {
+    if (vm.photosView == PhotosView.BOARD) {
+        Board(students, workshops.filter { it.active }, traces, vm)
+    } else if (vm.photosView == PhotosView.WORKSHOP) {
         // Ateliers actifs d'abord, puis les autres, puis Souvenirs.
         val rows: List<Workshop?> = workshops.sortedByDescending { it.active } + listOf(null)
         rows.chunked(3).forEach { line ->
@@ -136,12 +138,94 @@ fun PhotosTab(students: List<Student>, workshops: List<Workshop>, traces: List<T
     }
 }
 
+private enum class PassFilter(val label: String) { ALL("Tous"), NOT_YET("Pas encore passés"), DONE("Déjà passés") }
+
+// ---------- Tableau de suivi des ateliers en cours ----------
+
+/** Élèves en lignes, ateliers actifs en colonnes : ✓ (nombre de photos) ou — . Un toucher ouvre l'atelier. */
+@Composable
+private fun Board(students: List<Student>, active: List<Workshop>, traces: List<Trace>, vm: AppViewModel) {
+    if (active.isEmpty()) {
+        Hint("Aucun atelier actif. Le tableau montre les ateliers actifs : activez-les dans l’onglet Ateliers.")
+        return
+    }
+    var onlyTodo by remember { mutableStateOf(false) }
+    val done = active.associate { w -> w.id to traces.filter { it.workshopId == w.id }.groupingBy { it.studentId }.eachCount() }
+    val shown = if (onlyTodo) students.filter { s -> active.any { (done[it.id]?.get(s.id) ?: 0) == 0 } } else students
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        Chip("Tous les élèves", !onlyTodo) { onlyTodo = false }
+        Chip("Seulement ceux qui ont un atelier à faire", onlyTodo) { onlyTodo = true }
+    }
+    WhitePanel {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Box(Modifier.size(width = 200.dp, height = 1.dp))
+            active.forEach { w ->
+                Column(
+                    Modifier
+                        .weight(1f)
+                        .clickable { vm.go(Screen.WorkshopPhotos(w.id)) }
+                        .padding(4.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    verticalArrangement = Arrangement.spacedBy(4.dp),
+                ) {
+                    WorkshopArt(w.image, Modifier.size(width = 72.dp, height = 54.dp).clip(RoundedCornerShape(8.dp)))
+                    Text(w.title, color = Navy, fontWeight = FontWeight.Bold, fontSize = 14.sp, maxLines = 2)
+                    Hint("${done[w.id]?.size ?: 0}/${students.size}")
+                }
+            }
+        }
+        if (shown.isEmpty()) Hint("Tous les élèves ont fait tous les ateliers actifs.")
+        shown.forEach { s ->
+            val count = active.count { (done[it.id]?.get(s.id) ?: 0) > 0 }
+            Row(
+                Modifier
+                    .fillMaxWidth()
+                    .clip(RoundedCornerShape(8.dp))
+                    .background(Color(0xFFF7F9FB)),
+                verticalAlignment = Alignment.CenterVertically,
+            ) {
+                Row(
+                    Modifier
+                        .size(width = 200.dp, height = 52.dp)
+                        .clickable { vm.go(Screen.StudentPhotos(s.id)) }
+                        .padding(horizontal = 8.dp),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                ) {
+                    StudentFace(s, 36.dp)
+                    Column {
+                        Text(s.firstName, color = Navy, fontWeight = FontWeight.Bold, fontSize = 16.sp, maxLines = 1)
+                        Hint("$count/${active.size}")
+                    }
+                }
+                active.forEach { w ->
+                    val n = done[w.id]?.get(s.id) ?: 0
+                    Box(
+                        Modifier
+                            .weight(1f)
+                            .height(52.dp)
+                            .clickable { vm.go(Screen.WorkshopPhotos(w.id)) },
+                        contentAlignment = Alignment.Center,
+                    ) {
+                        if (n > 0) {
+                            Text(if (n > 1) "✓ $n" else "✓", color = Green, fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                        } else {
+                            Text("—", color = Color(0xFFB4BCC8), fontSize = 20.sp)
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 // ---------- Qui est passé à un atelier (B5) ----------
 
 @Composable
 fun WorkshopPhotosScreen(state: Screen.WorkshopPhotos, students: List<Student>, workshop: Workshop?, traces: List<Trace>, vm: AppViewModel) {
     val own = traces.filter { it.workshopId == state.workshopId }
     val kids = own.map { it.studentId }.distinct().size
+    var filter by remember(state) { mutableStateOf(PassFilter.ALL) }
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         SecondaryButton("← Photos", { vm.go(Screen.Teacher(TeacherTab.PHOTOS)) })
         Heading(workshop?.title ?: SOUVENIRS)
@@ -153,7 +237,17 @@ fun WorkshopPhotosScreen(state: Screen.WorkshopPhotos, students: List<Student>, 
             fontSize = 18.sp,
         )
     }
-    students.chunked(2).forEach { line ->
+    Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+        PassFilter.entries.forEach { f -> Chip(f.label, filter == f) { filter = f } }
+    }
+    val passed = own.map { it.studentId }.toSet()
+    val shown = when (filter) {
+        PassFilter.ALL -> students
+        PassFilter.NOT_YET -> students.filter { it.id !in passed }
+        PassFilter.DONE -> students.filter { it.id in passed }
+    }
+    if (shown.isEmpty()) Hint(if (filter == PassFilter.NOT_YET) "Tous les élèves sont passés." else "Personne pour l’instant.")
+    shown.chunked(2).forEach { line ->
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
             line.forEach { s ->
                 val mine = own.filter { it.studentId == s.id }

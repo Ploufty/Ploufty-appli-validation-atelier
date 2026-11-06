@@ -74,6 +74,9 @@ sealed interface Screen {
 
 enum class TeacherTab { CLASS, WORKSHOPS, PHOTOS, SETTINGS }
 
+/** Onglet Photos : tableau de suivi, par atelier, ou par élève. */
+enum class PhotosView(val label: String) { BOARD("Suivi"), WORKSHOP("Par atelier"), STUDENT("Par élève") }
+
 /** Appareil photo de l'enseignant (photo du modèle), affiché par-dessus l'écran en cours. */
 class TeacherCameraRequest(val onPhoto: (File) -> Unit)
 
@@ -270,8 +273,8 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         if (screen == bravo) go(Screen.Home)
     }
 
-    /** Onglet Photos : « Par atelier » (false) ou « Par élève » (true), gardé pendant la séance. */
-    var photosByStudent by mutableStateOf(false)
+    /** Vue choisie dans l'onglet Photos, gardée pendant la séance. */
+    var photosView by mutableStateOf(PhotosView.BOARD)
 
     /** Tri par l'enseignant (B7) : la photo est effacée de la tablette. */
     fun deleteTrace(trace: Trace, back: Screen) {
@@ -538,6 +541,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                     }
                     "bravo" -> Screen.Bravo(firstStudent)
                     "photos" -> Screen.Teacher(TeacherTab.PHOTOS)
+                    "photos-board" -> Screen.Teacher(TeacherTab.PHOTOS)
                     "photos-workshop" -> Screen.WorkshopPhotos(ws.first().id)
                     "photo" -> Screen.PhotoView(dao.tracesNow().first().id, Screen.WorkshopPhotos(ws.first().id))
                     "pin" -> Screen.PinEntry
