@@ -129,6 +129,7 @@ jobs:
             ![Code enseignant sur un écran de téléphone](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-6-code-sur-telephone.png)
             ![Ateliers](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-7-ateliers.png)
             ![Modifier un atelier](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-8-modifier-atelier.png)
+            ![Recherche de compétences](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-8b-recherche-competences.png)
             ![L'enfant choisit son atelier](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-9-enfant-choisit.png)
             ![Appareil photo de l'enfant](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-10-appareil-photo.png)
             ![L'enfant garde ou reprend sa photo](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-11-garder-ou-reprendre.png)
@@ -196,6 +197,9 @@ jobs:
             adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen edit-workshop
             sleep 6
             adb exec-out screencap -p > capture-8-modifier-atelier.png
+            adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen search
+            sleep 6
+            adb exec-out screencap -p > capture-8b-recherche-competences.png
             adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen choose
             sleep 6
             adb exec-out screencap -p > capture-9-enfant-choisit.png

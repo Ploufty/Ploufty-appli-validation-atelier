@@ -1,6 +1,7 @@
 package io.github.ploufty.foteli.ui
 
 import android.app.Application
+import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
 import android.graphics.Paint
@@ -105,6 +106,21 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         private set
 
     private var lastInteraction = System.currentTimeMillis()
+
+    // Réglage de confort de l'enseignant (aucune donnée d'élève) : niveaux retenus pour chercher les compétences.
+    private val prefs = app.getSharedPreferences("foteli-preferences", Context.MODE_PRIVATE)
+    var searchLevels by mutableStateOf(prefs.getStringSet("niveaux", null)?.toSet() ?: setOf("PS", "MS", "GS"))
+        private set
+
+    /** Captures automatiques uniquement : recherche déjà tapée à l'ouverture de l'éditeur. */
+    var demoSearch: String = ""
+        private set
+
+    fun setSearchLevels(levels: Set<String>) {
+        if (levels.isEmpty()) return
+        searchLevels = levels
+        prefs.edit().putStringSet("niveaux", levels).apply()
+    }
     private var saving = false
 
     init {
@@ -489,6 +505,10 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                     "edit" -> Screen.EditStudent(null)
                     "workshops" -> Screen.Teacher(TeacherTab.WORKSHOPS)
                     "edit-workshop" -> Screen.EditWorkshop(ws.getOrNull(1)?.id)
+                    "search" -> {
+                        demoSearch = "kapla"
+                        Screen.EditWorkshop(null)
+                    }
                     "choose" -> Screen.ChooseWorkshop(firstStudent)
                     "camera" -> Screen.Camera(firstStudent, ws.first().id)
                     "review" -> {

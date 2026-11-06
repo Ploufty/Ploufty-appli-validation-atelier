@@ -122,8 +122,8 @@ fun FoteliApp(vm: AppViewModel) {
                     EditStudentScreen(students.firstOrNull { it.id == s.studentId }, traces, vm)
                 }
                 Screen.BulkAdd -> TeacherFrame(settings, TeacherTab.CLASS, vm) { BulkAddScreen(vm) }
-                is Screen.EditWorkshop -> TeacherFrame(settings, TeacherTab.WORKSHOPS, vm) {
-                    EditWorkshopScreen(workshops.firstOrNull { it.id == s.workshopId }, traces, vm)
+                is Screen.EditWorkshop -> TeacherFrame(settings, TeacherTab.WORKSHOPS, vm, scroll = false) {
+                    EditWorkshopScreen(workshops.firstOrNull { it.id == s.workshopId }, workshops, traces, vm)
                 }
             }
             vm.teacherCamera?.let { TeacherCameraOverlay(it, allowed, vm) }

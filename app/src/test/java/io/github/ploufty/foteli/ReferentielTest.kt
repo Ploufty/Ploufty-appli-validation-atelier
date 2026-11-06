@@ -33,4 +33,36 @@ class ReferentielTest {
         assertTrue(list.all { it.id.startsWith("MAT-FOR-MS-") })
         assertTrue(real.subdomains("TES").any { it.first == "ESP" })
     }
+
+    private val all = setOf("PS", "MS", "GS")
+
+    @Test
+    fun searchIgnoresCaseAccentsAndPlurals() {
+        assertTrue(real.search("PUZZLES", all).any { it.id == "MAT-FOR-MS-04" })
+        assertTrue(real.search("écrire", all).isNotEmpty())
+        assertTrue(real.search("ecrire", all).map { it.id } == real.search("écrire", all).map { it.id })
+        assertTrue(real.search("", all).isEmpty())
+        assertTrue(real.search("zzzz", all).isEmpty())
+    }
+
+    @Test
+    fun searchMatchesWordStartsOnly() {
+        // « vélo » ne doit pas trouver « développe ».
+        assertTrue(real.search("velo", all).none { it.subdomainCode == "SYN" })
+        assertTrue(real.search("formes trier", all).all { it.domainCode == "MAT" })
+    }
+
+    @Test
+    fun everydayWordsFindOfficialCompetencies() {
+        assertTrue(real.search("kapla", all).take(3).any { it.id == "MAT-FOR-GS-05" || it.id == "MAT-FOR-PS-03" })
+        assertTrue(real.search("perles", all).first().id == "MAT-MOT-MS-04")
+        assertTrue(real.search("robot", all).all { it.domainCode == "TES" })
+    }
+
+    @Test
+    fun searchKeepsOnlyChosenLevels() {
+        val ms = real.search("perles", setOf("MS"))
+        assertTrue(ms.isNotEmpty())
+        assertTrue(ms.all { it.level == "MS" })
+    }
 }

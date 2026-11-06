@@ -3,6 +3,7 @@ package io.github.ploufty.foteli.ui
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectTapGestures
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.OutlinedTextField
@@ -34,7 +36,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
@@ -48,11 +54,14 @@ import kotlinx.coroutines.launch
 
 /** Cadre de l'espace enseignant : barre du haut, onglets, bouton « Mode élève ». */
 @Composable
-fun TeacherFrame(settings: Settings?, tab: TeacherTab?, vm: AppViewModel, content: @Composable () -> Unit) {
+fun TeacherFrame(settings: Settings?, tab: TeacherTab?, vm: AppViewModel, scroll: Boolean = true, content: @Composable () -> Unit) {
+    val focus = LocalFocusManager.current
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color(0xFFF3F5F8)),
+            .background(Color(0xFFF3F5F8))
+            // Toucher à côté d'un champ referme le clavier.
+            .pointerInput(Unit) { detectTapGestures { focus.clearFocus() } },
     ) {
         Row(
             modifier = Modifier
@@ -84,15 +93,28 @@ fun TeacherFrame(settings: Settings?, tab: TeacherTab?, vm: AppViewModel, conten
                     .padding(horizontal = 16.dp, vertical = 10.dp),
             ) { Text("Mode élève", color = Navy, fontWeight = FontWeight.Bold, fontSize = 16.sp) }
         }
-        Column(
-            Modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState())
-                .padding(24.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            CameraBanner()
-            content()
+        if (scroll) {
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .verticalScroll(rememberScrollState())
+                    .padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                CameraBanner()
+                content()
+            }
+        } else {
+            // L'écran gère lui-même ses zones qui défilent (éditeur d'atelier en deux colonnes).
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp),
+            ) {
+                CameraBanner()
+                Box(Modifier.weight(1f).fillMaxWidth()) { content() }
+            }
         }
     }
 }
@@ -211,6 +233,7 @@ fun EditStudentScreen(student: Student?, traces: List<Trace>, vm: AppViewModel) 
     var look by remember(student) { mutableStateOf(student?.look ?: StudentLook.ROBOT) }
     var robot by remember(student) { mutableIntStateOf(initialRobot) }
     val free = remember(student) { vm.freeRobots(exceptStudentId = student?.id).toSet() }
+    val focus = LocalFocusManager.current
 
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         SecondaryButton("← Classe", { vm.go(Screen.Teacher(TeacherTab.CLASS)) })
@@ -222,6 +245,8 @@ fun EditStudentScreen(student: Student?, traces: List<Trace>, vm: AppViewModel) 
             onValueChange = { name = it },
             label = { Text("Prénom") },
             singleLine = true,
+            keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words, imeAction = ImeAction.Done),
+            keyboardActions = KeyboardActions(onDone = { focus.clearFocus() }),
             modifier = Modifier.width(420.dp),
         )
         Text("Sur l’accueil, l’élève est représenté par", color = Navy, fontWeight = FontWeight.Bold)
