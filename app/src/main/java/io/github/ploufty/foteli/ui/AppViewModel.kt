@@ -136,6 +136,15 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         prefs.edit().putBoolean("mode_classe_explique", true).apply()
     }
 
+    /** Le geste caché d'accès enseignant a été expliqué (une seule fois, sur l'accueil). */
+    var teacherAccessKnown by mutableStateOf(prefs.getBoolean("acces_enseignant_explique", false))
+        private set
+
+    fun teacherAccessHelpSeen() {
+        teacherAccessKnown = true
+        prefs.edit().putBoolean("acces_enseignant_explique", true).apply()
+    }
+
     /** Captures automatiques uniquement : recherche déjà tapée à l'ouverture de l'éditeur. */
     var demoSearch: String = ""
         private set
@@ -506,6 +515,8 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     // ---------- Démonstration (versions de test uniquement, pour les captures automatiques) ----------
 
     fun seedDemo(target: String?) {
+        // Classe de démonstration : l'explication n'apparaît que sur sa propre capture (sans rien enregistrer).
+        teacherAccessKnown = target != "astuce"
         viewModelScope.launch {
             if (dao.settingsNow()?.setupDone != true) {
                 val pin = withContext(Dispatchers.Default) { Secrets.hash("1234") }

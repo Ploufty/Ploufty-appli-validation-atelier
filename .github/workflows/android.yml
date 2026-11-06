@@ -122,6 +122,7 @@ jobs:
           body: |
             ### Aperçu (tablette virtuelle Android 14, classe de démonstration)
             ![Premier lancement](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-1-premier-lancement.png)
+            ![Explication de l'accès enseignant](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-2b-acces-enseignant.png)
             ![Accueil des élèves](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-2-accueil-eleves.png)
             ![Code enseignant](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-3-code-enseignant.png)
             ![Classe](https://github.com/${{ github.repository }}/releases/download/v${{ env.VERSION }}/capture-4-classe.png)
@@ -185,6 +186,9 @@ jobs:
             adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true
             sleep 8
             adb exec-out screencap -p > capture-2-accueil-eleves.png
+            adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen astuce
+            sleep 6
+            adb exec-out screencap -p > capture-2b-acces-enseignant.png
             adb shell am start -W -S -n io.github.ploufty.foteli/.MainActivity --ez demo true --es screen pin
             sleep 6
             adb exec-out screencap -p > capture-3-code-enseignant.png

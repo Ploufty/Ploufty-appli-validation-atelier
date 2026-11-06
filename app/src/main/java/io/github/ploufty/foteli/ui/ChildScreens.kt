@@ -15,7 +15,16 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.animation.core.RepeatMode
+import androidx.compose.animation.core.animateFloat
+import androidx.compose.animation.core.infiniteRepeatable
+import androidx.compose.animation.core.rememberInfiniteTransition
+import androidx.compose.animation.core.tween
+import androidx.compose.foundation.border
+import androidx.compose.foundation.gestures.detectTapGestures
+import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.runtime.getValue
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -67,6 +76,8 @@ fun HomeScreen(students: List<Student>, canPlay: Boolean, vm: AppViewModel) {
             }
             if (!canPlay) SleepingMoon(Modifier.align(Alignment.Center).size(220.dp))
         }
+        // Première arrivée sur l'accueil après la création de la classe : l'enseignant apprend le geste caché.
+        if (!vm.teacherAccessKnown) TeacherAccessTip { vm.teacherAccessHelpSeen() }
         // Accès enseignant : appui long de 3 s dans le coin haut droit, invisible pour les enfants.
         Box(
             Modifier
@@ -77,10 +88,61 @@ fun HomeScreen(students: List<Student>, canPlay: Boolean, vm: AppViewModel) {
                     awaitEachGesture {
                         awaitFirstDown(requireUnconsumed = false)
                         val released = withTimeoutOrNull(LONG_PRESS_MS) { waitForUpOrCancellation() }
-                        if (released == null) vm.go(Screen.PinEntry)
+                        if (released == null) {
+                            vm.teacherAccessHelpSeen()
+                            vm.go(Screen.PinEntry)
+                        }
                     }
                 },
         )
+    }
+}
+
+/**
+ * Explication unique de l'accès enseignant, avec un cercle qui pulse sur le coin à presser.
+ * Le coin reste actif par-dessus : l'enseignant peut essayer le geste tout de suite.
+ */
+@Composable
+private fun TeacherAccessTip(onDone: () -> Unit) {
+    val pulse by rememberInfiniteTransition(label = "coin").animateFloat(
+        initialValue = 0.35f,
+        targetValue = 1f,
+        animationSpec = infiniteRepeatable(tween(900), RepeatMode.Reverse),
+        label = "coin",
+    )
+    Box(
+        Modifier
+            .fillMaxSize()
+            .background(Navy.copy(alpha = 0.55f))
+            .pointerInput(Unit) { detectTapGestures { } },
+    ) {
+        Box(
+            Modifier
+                .align(Alignment.TopEnd)
+                .padding(8.dp)
+                .size(80.dp)
+                .alpha(pulse)
+                .border(6.dp, Yellow, CircleShape),
+        )
+        Column(
+            Modifier
+                .align(Alignment.Center)
+                .widthIn(max = 560.dp)
+                .clip(RoundedCornerShape(20.dp))
+                .background(Color.White)
+                .padding(28.dp),
+            verticalArrangement = Arrangement.spacedBy(14.dp),
+        ) {
+            Text("Pour revenir dans l’espace enseignant", color = Navy, fontWeight = FontWeight.Bold, fontSize = 22.sp)
+            Text("1. Appuyez 3 secondes sur le coin en haut à droite (le cercle jaune).", color = Navy, fontSize = 18.sp)
+            Text("2. Tapez votre code PIN.", color = Navy, fontSize = 18.sp)
+            Text(
+                "Ce coin n’est jamais signalé aux enfants. Ce message ne s’affichera plus : notez le geste à côté de votre code de secours si besoin.",
+                color = Muted,
+                fontSize = 15.sp,
+            )
+            PrimaryButton("J’ai compris", onDone)
+        }
     }
 }
 
