@@ -208,34 +208,6 @@ private fun WorkshopDetails(
             modifier = Modifier.fillMaxWidth(),
         )
 
-        Text("Image pour les enfants", color = Navy, fontWeight = FontWeight.Bold)
-        val tiles = listOfNotNull(model?.let { it to "Photo du modèle" }) + WorkshopImage.entries.map { it.key to it.label }
-        tiles.chunked(4).forEach { line ->
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                line.forEach { (key, label) ->
-                    Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
-                        WorkshopArt(
-                            key,
-                            Modifier
-                                .fillMaxWidth()
-                                .height(72.dp)
-                                .clip(RoundedCornerShape(10.dp))
-                                .border(3.dp, if (image == key) Blue else Color.Transparent, RoundedCornerShape(10.dp))
-                                .clickable { onImage(key) },
-                        )
-                        Text(label, color = Muted, fontSize = 13.sp, maxLines = 1)
-                    }
-                }
-                repeat(4 - line.size) { Box(Modifier.weight(1f)) }
-            }
-        }
-        SecondaryButton(if (model == null) "📷 Photographier le modèle" else "📷 Reprendre la photo du modèle", onPhoto)
-
-        Text("Caméra des enfants", color = Navy, fontWeight = FontWeight.Bold)
-        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Chip("Arrière · production", !front) { onFront(false) }
-            Chip("Avant · posture, mime", front) { onFront(true) }
-        }
     }
     WhitePanel {
         Text("Compétences choisies (${selected.size})", color = Navy, fontWeight = FontWeight.Bold, fontSize = 17.sp)
@@ -269,6 +241,36 @@ private fun WorkshopDetails(
                     contentAlignment = Alignment.Center,
                 ) { Text("✕", color = Muted, fontSize = 20.sp, fontWeight = FontWeight.Bold) }
             }
+        }
+    }
+    WhitePanel {
+        Text("Image pour les enfants", color = Navy, fontWeight = FontWeight.Bold)
+        val tiles = listOfNotNull(model?.let { it to "Photo du modèle" }) + WorkshopImage.entries.map { it.key to it.label }
+        tiles.chunked(4).forEach { line ->
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                line.forEach { (key, label) ->
+                    Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
+                        WorkshopArt(
+                            key,
+                            Modifier
+                                .fillMaxWidth()
+                                .height(72.dp)
+                                .clip(RoundedCornerShape(10.dp))
+                                .border(3.dp, if (image == key) Blue else Color.Transparent, RoundedCornerShape(10.dp))
+                                .clickable { onImage(key) },
+                        )
+                        Text(label, color = Muted, fontSize = 13.sp, maxLines = 1)
+                    }
+                }
+                repeat(4 - line.size) { Box(Modifier.weight(1f)) }
+            }
+        }
+        SecondaryButton(if (model == null) "📷 Photographier le modèle" else "📷 Reprendre la photo du modèle", onPhoto)
+
+        Text("Caméra des enfants", color = Navy, fontWeight = FontWeight.Bold)
+        Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+            Chip("Arrière · production", !front) { onFront(false) }
+            Chip("Avant · posture, mime", front) { onFront(true) }
         }
     }
 }
