@@ -85,6 +85,15 @@ fun TeacherFrame(settings: Settings?, tab: TeacherTab?, vm: AppViewModel, scroll
             TabButton("Photos", tab == TeacherTab.PHOTOS) { vm.go(Screen.Teacher(TeacherTab.PHOTOS)) }
             TabButton("Réglages", tab == TeacherTab.SETTINGS) { vm.go(Screen.Teacher(TeacherTab.SETTINGS)) }
             Spacer(Modifier.width(8.dp))
+            // Mode classe : la première fois, la marche à suivre (Réglages) ; ensuite, lancé en un geste.
+            val classMode = LocalClassMode.current
+            if (!classMode.active) {
+                TabButton("🔒 Mode classe", selected = false) {
+                    if (vm.classModeKnown) classMode.start() else vm.go(Screen.Teacher(TeacherTab.SETTINGS))
+                }
+            } else {
+                TabButton("🔓 Quitter le mode classe", selected = false, onClick = classMode.stop)
+            }
             Box(
                 Modifier
                     .clip(RoundedCornerShape(10.dp))
@@ -344,6 +353,7 @@ fun SettingsTab(settings: Settings?, students: List<Student>, workshopCount: Int
     LaunchedEffect(settings?.className) { className = settings?.className.orEmpty() }
 
     Heading("Réglages")
+    ClassModePanel(vm)
     WhitePanel {
         Text("Nom de la classe", color = Navy, fontWeight = FontWeight.Bold, fontSize = 17.sp)
         Hint("En-tête des extractions de photos et nom des sauvegardes.")

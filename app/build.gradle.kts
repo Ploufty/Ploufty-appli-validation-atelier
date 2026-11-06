@@ -13,8 +13,8 @@ android {
         applicationId = "io.github.ploufty.foteli"
         minSdk = 33
         targetSdk = 35
-        versionCode = 8
-        versionName = "0.5.0"
+        versionCode = 9
+        versionName = "0.6.0"
     }
 
     // La clé de signature n'est jamais dans le dépôt : GitHub Actions la fournit

@@ -120,6 +120,22 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     var searchLevels by mutableStateOf(prefs.getStringSet("niveaux", null)?.toSet() ?: setOf("PS", "MS", "GS"))
         private set
 
+    /** Mode classe : écran allumé (décision T2, activé par défaut) et marche à suivre déjà lue. */
+    var keepScreenOn by mutableStateOf(prefs.getBoolean("ecran_allume", true))
+        private set
+    var classModeKnown by mutableStateOf(prefs.getBoolean("mode_classe_explique", false))
+        private set
+
+    fun chooseKeepScreenOn(on: Boolean) {
+        keepScreenOn = on
+        prefs.edit().putBoolean("ecran_allume", on).apply()
+    }
+
+    fun classModeHelpSeen() {
+        classModeKnown = true
+        prefs.edit().putBoolean("mode_classe_explique", true).apply()
+    }
+
     /** Captures automatiques uniquement : recherche déjà tapée à l'ouverture de l'éditeur. */
     var demoSearch: String = ""
         private set

@@ -74,7 +74,9 @@ fun FoteliApp(vm: AppViewModel) {
 
     BackHandler { vm.onBack() }
 
-    CompositionLocalProvider(LocalCameraAccess provides access) {
+    val classMode = rememberClassMode(vm)
+
+    CompositionLocalProvider(LocalCameraAccess provides access, LocalClassMode provides classMode) {
         Box(
             Modifier
                 .fillMaxSize()
