@@ -192,7 +192,7 @@ private fun StudentCard(student: Student, enabled: Boolean, modifier: Modifier, 
         val face = min(maxWidth, maxHeight * 0.72f)
         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
             StudentFace(student, face)
-            if (student.look == StudentLook.ROBOT) {
+            if (student.look != StudentLook.NAME) {
                 Text(student.firstName, color = Navy, fontSize = 20.sp, fontWeight = FontWeight.Bold, maxLines = 1)
             }
         }

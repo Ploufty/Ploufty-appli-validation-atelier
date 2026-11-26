@@ -28,6 +28,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
+import io.github.ploufty.foteli.data.PhotoStore
 import io.github.ploufty.foteli.data.Student
 import io.github.ploufty.foteli.data.StudentLook
 
@@ -53,6 +55,14 @@ fun FoteliTheme(content: @Composable () -> Unit) {
 fun StudentFace(student: Student, size: Dp, modifier: Modifier = Modifier) {
     when (student.look) {
         StudentLook.ROBOT -> RobotAvatar(student.robot, modifier.size(size))
+        StudentLook.PHOTO -> {
+            val file = student.photo?.let { PhotoStore(LocalContext.current.filesDir).faceFile(it) }
+            if (file != null) {
+                PhotoImage(file, modifier.size(size).clip(RoundedCornerShape(size * 0.22f)), maxSide = 512)
+            } else {
+                RobotAvatar(student.robot, modifier.size(size))
+            }
+        }
         StudentLook.NAME -> Box(modifier.size(size), contentAlignment = Alignment.Center) {
             Text(
                 student.firstName,

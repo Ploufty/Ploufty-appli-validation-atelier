@@ -49,6 +49,8 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.platform.LocalContext
+import io.github.ploufty.foteli.data.ImageKeys
 import io.github.ploufty.foteli.data.Settings
 import io.github.ploufty.foteli.data.Student
 import io.github.ploufty.foteli.data.StudentLook
@@ -229,7 +231,7 @@ fun ClassTab(students: List<Student>, traces: List<Trace>, vm: AppViewModel) {
                     StudentFace(s, 56.dp)
                     Column(Modifier.weight(1f)) {
                         Text(s.firstName, color = Navy, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                        Hint("${if (s.look == StudentLook.ROBOT) "avatar" else "prénom en grand"} · ${photos(traces.count { it.studentId == s.id })}")
+                        Hint("${when (s.look) { StudentLook.ROBOT -> "avatar"; StudentLook.PHOTO -> "photo"; StudentLook.NAME -> "prénom en grand" }} · ${photos(traces.count { it.studentId == s.id })}")
                     }
                     Text("Modifier", color = Blue, fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 }
@@ -247,6 +249,15 @@ fun EditStudentScreen(student: Student?, traces: List<Trace>, vm: AppViewModel) 
     var robot by remember(student) { mutableIntStateOf(initialRobot) }
     val free = remember(student) { vm.freeRobots(exceptStudentId = student?.id).toSet() }
     val focus = LocalFocusManager.current
+    var photo by remember(student) { mutableStateOf(student?.photo) }
+    val context = LocalContext.current
+    // Photo importée de la tablette (sélecteur Android, aucune autorisation) : recadrée et copiée dans Foteli.
+    val importer = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+        if (uri != null) {
+            val target = vm.photos.newPending()
+            if (saveFaceImage({ context.contentResolver.openInputStream(uri) }, target)) photo = ImageKeys.PENDING + target.name
+        }
+    }
 
     Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
         SecondaryButton("← Classe", { vm.go(Screen.Teacher(TeacherTab.CLASS)) })
@@ -265,7 +276,29 @@ fun EditStudentScreen(student: Student?, traces: List<Trace>, vm: AppViewModel) 
         Text("Sur l’accueil, l’élève est représenté par", color = Navy, fontWeight = FontWeight.Bold)
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
             Chip("Un avatar", look == StudentLook.ROBOT) { look = StudentLook.ROBOT }
+            Chip("Sa photo", look == StudentLook.PHOTO) { look = StudentLook.PHOTO }
             Chip("Son prénom en grand", look == StudentLook.NAME) { look = StudentLook.NAME }
+        }
+        if (look == StudentLook.PHOTO) {
+            Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(12.dp)) {
+                val p = photo
+                if (p != null) {
+                    StudentFace(Student(firstName = name, look = StudentLook.PHOTO, robot = 0, photo = p), 120.dp)
+                } else {
+                    Hint("Pas encore de photo.")
+                }
+                SecondaryButton("📷 Prendre la photo", {
+                    vm.openTeacherCamera { file ->
+                        val target = vm.photos.newPending()
+                        if (saveFaceImage({ file.inputStream() }, target)) photo = ImageKeys.PENDING + target.name
+                        file.delete()
+                    }
+                })
+                SecondaryButton("🖼 Importer une photo", {
+                    importer.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+                })
+            }
+            Hint("La photo est recadrée en carré et rangée dans Foteli, jamais dans la galerie. Elle est incluse dans la sauvegarde chiffrée.")
         }
         if (look == StudentLook.ROBOT) {
             Text("Choisir un avatar (ceux déjà donnés sont grisés)", color = Navy, fontWeight = FontWeight.Bold)
@@ -295,7 +328,11 @@ fun EditStudentScreen(student: Student?, traces: List<Trace>, vm: AppViewModel) 
             }
         }
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
-            PrimaryButton("Enregistrer", { vm.saveStudent(student?.id, name, look, robot) }, enabled = name.isNotBlank())
+            PrimaryButton(
+                "Enregistrer",
+                { vm.saveStudent(student?.id, name, look, robot, photo) },
+                enabled = name.isNotBlank() && (look != StudentLook.PHOTO || photo != null),
+            )
         }
     }
     if (student != null) {

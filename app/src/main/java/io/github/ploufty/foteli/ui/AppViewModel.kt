@@ -85,7 +85,7 @@ enum class TeacherTab { CLASS, WORKSHOPS, PHOTOS, SETTINGS }
 enum class PhotosView(val label: String) { BOARD("Suivi"), WORKSHOP("Par atelier"), STUDENT("Par élève") }
 
 /** Appareil photo de l'enseignant (photo du modèle), affiché par-dessus l'écran en cours. */
-class TeacherCameraRequest(val onPhoto: (File) -> Unit)
+class TeacherCameraRequest(val front: Boolean, val onPhoto: (File) -> Unit)
 
 /** Au-delà, les cartes deviennent trop petites pour les enfants (docs/v0/verification.md E4). */
 const val MAX_COMFORTABLE_CARDS = 6
@@ -440,9 +440,9 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun openTeacherCamera(onPhoto: (File) -> Unit) {
+    fun openTeacherCamera(front: Boolean = false, onPhoto: (File) -> Unit) {
         touch()
-        teacherCamera = TeacherCameraRequest(onPhoto)
+        teacherCamera = TeacherCameraRequest(front, onPhoto)
     }
 
     fun closeTeacherCamera() {
@@ -530,15 +530,18 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         }
     }
 
-    fun saveStudent(id: Long?, firstName: String, look: StudentLook, robot: Int) {
+    fun saveStudent(id: Long?, firstName: String, look: StudentLook, robot: Int, photo: String? = null) {
         val name = firstName.trim()
-        if (name.isEmpty()) return
+        if (name.isEmpty() || (look == StudentLook.PHOTO && photo == null)) return
         viewModelScope.launch {
             val existing = students.value.firstOrNull { it.id == id }
+            // La photo n'est gardée que si l'élève est représenté par elle.
+            val face = if (look == StudentLook.PHOTO) withContext(Dispatchers.IO) { photo?.let { photos.keepFace(it) } } else null
+            if (existing?.photo != null && existing.photo != face) withContext(Dispatchers.IO) { photos.deleteFace(existing.photo) }
             if (existing != null) {
-                dao.updateStudent(existing.copy(firstName = name, look = look, robot = robot))
+                dao.updateStudent(existing.copy(firstName = name, look = look, robot = robot, photo = face))
             } else {
-                dao.insertStudents(listOf(Student(firstName = name, look = look, robot = robot)))
+                dao.insertStudents(listOf(Student(firstName = name, look = look, robot = robot, photo = face)))
             }
             go(Screen.Teacher(TeacherTab.CLASS))
         }
@@ -567,7 +570,11 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             val files = dao.traceFilesOfStudent(id)
             dao.deleteTracesOfStudent(id)
-            withContext(Dispatchers.IO) { photos.deletePhotos(files) }
+            val face = students.value.firstOrNull { it.id == id }?.photo
+            withContext(Dispatchers.IO) {
+                photos.deletePhotos(files)
+                photos.deleteFace(face)
+            }
             dao.deleteStudent(id)
             go(Screen.Teacher(TeacherTab.CLASS))
         }

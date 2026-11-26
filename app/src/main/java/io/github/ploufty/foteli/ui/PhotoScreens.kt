@@ -299,6 +299,7 @@ fun TeacherCameraOverlay(request: TeacherCameraRequest, cameraAllowed: Boolean, 
     var busy by remember { mutableStateOf(false) }
     var unavailable by remember { mutableStateOf(false) }
     var taken by remember { mutableStateOf<File?>(null) }
+    var front by remember { mutableStateOf(request.front) }
 
     Box(
         Modifier
@@ -310,7 +311,7 @@ fun TeacherCameraOverlay(request: TeacherCameraRequest, cameraAllowed: Boolean, 
         val photo = taken
         when {
             photo != null -> PhotoImage(photo, Modifier.fillMaxSize().padding(24.dp), maxSide = 2048, contentScale = ContentScale.Fit)
-            cameraAllowed && !unavailable -> CameraPreview(false, capture, Modifier.fillMaxSize()) { unavailable = true }
+            cameraAllowed && !unavailable -> CameraPreview(front, capture, Modifier.fillMaxSize()) { unavailable = true }
             else -> Text(
                 "Appareil photo indisponible. Autorisez-le depuis le bandeau jaune de l’espace enseignant.",
                 color = Color.White,
@@ -329,7 +330,7 @@ fun TeacherCameraOverlay(request: TeacherCameraRequest, cameraAllowed: Boolean, 
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             if (photo == null) {
-                Text("Photo du modèle", color = Navy, fontWeight = FontWeight.Bold, fontSize = 17.sp)
+                Text("Prendre la photo", color = Navy, fontWeight = FontWeight.Bold, fontSize = 17.sp)
                 PrimaryButton("Prendre la photo", {
                     if (!busy) {
                         busy = true
@@ -340,6 +341,7 @@ fun TeacherCameraOverlay(request: TeacherCameraRequest, cameraAllowed: Boolean, 
                         }
                     }
                 }, enabled = cameraAllowed && !unavailable && !busy)
+                SecondaryButton(if (front) "Caméra arrière" else "Caméra avant", { front = !front })
                 SecondaryButton("Annuler", { vm.closeTeacherCamera() })
             } else {
                 Text("Cette photo vous convient ?", color = Navy, fontWeight = FontWeight.Bold, fontSize = 17.sp)

@@ -150,6 +150,19 @@ fun saveRobotImage(context: Context, uri: android.net.Uri, target: File): Boolea
     true
 }.getOrDefault(false)
 
+/**
+ * Photo d'élève : recadrée au centre en carré, 512 px, JPEG sans métadonnées.
+ * [open] fournit l'image d'origine (photo prise par Foteli ou image importée de la tablette).
+ */
+fun saveFaceImage(open: () -> java.io.InputStream?, target: File): Boolean = runCatching {
+    val source = open()?.use { BitmapFactory.decodeStream(it) } ?: return false
+    val side = minOf(source.width, source.height)
+    val square = Bitmap.createBitmap(source, (source.width - side) / 2, (source.height - side) / 2, side, side)
+    val small = Bitmap.createScaledBitmap(square, 512, 512, true)
+    FileOutputStream(target).use { small.compress(Bitmap.CompressFormat.JPEG, 90, it) }
+    true
+}.getOrDefault(false)
+
 // ---------- Affichage des photos ----------
 
 /** Vignettes déjà décodées : les noms de fichiers sont uniques et jamais réécrits. */

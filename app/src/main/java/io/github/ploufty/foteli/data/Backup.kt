@@ -40,6 +40,7 @@ object Backup {
             content.workshops.mapNotNull { w -> store.imageFile(w.image)?.takeIf { w.image.startsWith(ImageKeys.MODEL) } }
                 .forEach { add(zip, "modeles/${it.name}", it) }
             store.customRobotIds().forEach { add(zip, "avatars/$it.png", store.robotFile(it)) }
+            content.students.mapNotNull { it.photo }.forEach { add(zip, "visages/$it", File(store.facesFolder(), it)) }
         }
     }
 
@@ -58,7 +59,7 @@ object Backup {
                 val folder = name.substringBefore('/', "")
                 val file = name.substringAfter('/')
                 // Seuls des noms simples dans trois dossiers connus sont acceptés (aucun chemin piégé).
-                if (folder !in setOf("photos", "modeles", "avatars") || !SAFE_NAME.matches(file)) continue
+                if (folder !in setOf("photos", "modeles", "avatars", "visages") || !SAFE_NAME.matches(file)) continue
                 val target = File(staging, "$folder/$file").apply { parentFile?.mkdirs() }
                 target.outputStream().use { zip.copyTo(it) }
             }
@@ -82,7 +83,7 @@ object Backup {
         put("fermetureAuto", c.autoCloseTeacher)
         put("eleves", JSONArray(c.students.map {
             JSONObject().put("id", it.id).put("prenom", it.firstName).put("representation", it.look.name)
-                .put("robot", it.robot).put("creation", it.createdAt)
+                .put("robot", it.robot).put("creation", it.createdAt).put("photo", it.photo ?: JSONObject.NULL)
         }))
         put("ateliers", JSONArray(c.workshops.map {
             JSONObject().put("id", it.id).put("titre", it.title).put("image", it.image)
@@ -111,6 +112,7 @@ object Backup {
                     look = runCatching { StudentLook.valueOf(it.getString("representation")) }.getOrDefault(StudentLook.NAME),
                     robot = it.getInt("robot"),
                     createdAt = it.getLong("creation"),
+                    photo = if (it.isNull("photo")) null else it.optString("photo").takeIf { p -> SAFE_NAME.matches(p) },
                 )
             },
             workshops = objects(j.getJSONArray("ateliers")).map {

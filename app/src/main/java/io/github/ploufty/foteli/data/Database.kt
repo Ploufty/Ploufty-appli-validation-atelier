@@ -38,7 +38,7 @@ data class Settings(
 )
 
 /** Représentation de l'élève sur l'accueil. */
-enum class StudentLook { ROBOT, NAME }
+enum class StudentLook { ROBOT, NAME, PHOTO }
 
 /** Donnée personnelle minimale : prénom et représentation (docs/v0/donnees.md § 1 B). */
 @Entity(tableName = "students")
@@ -48,6 +48,8 @@ data class Student(
     val look: StudentLook,
     val robot: Int,
     val createdAt: Long = System.currentTimeMillis(),
+    /** Photo de l'élève (nom du fichier dans le dossier privé des visages), si [look] = PHOTO. */
+    val photo: String? = null,
 )
 
 /**
@@ -200,9 +202,16 @@ val MIGRATION_2_3 = object : Migration(2, 3) {
     }
 }
 
+/** 0.6 → 0.7 : photo de l'élève. */
+val MIGRATION_3_4 = object : Migration(3, 4) {
+    override fun migrate(db: SupportSQLiteDatabase) {
+        db.execSQL("ALTER TABLE students ADD COLUMN photo TEXT")
+    }
+}
+
 // Les évolutions du schéma se feront par migrations écrites à la main :
 // aucune donnée ne doit être perdue lors d'une mise à jour.
-@Database(entities = [Settings::class, Student::class, Workshop::class, Trace::class], version = 3, exportSchema = false)
+@Database(entities = [Settings::class, Student::class, Workshop::class, Trace::class], version = 4, exportSchema = false)
 @TypeConverters(Converters::class)
 abstract class FoteliDatabase : RoomDatabase() {
     abstract fun dao(): FoteliDao
@@ -214,7 +223,7 @@ abstract class FoteliDatabase : RoomDatabase() {
         fun get(context: Context): FoteliDatabase =
             instance ?: synchronized(this) {
                 instance ?: Room.databaseBuilder(context.applicationContext, FoteliDatabase::class.java, "foteli.db")
-                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
+                    .addMigrations(MIGRATION_1_2, MIGRATION_2_3, MIGRATION_3_4)
                     .build()
                     .also { instance = it }
             }

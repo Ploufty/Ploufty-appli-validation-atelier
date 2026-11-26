@@ -27,10 +27,27 @@ class PhotoStore(root: File) {
     /** Robots ajoutés par l'enseignant (images de la tablette), nommés par leur numéro. */
     private val robots = File(root, "robots")
 
+    /** Photos des élèves (représentation sur l'accueil). */
+    private val faces = File(root, "faces")
+
+    /** Photo d'élève : enregistrée (nom simple) ou tout juste prise ([ImageKeys.PENDING]). */
+    fun faceFile(key: String): File =
+        if (key.startsWith(ImageKeys.PENDING)) pendingFile(key.removePrefix(ImageKeys.PENDING)) else File(faces, key)
+
+    /** Photo d'élève définitive : renvoie le nom à garder dans la fiche. */
+    fun keepFace(key: String): String? =
+        if (key.startsWith(ImageKeys.PENDING)) moveTo(pendingFile(key.removePrefix(ImageKeys.PENDING)), faces) else key
+
+    fun deleteFace(name: String?) {
+        if (name != null && !name.startsWith(ImageKeys.PENDING)) File(faces, name).delete()
+    }
+
     fun robotFile(id: Int) = File(robots.apply { mkdirs() }, "$id.png")
 
     fun customRobotIds(): List<Int> =
         robots.listFiles()?.mapNotNull { it.name.removeSuffix(".png").toIntOrNull() }?.sorted() ?: emptyList()
+
+    fun facesFolder() = faces
 
     fun newPending(): File = File(pending.apply { mkdirs() }, "${UUID.randomUUID()}.jpg")
 
@@ -77,7 +94,7 @@ class PhotoStore(root: File) {
 
     /** Restauration : les photos, modèles et avatars de la sauvegarde ([staging]) remplacent ceux de la tablette. */
     fun replaceAllFrom(staging: File) {
-        mapOf("photos" to photos, "modeles" to models, "avatars" to robots).forEach { (from, to) ->
+        mapOf("photos" to photos, "modeles" to models, "avatars" to robots, "visages" to faces).forEach { (from, to) ->
             to.listFiles()?.forEach { it.delete() }
             to.mkdirs()
             File(staging, from).listFiles()?.forEach { f ->
@@ -93,7 +110,7 @@ class PhotoStore(root: File) {
 
     /** « Tout effacer » : plus aucune photo sur la tablette. */
     fun deleteAll() {
-        listOf(pending, photos, models).forEach { dir -> dir.listFiles()?.forEach { it.delete() } }
+        listOf(pending, photos, models, faces).forEach { dir -> dir.listFiles()?.forEach { it.delete() } }
     }
 
     private fun moveTo(file: File, dir: File): String? {
