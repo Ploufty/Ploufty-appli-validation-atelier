@@ -54,12 +54,12 @@ fun WorkshopsTab(workshops: List<Workshop>, traces: List<Trace>, freeMode: Boole
     if (cards > MAX_COMFORTABLE_CARDS) {
         Text(
             "Plus de $MAX_COMFORTABLE_CARDS cartes côté enfants${if (freeMode) " (Photo libre comprise)" else ""} : elles deviennent petites. Pensez à désactiver les ateliers terminés.",
-            color = Color(0xFF5B4A12),
+            color = NoteInk,
             fontSize = 15.sp,
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(RoundedCornerShape(12.dp))
-                .background(Color(0xFFFFF6DC))
+                .background(Note)
                 .padding(12.dp),
         )
     }
@@ -80,7 +80,7 @@ private fun WorkshopAdminCard(w: Workshop, photoCount: Int, vm: AppViewModel, mo
         modifier
             .clip(RoundedCornerShape(14.dp))
             .background(Color.White)
-            .border(1.dp, Color(0xFFDDE3EC), RoundedCornerShape(14.dp)),
+            .border(1.dp, Line, RoundedCornerShape(14.dp)),
     ) {
         WorkshopArt(
             w.image,

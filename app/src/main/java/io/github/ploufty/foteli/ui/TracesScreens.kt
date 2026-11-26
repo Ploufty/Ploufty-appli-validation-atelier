@@ -28,6 +28,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -51,7 +53,8 @@ private fun Thumb(trace: Trace, size: Dp, vm: AppViewModel, onClick: () -> Unit)
         Modifier
             .size(size)
             .clip(RoundedCornerShape(8.dp))
-            .clickable(onClick = onClick),
+            .clickable(onClick = onClick)
+            .semantics { contentDescription = "Photo du ${dayFormat.format(Date(trace.takenAt))}, l’ouvrir en grand" },
         maxSide = 400,
     )
 }
@@ -62,7 +65,7 @@ private fun CardBox(modifier: Modifier, onClick: (() -> Unit)? = null, content: 
         modifier
             .clip(RoundedCornerShape(14.dp))
             .background(Color.White)
-            .border(1.dp, Color(0xFFDDE3EC), RoundedCornerShape(14.dp))
+            .border(1.dp, Line, RoundedCornerShape(14.dp))
             .let { if (onClick != null) it.clickable(onClick = onClick) else it }
             .padding(12.dp),
     ) { content() }
@@ -95,7 +98,7 @@ fun PhotosTab(students: List<Student>, workshops: List<Workshop>, traces: List<T
                                 Modifier
                                     .size(width = 96.dp, height = 72.dp)
                                     .clip(RoundedCornerShape(10.dp))
-                                    .background(Color(0xFF8B5CF6)),
+                                    .background(Free),
                                 contentAlignment = Alignment.Center,
                             ) {
                                 if (w != null) WorkshopArt(w.image, Modifier.fillMaxSize()) else FreePhotoIcon(Modifier.fillMaxSize(0.7f))
@@ -181,7 +184,7 @@ private fun Board(students: List<Student>, active: List<Workshop>, traces: List<
                 Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(8.dp))
-                    .background(Color(0xFFF7F9FB)),
+                    .background(High),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 Row(
@@ -210,7 +213,7 @@ private fun Board(students: List<Student>, active: List<Workshop>, traces: List<
                         if (n > 0) {
                             Text(if (n > 1) "✓ $n" else "✓", color = Green, fontWeight = FontWeight.Bold, fontSize = 20.sp)
                         } else {
-                            Text("—", color = Color(0xFFB4BCC8), fontSize = 20.sp)
+                            Text("—", color = Edge, fontSize = 20.sp)
                         }
                     }
                 }
@@ -316,7 +319,7 @@ fun PhotoViewScreen(state: Screen.PhotoView, trace: Trace?, student: Student?, w
                 .weight(0.64f)
                 .fillMaxHeight()
                 .clip(RoundedCornerShape(14.dp))
-                .background(Color(0xFF111827)),
+                .background(Night),
             maxSide = 2048,
             contentScale = ContentScale.Fit,
         )

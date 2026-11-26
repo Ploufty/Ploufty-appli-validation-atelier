@@ -16,6 +16,7 @@ import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
@@ -64,7 +65,7 @@ fun TeacherFrame(settings: Settings?, tab: TeacherTab?, vm: AppViewModel, scroll
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color(0xFFF3F5F8))
+            .background(Field)
             // Toucher à côté d'un champ referme le clavier.
             .pointerInput(Unit) { detectTapGestures { focus.clearFocus() } },
     ) {
@@ -144,8 +145,8 @@ private fun CameraBanner() {
         Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(Color(0xFFFFF6DC))
-            .border(1.dp, Yellow, RoundedCornerShape(12.dp))
+            .background(Note)
+            .border(1.dp, NoteLine, RoundedCornerShape(12.dp))
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(10.dp),
     ) {
@@ -168,14 +169,15 @@ private fun TabButton(text: String, selected: Boolean, enabled: Boolean = true, 
             .clip(RoundedCornerShape(10.dp))
             .background(if (selected) Color.White else Color.Transparent)
             .clickable(enabled = enabled, onClick = onClick)
+            .heightIn(min = 48.dp)
             .padding(horizontal = 14.dp, vertical = 10.dp),
     ) {
         Text(
             text,
             color = when {
                 selected -> Navy
-                enabled -> Color(0xFFC9D4EA)
-                else -> Color(0xFF6E7C99)
+                enabled -> OnBar
+                else -> Color(0xFF8FA9A6)
             },
             fontWeight = FontWeight.Bold,
             fontSize = 16.sp,
@@ -184,7 +186,7 @@ private fun TabButton(text: String, selected: Boolean, enabled: Boolean = true, 
 }
 
 @Composable
-internal fun Heading(text: String) = Text(text, color = Navy, fontWeight = FontWeight.Bold, fontSize = 22.sp)
+internal fun Heading(text: String) = Text(text, color = Navy, fontFamily = TitleFont, fontWeight = FontWeight.SemiBold, fontSize = 24.sp)
 
 @Composable
 internal fun Hint(text: String) = Text(text, color = Muted, fontSize = 15.sp)
@@ -196,7 +198,7 @@ internal fun WhitePanel(content: @Composable () -> Unit) {
             .fillMaxWidth()
             .clip(RoundedCornerShape(14.dp))
             .background(Color.White)
-            .border(1.dp, Color(0xFFDDE3EC), RoundedCornerShape(14.dp))
+            .border(1.dp, Line, RoundedCornerShape(14.dp))
             .padding(18.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) { content() }
@@ -223,7 +225,7 @@ fun ClassTab(students: List<Student>, traces: List<Trace>, vm: AppViewModel) {
                         .weight(1f)
                         .clip(RoundedCornerShape(14.dp))
                         .background(Color.White)
-                        .border(1.dp, Color(0xFFDDE3EC), RoundedCornerShape(14.dp))
+                        .border(1.dp, Line, RoundedCornerShape(14.dp))
                         .clickable { vm.go(Screen.EditStudent(s.id)) }
                         .padding(12.dp),
                     verticalAlignment = Alignment.CenterVertically,
@@ -312,7 +314,7 @@ fun EditStudentScreen(student: Student?, traces: List<Trace>, vm: AppViewModel) 
                                 .weight(1f)
                                 .aspectRatio(1f)
                                 .clip(RoundedCornerShape(10.dp))
-                                .background(if (robot == i) Color(0xFFE3EBFB) else Color(0xFFF3F5F8))
+                                .background(if (robot == i) ActionSoft else Field)
                                 .border(2.dp, if (robot == i) Blue else Color.Transparent, RoundedCornerShape(10.dp))
                                 .clickable(enabled = available) { robot = i }
                                 .padding(4.dp),

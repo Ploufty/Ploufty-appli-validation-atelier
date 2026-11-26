@@ -56,12 +56,12 @@ import io.github.ploufty.foteli.data.Workshop
 // ---------- Domaines : nom court et couleur ----------
 
 private val domainStyles = mapOf(
-    "LAN" to ("Langage" to Color(0xFF2C5FD6)),
-    "EPS" to ("Activités physiques" to Color(0xFF1E7D45)),
-    "ART" to ("Arts" to Color(0xFFA3307F)),
-    "MAT" to ("Maths" to Color(0xFFB4410C)),
-    "TES" to ("Temps et espace" to Color(0xFF0F6E66)),
-    "VIV" to ("Vivant, matière, objets" to Color(0xFF6D28D9)),
+    "LAN" to ("Langage" to DomLan),
+    "EPS" to ("Activités physiques" to DomEps),
+    "ART" to ("Arts" to DomArt),
+    "MAT" to ("Maths" to DomMat),
+    "TES" to ("Temps et espace" to DomTes),
+    "VIV" to ("Vivant, matière, objets" to DomViv),
 )
 
 private fun domainLabel(code: String) = domainStyles[code]?.first ?: code
@@ -93,7 +93,7 @@ private fun LevelBadge(level: String) {
         fontSize = 13.sp,
         modifier = Modifier
             .clip(RoundedCornerShape(6.dp))
-            .background(Color(0xFFE8ECF2))
+            .background(ActionSoft)
             .padding(horizontal = 7.dp, vertical = 2.dp),
     )
 }
@@ -218,7 +218,7 @@ private fun WorkshopDetails(
                 Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp))
-                    .background(Color(0xFFF3F5F8))
+                    .background(Field)
                     .padding(start = 12.dp, top = 6.dp, bottom = 6.dp),
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -284,7 +284,7 @@ private fun SaveBar(workshop: Workshop?, title: String, image: String, selected:
             .padding(top = 12.dp)
             .clip(RoundedCornerShape(14.dp))
             .background(Color.White)
-            .border(1.dp, Color(0xFFDDE3EC), RoundedCornerShape(14.dp))
+            .border(1.dp, Line, RoundedCornerShape(14.dp))
             .padding(14.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
@@ -354,7 +354,7 @@ private fun CompetencyPicker(selected: List<String>, onToggle: (String) -> Unit,
         modifier
             .clip(RoundedCornerShape(14.dp))
             .background(Color.White)
-            .border(1.dp, Color(0xFFDDE3EC), RoundedCornerShape(14.dp))
+            .border(1.dp, Line, RoundedCornerShape(14.dp))
             .padding(16.dp),
         verticalArrangement = Arrangement.spacedBy(12.dp),
     ) {
@@ -433,7 +433,7 @@ private fun CompetencyPicker(selected: List<String>, onToggle: (String) -> Unit,
                                     modifier = Modifier
                                         .fillMaxWidth()
                                         .clip(RoundedCornerShape(10.dp))
-                                        .background(Color(0xFFF3F5F8))
+                                        .background(Field)
                                         .clickable { subdomain = code }
                                         .padding(14.dp),
                                 )
@@ -483,7 +483,7 @@ private fun CompetencyList(list: List<Competency>, selected: List<String>, onTog
                 Modifier
                     .fillMaxWidth()
                     .clip(RoundedCornerShape(10.dp))
-                    .background(if (on) Color(0xFFE6F4EC) else Color(0xFFF3F5F8))
+                    .background(if (on) ActionSoft else Field)
                     .clickable { onToggle(c.id) }
                     .padding(horizontal = 12.dp, vertical = 10.dp),
                 verticalAlignment = Alignment.CenterVertically,
@@ -494,7 +494,7 @@ private fun CompetencyList(list: List<Competency>, selected: List<String>, onTog
                         .size(32.dp)
                         .clip(CircleShape)
                         .background(if (on) Green else Color.White)
-                        .border(2.dp, if (on) Green else Color(0xFFC6CFDC), CircleShape),
+                        .border(2.dp, if (on) Green else Edge, CircleShape),
                     contentAlignment = Alignment.Center,
                 ) { Text(if (on) "✓" else "+", color = if (on) Color.White else Navy, fontWeight = FontWeight.Bold, fontSize = 18.sp) }
                 Column(Modifier.weight(1f), verticalArrangement = Arrangement.spacedBy(4.dp)) {

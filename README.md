@@ -8,5 +8,6 @@ Local-first : aucune donnée ne quitte la tablette sans action volontaire de l'e
 - Références institutionnelles et référentiel de compétences : [`references/`](references/)
 - Finalité : une **APK Android sécurisée** (hors ligne, photos privées, sortie de l'appli bloquée pour les enfants).
 - Maquette cliquable de la V0 : [`maquette/foteli-maquette-v0.html`](maquette/foteli-maquette-v0.html) (à ouvrir dans un navigateur ; simulation, ce n'est pas l'appli).
-- Statut : **développement de la V0**, version 0.7 (sauvegarde, photo de l’élève, aide). Guide : [`docs/guide-enseignant.md`](docs/guide-enseignant.md). Installer et tester : [`docs/installer-et-tester.md`](docs/installer-et-tester.md).
+- Statut : **développement de la V0**, version 0.8 (interface « Lagon sobre », accessibilité). Guide : [`docs/guide-enseignant.md`](docs/guide-enseignant.md). Installer et tester : [`docs/installer-et-tester.md`](docs/installer-et-tester.md).
 - Licence : tous droits réservés (voir `LICENSE`).
+- Polices intégrées : Fredoka et Atkinson Hyperlegible, sous licence SIL Open Font License (voir `licences/`).

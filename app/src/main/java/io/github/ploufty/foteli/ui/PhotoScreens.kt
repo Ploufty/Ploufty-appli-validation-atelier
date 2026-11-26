@@ -54,8 +54,7 @@ import io.github.ploufty.foteli.data.Workshop
 import java.io.File
 import kotlinx.coroutines.delay
 
-private val Night = Color(0xFF111827)
-private val CheckGreen = Color(0xFF2FB463)
+private val CheckGreen = Green
 
 /** Délai avant que ✅ et ↻ répondent : un double appui sur le déclencheur ne valide pas la photo par erreur. */
 private const val REVIEW_GUARD_MS = 700L
@@ -193,7 +192,7 @@ private fun ChildTopBar(student: Student?, workshop: Workshop?, free: Boolean, o
             Modifier
                 .size(width = 112.dp, height = 84.dp)
                 .clip(RoundedCornerShape(14.dp))
-                .background(if (free) Color(0xFF8B5CF6) else Color.White)
+                .background(if (free) Free else Color.White)
                 .border(3.dp, Color.White, RoundedCornerShape(14.dp)),
             contentAlignment = Alignment.Center,
         ) {

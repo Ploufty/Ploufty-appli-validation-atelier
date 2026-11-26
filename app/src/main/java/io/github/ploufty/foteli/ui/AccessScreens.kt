@@ -49,8 +49,8 @@ import io.github.ploufty.foteli.security.RescueCode
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
-private val SoftWhite = Color(0xFFD5DEEF)
-private val LinkBlue = Color(0xFFBFD0F5)
+private val SoftWhite = OnBar
+private val LinkBlue = Color(0xFFA6E3DC)
 private val ErrorPink = Color(0xFFFFC9C9)
 
 /** Fond sombre des écrans réservés à l'adulte. Défile si l'écran est petit (téléphone). */
@@ -76,7 +76,7 @@ private fun AdultScreen(content: @Composable () -> Unit) {
 
 @Composable
 private fun Title(text: String) =
-    Text(text, color = Color.White, fontSize = 28.sp, fontWeight = FontWeight.Bold, textAlign = TextAlign.Center)
+    Text(text, color = Color.White, fontFamily = TitleFont, fontSize = 30.sp, fontWeight = FontWeight.SemiBold, textAlign = TextAlign.Center)
 
 @Composable
 private fun Body(text: String, color: Color = SoftWhite) =

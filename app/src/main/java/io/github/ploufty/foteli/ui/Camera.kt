@@ -181,7 +181,7 @@ fun PhotoImage(file: File, modifier: Modifier, maxSide: Int = 1024, contentScale
     if (b != null) {
         Image(b, contentDescription = null, modifier = modifier, contentScale = contentScale)
     } else {
-        Box(modifier.background(Color(0xFFDDE3EC)))
+        Box(modifier.background(Line))
     }
 }
 

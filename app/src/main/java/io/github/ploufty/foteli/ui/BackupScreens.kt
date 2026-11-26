@@ -76,8 +76,8 @@ fun BackupReminder(vm: AppViewModel) {
         Modifier
             .fillMaxWidth()
             .clip(RoundedCornerShape(12.dp))
-            .background(Color(0xFFFFF6DC))
-            .border(1.dp, Yellow, RoundedCornerShape(12.dp))
+            .background(Note)
+            .border(1.dp, NoteLine, RoundedCornerShape(12.dp))
             .padding(14.dp),
         horizontalArrangement = Arrangement.spacedBy(12.dp),
     ) {
@@ -145,7 +145,7 @@ fun RestoreScreen(state: Screen.Restore, vm: AppViewModel) {
     Column(
         Modifier
             .fillMaxSize()
-            .background(Color(0xFFF3F5F8))
+            .background(Field)
             .verticalScroll(rememberScrollState())
             .padding(24.dp),
         verticalArrangement = Arrangement.spacedBy(16.dp),

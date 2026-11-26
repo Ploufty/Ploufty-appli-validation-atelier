@@ -193,7 +193,7 @@ private fun StudentCard(student: Student, enabled: Boolean, modifier: Modifier, 
         Column(horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.spacedBy(6.dp)) {
             StudentFace(student, face)
             if (student.look != StudentLook.NAME) {
-                Text(student.firstName, color = Navy, fontSize = 20.sp, fontWeight = FontWeight.Bold, maxLines = 1)
+                Text(student.firstName, color = Navy, fontFamily = TitleFont, fontSize = 22.sp, fontWeight = FontWeight.SemiBold, maxLines = 1)
             }
         }
     }
@@ -281,7 +281,7 @@ private fun WorkshopCard(workshop: Workshop, modifier: Modifier, onClick: () -> 
                 .weight(1f)
                 .clip(RoundedCornerShape(16.dp)),
         )
-        Text(workshop.title, color = Color(0xFF8A94A6), fontSize = 15.sp, maxLines = 1)
+        Text(workshop.title, color = Ink3, fontSize = 15.sp, maxLines = 1)
     }
 }
 
@@ -291,7 +291,7 @@ private fun FreeCard(modifier: Modifier, onClick: () -> Unit) {
         modifier
             .shadow(4.dp, RoundedCornerShape(24.dp))
             .clip(RoundedCornerShape(24.dp))
-            .background(Color(0xFFF3EBFF))
+            .background(FreeSoft)
             .clickable(onClick = onClick)
             .semantics { contentDescription = "Photo libre" }
             .padding(12.dp),
@@ -302,10 +302,10 @@ private fun FreeCard(modifier: Modifier, onClick: () -> Unit) {
                 .fillMaxWidth()
                 .weight(1f)
                 .clip(RoundedCornerShape(16.dp))
-                .background(Color(0xFF8B5CF6)),
+                .background(Free),
             contentAlignment = Alignment.Center,
         ) { FreePhotoIcon(Modifier.fillMaxSize(0.6f)) }
-        Text("Photo libre · Souvenirs", color = Color(0xFF8A94A6), fontSize = 15.sp, maxLines = 1)
+        Text("Photo libre · Souvenirs", color = Ink3, fontSize = 15.sp, maxLines = 1)
     }
 }
 
