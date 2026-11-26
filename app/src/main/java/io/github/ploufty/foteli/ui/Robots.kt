@@ -1,6 +1,9 @@
 package io.github.ploufty.foteli.ui
 
 import androidx.compose.foundation.Canvas
+import androidx.compose.foundation.Image
+import androidx.compose.ui.res.painterResource
+import io.github.ploufty.foteli.R
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -15,7 +18,7 @@ import androidx.compose.ui.graphics.StrokeJoin
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.Stroke
 
-/** Les 36 robots, tous différents : 9 couleurs × 4 formes de tête, plus yeux, antenne, bouche, oreilles. */
+/** Robots dessinés (secours) : 9 couleurs × 4 formes de tête, plus yeux, antenne, bouche, oreilles. */
 data class RobotSpec(
     val color: Color,
     val head: Int,
@@ -26,7 +29,22 @@ data class RobotSpec(
 )
 
 object Robots {
-    const val COUNT = 36
+    /** Robots proposés aux élèves : les 32 illustrations (8 couleurs × 4 formes), toutes différentes. */
+    const val COUNT = 32
+
+    /** Robots dessinés : servent encore aux élèves créés avant les illustrations avec un numéro au-delà de 31. */
+    const val DRAWN_COUNT = 36
+
+    internal val images = intArrayOf(
+        R.drawable.robot_00, R.drawable.robot_01, R.drawable.robot_02, R.drawable.robot_03,
+        R.drawable.robot_04, R.drawable.robot_05, R.drawable.robot_06, R.drawable.robot_07,
+        R.drawable.robot_08, R.drawable.robot_09, R.drawable.robot_10, R.drawable.robot_11,
+        R.drawable.robot_12, R.drawable.robot_13, R.drawable.robot_14, R.drawable.robot_15,
+        R.drawable.robot_16, R.drawable.robot_17, R.drawable.robot_18, R.drawable.robot_19,
+        R.drawable.robot_20, R.drawable.robot_21, R.drawable.robot_22, R.drawable.robot_23,
+        R.drawable.robot_24, R.drawable.robot_25, R.drawable.robot_26, R.drawable.robot_27,
+        R.drawable.robot_28, R.drawable.robot_29, R.drawable.robot_30, R.drawable.robot_31,
+    )
 
     private val colors = listOf(
         Color(0xFFFF6B6B), Color(0xFFFFA94D), Color(0xFFFFD43B),
@@ -35,7 +53,7 @@ object Robots {
     )
 
     fun spec(index: Int): RobotSpec {
-        val i = index.mod(COUNT)
+        val i = index.mod(DRAWN_COUNT)
         val head = (i / 9) % 4
         return RobotSpec(
             color = colors[i % 9],
@@ -50,6 +68,10 @@ object Robots {
 
 @Composable
 fun RobotAvatar(index: Int, modifier: Modifier = Modifier) {
+    if (index in Robots.images.indices) {
+        Image(painterResource(Robots.images[index]), contentDescription = null, modifier = modifier)
+        return
+    }
     val spec = remember(index) { Robots.spec(index) }
     Canvas(modifier) { drawRobot(spec) }
 }

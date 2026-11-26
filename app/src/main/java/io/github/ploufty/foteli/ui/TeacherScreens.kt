@@ -265,7 +265,7 @@ fun EditStudentScreen(student: Student?, traces: List<Trace>, vm: AppViewModel) 
         }
         if (look == StudentLook.ROBOT) {
             Text("Choisir un robot (ceux déjà donnés sont grisés)", color = Navy, fontWeight = FontWeight.Bold)
-            (0 until Robots.COUNT).chunked(12).forEach { line ->
+            (0 until Robots.COUNT).chunked(8).forEach { line ->
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     line.forEach { i ->
                         val available = i in free

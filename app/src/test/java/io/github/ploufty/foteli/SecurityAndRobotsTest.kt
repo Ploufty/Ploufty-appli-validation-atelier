@@ -58,9 +58,11 @@ class SecurityAndRobotsTest {
 
     @Test
     fun thirtySixRobotsAreAllDifferent() {
-        val specs = (0 until Robots.COUNT).map { Robots.spec(it) }
-        assertEquals(Robots.COUNT, specs.toSet().size)
+        // Une illustration par robot proposé aux élèves.
+        assertEquals(Robots.COUNT, Robots.images.toSet().size)
+        val specs = (0 until Robots.DRAWN_COUNT).map { Robots.spec(it) }
+        assertEquals(Robots.DRAWN_COUNT, specs.toSet().size)
         // Couleur + forme de tête suffisent déjà à les distinguer.
-        assertEquals(Robots.COUNT, specs.map { it.color to it.head }.toSet().size)
+        assertEquals(Robots.DRAWN_COUNT, specs.map { it.color to it.head }.toSet().size)
     }
 }
