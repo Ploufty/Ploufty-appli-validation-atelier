@@ -3,7 +3,10 @@ package io.github.ploufty.foteli.ui
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.Image
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import io.github.ploufty.foteli.R
+import io.github.ploufty.foteli.data.PhotoStore
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -31,6 +34,9 @@ data class RobotSpec(
 object Robots {
     /** Robots proposés aux élèves : les 32 illustrations (8 couleurs × 4 formes), toutes différentes. */
     const val COUNT = 32
+
+    /** Numéro du premier robot ajouté par l'enseignant (les numéros ne sont jamais réutilisés). */
+    const val FIRST_CUSTOM = 100
 
     /** Robots dessinés : servent encore aux élèves créés avant les illustrations avec un numéro au-delà de 31. */
     const val DRAWN_COUNT = 36
@@ -70,6 +76,10 @@ object Robots {
 fun RobotAvatar(index: Int, modifier: Modifier = Modifier) {
     if (index in Robots.images.indices) {
         Image(painterResource(Robots.images[index]), contentDescription = null, modifier = modifier)
+        return
+    }
+    if (index >= Robots.FIRST_CUSTOM) {
+        PhotoImage(PhotoStore(LocalContext.current.filesDir).robotFile(index), modifier, maxSide = 320, contentScale = ContentScale.Fit)
         return
     }
     val spec = remember(index) { Robots.spec(index) }

@@ -160,6 +160,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
         viewModelScope.launch {
             // Une photo jamais validée (appli fermée en cours de route) ne survit pas.
             withContext(Dispatchers.IO) { photos.clearPending() }
+            customRobots = withContext(Dispatchers.IO) { photos.customRobotIds() }
             val s = dao.settingsNow()
             if (screen == Screen.Loading) {
                 screen = if (s?.setupDone == true) Screen.Home else Screen.Welcome
@@ -370,7 +371,34 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     fun freeRobots(exceptStudentId: Long? = null): List<Int> {
         val used = students.value.filter { it.look == StudentLook.ROBOT && it.id != exceptStudentId }.map { it.robot }.toSet()
-        return (0 until Robots.COUNT).filter { it !in used }
+        return ((0 until Robots.COUNT) + customRobots).filter { it !in used }
+    }
+
+    /** Robots ajoutés par l'enseignant (numéros à partir de [Robots.FIRST_CUSTOM]). */
+    var customRobots by mutableStateOf(emptyList<Int>())
+        private set
+
+    fun importRobots(uris: List<android.net.Uri>) {
+        if (uris.isEmpty()) return
+        viewModelScope.launch {
+            withContext(Dispatchers.IO) {
+                var next = maxOf(prefs.getInt("robot_suivant", Robots.FIRST_CUSTOM), Robots.FIRST_CUSTOM)
+                uris.forEach { uri -> if (saveRobotImage(getApplication(), uri, photos.robotFile(next))) next++ }
+                prefs.edit().putInt("robot_suivant", next).apply()
+            }
+            customRobots = withContext(Dispatchers.IO) { photos.customRobotIds() }
+        }
+    }
+
+    /** Retire un robot ajouté, seulement s'il n'est donné à aucun élève. */
+    fun deleteRobot(id: Int) {
+        if (students.value.any { it.look == StudentLook.ROBOT && it.robot == id }) return
+        viewModelScope.launch {
+            customRobots = withContext(Dispatchers.IO) {
+                photos.robotFile(id).delete()
+                photos.customRobotIds()
+            }
+        }
     }
 
     fun saveStudent(id: Long?, firstName: String, look: StudentLook, robot: Int) {

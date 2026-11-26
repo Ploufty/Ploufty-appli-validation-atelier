@@ -24,6 +24,14 @@ class PhotoStore(root: File) {
     private val photos = File(root, "photos")
     private val models = File(root, "models")
 
+    /** Robots ajoutés par l'enseignant (images de la tablette), nommés par leur numéro. */
+    private val robots = File(root, "robots")
+
+    fun robotFile(id: Int) = File(robots.apply { mkdirs() }, "$id.png")
+
+    fun customRobotIds(): List<Int> =
+        robots.listFiles()?.mapNotNull { it.name.removeSuffix(".png").toIntOrNull() }?.sorted() ?: emptyList()
+
     fun newPending(): File = File(pending.apply { mkdirs() }, "${UUID.randomUUID()}.jpg")
 
     fun clearPending() {

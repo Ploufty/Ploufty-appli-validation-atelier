@@ -1,5 +1,8 @@
 package io.github.ploufty.foteli.ui
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -265,7 +268,7 @@ fun EditStudentScreen(student: Student?, traces: List<Trace>, vm: AppViewModel) 
         }
         if (look == StudentLook.ROBOT) {
             Text("Choisir un robot (ceux déjà donnés sont grisés)", color = Navy, fontWeight = FontWeight.Bold)
-            (0 until Robots.COUNT).chunked(8).forEach { line ->
+            ((0 until Robots.COUNT) + vm.customRobots).chunked(8).forEach { line ->
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     line.forEach { i ->
                         val available = i in free
@@ -354,6 +357,7 @@ fun SettingsTab(settings: Settings?, students: List<Student>, workshopCount: Int
 
     Heading("Réglages")
     ClassModePanel(vm)
+    RobotsPanel(students, vm)
     WhitePanel {
         Text("Nom de la classe", color = Navy, fontWeight = FontWeight.Bold, fontSize = 17.sp)
         Hint("En-tête des extractions de photos et nom des sauvegardes.")
@@ -425,5 +429,34 @@ fun SettingsTab(settings: Settings?, students: List<Student>, workshopCount: Int
                 }
             }
         }, enabled = word.trim() == "EFFACER" && pin.length == 4)
+    }
+}
+
+/** Robots de la classe : les 32 intégrés, plus ceux que l'enseignant ajoute depuis les images de la tablette. */
+@Composable
+private fun RobotsPanel(students: List<Student>, vm: AppViewModel) {
+    val picker = rememberLauncherForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(50)) { vm.importRobots(it) }
+    WhitePanel {
+        Text("Robots", color = Navy, fontWeight = FontWeight.Bold, fontSize = 17.sp)
+        Hint("${Robots.COUNT} robots intégrés + ${vm.customRobots.size} ajouté${if (vm.customRobots.size > 1) "s" else ""}. Conseil : images carrées en PNG, fond transparent, un robot par image.")
+        PrimaryButton("+ Ajouter des robots (images de la tablette)", {
+            picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
+        })
+        val used = students.filter { it.look == StudentLook.ROBOT }.map { it.robot }.toSet()
+        vm.customRobots.chunked(8).forEach { line ->
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                line.forEach { id ->
+                    Column(Modifier.weight(1f), horizontalAlignment = Alignment.CenterHorizontally) {
+                        RobotAvatar(id, Modifier.fillMaxWidth().aspectRatio(1f))
+                        if (id in used) {
+                            Hint("donné")
+                        } else {
+                            SecondaryButton("Retirer", { vm.deleteRobot(id) })
+                        }
+                    }
+                }
+                repeat(8 - line.size) { Spacer(Modifier.weight(1f)) }
+            }
+        }
     }
 }

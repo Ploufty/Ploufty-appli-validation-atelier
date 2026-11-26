@@ -133,6 +133,23 @@ private fun savePhoto(source: Bitmap, rotationDegrees: Int, target: File) {
     source.recycle()
 }
 
+/**
+ * Robot ajouté par l'enseignant : l'image choisie est mise au carré (sans être déformée ni rognée),
+ * réduite à 320 px et réenregistrée en PNG, transparence conservée, sans métadonnées.
+ */
+fun saveRobotImage(context: Context, uri: android.net.Uri, target: File): Boolean = runCatching {
+    val source = context.contentResolver.openInputStream(uri)?.use { BitmapFactory.decodeStream(it) } ?: return false
+    val side = 320
+    val scale = side.toFloat() / maxOf(source.width, source.height)
+    val w = (source.width * scale).toInt().coerceAtLeast(1)
+    val h = (source.height * scale).toInt().coerceAtLeast(1)
+    val scaled = Bitmap.createScaledBitmap(source, w, h, true)
+    val square = Bitmap.createBitmap(side, side, Bitmap.Config.ARGB_8888)
+    android.graphics.Canvas(square).drawBitmap(scaled, ((side - w) / 2).toFloat(), ((side - h) / 2).toFloat(), null)
+    FileOutputStream(target).use { square.compress(Bitmap.CompressFormat.PNG, 100, it) }
+    true
+}.getOrDefault(false)
+
 // ---------- Affichage des photos ----------
 
 /** Vignettes déjà décodées : les noms de fichiers sont uniques et jamais réécrits. */
