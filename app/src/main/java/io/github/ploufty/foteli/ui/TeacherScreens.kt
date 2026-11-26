@@ -114,6 +114,7 @@ fun TeacherFrame(settings: Settings?, tab: TeacherTab?, vm: AppViewModel, scroll
                 verticalArrangement = Arrangement.spacedBy(16.dp),
             ) {
                 CameraBanner()
+                BackupReminder(vm)
                 content()
             }
         } else {
@@ -356,6 +357,7 @@ fun SettingsTab(settings: Settings?, students: List<Student>, workshopCount: Int
     LaunchedEffect(settings?.className) { className = settings?.className.orEmpty() }
 
     Heading("Réglages")
+    BackupPanel(vm)
     ClassModePanel(vm)
     RobotsPanel(students, vm)
     WhitePanel {

@@ -93,7 +93,8 @@ fun FoteliApp(vm: AppViewModel) {
         ) {
             when (val s = vm.screen) {
                 Screen.Loading -> Unit
-                Screen.Welcome -> WelcomeScreen { vm.go(Screen.ChoosePin(reset = false)) }
+                Screen.Welcome -> WelcomeScreen(vm)
+            is Screen.Restore -> RestoreScreen(s, vm)
                 is Screen.ChoosePin -> ChoosePinScreen(s, vm)
                 is Screen.ConfirmPin -> ConfirmPinScreen(s, vm)
                 is Screen.ShowRescue -> ShowRescueScreen(s, vm)

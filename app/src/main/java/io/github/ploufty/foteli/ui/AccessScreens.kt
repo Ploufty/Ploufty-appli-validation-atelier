@@ -1,5 +1,7 @@
 package io.github.ploufty.foteli.ui
 
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -213,11 +215,15 @@ private fun LockedOrPad(settings: Settings?, title: String, content: @Composable
 // ---------- Premier lancement ----------
 
 @Composable
-fun WelcomeScreen(onStart: () -> Unit) = AdultScreen {
+fun WelcomeScreen(vm: AppViewModel) = AdultScreen {
+    // Nouvelle tablette : la classe revient depuis une sauvegarde, puis on choisit un nouveau code PIN.
+    val open = rememberLauncherForActivityResult(ActivityResultContracts.OpenDocument()) { uri ->
+        if (uri != null) vm.go(Screen.Restore(uri.toString(), firstLaunch = true))
+    }
     Title("Bienvenue dans Foteli")
     Body("Les photos et les données restent sur cette tablette. Rien n’est envoyé sur Internet.")
-    PrimaryButton("Créer ma classe", onStart)
-    Body("Restaurer une sauvegarde : disponible dans une prochaine version (0.7).", Color(0xFF8FA0C2))
+    PrimaryButton("Créer ma classe", { vm.go(Screen.ChoosePin(reset = false)) })
+    SecondaryButton("Restaurer une sauvegarde", { open.launch(arrayOf("*/*")) })
 }
 
 @Composable

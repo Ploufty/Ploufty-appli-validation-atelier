@@ -18,6 +18,11 @@ import io.github.ploufty.foteli.data.Student
 import io.github.ploufty.foteli.data.StudentLook
 import io.github.ploufty.foteli.data.Trace
 import io.github.ploufty.foteli.data.Workshop
+import androidx.room.withTransaction
+import io.github.ploufty.foteli.data.Backup
+import io.github.ploufty.foteli.data.BackupContent
+import io.github.ploufty.foteli.data.BackupCrypto
+import io.github.ploufty.foteli.security.BackupPassword
 import io.github.ploufty.foteli.security.PinRules
 import io.github.ploufty.foteli.security.RescueCode
 import io.github.ploufty.foteli.security.Secrets
@@ -70,6 +75,8 @@ sealed interface Screen {
     data class StudentPhotos(val studentId: Long) : Screen
     /** Une photo en grand ; [back] : l'écran d'où l'on vient. */
     data class PhotoView(val traceId: Long, val back: Screen) : Screen
+    /** Restaurer une sauvegarde choisie par l'enseignant ([firstLaunch] : depuis l'écran de bienvenue). */
+    data class Restore(val uri: String, val firstLaunch: Boolean) : Screen
 }
 
 enum class TeacherTab { CLASS, WORKSHOPS, PHOTOS, SETTINGS }
@@ -87,7 +94,8 @@ private const val CHILD_IDLE_MS = 60_000L
 private const val TEACHER_IDLE_MS = 5 * 60_000L
 
 class AppViewModel(app: Application) : AndroidViewModel(app) {
-    private val dao = FoteliDatabase.get(app).dao()
+    private val db = FoteliDatabase.get(app)
+    private val dao = db.dao()
     val photos = PhotoStore(app.filesDir)
     private val collator = Collator.getInstance(Locale.FRENCH)
 
@@ -143,6 +151,120 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
     fun teacherAccessHelpSeen() {
         teacherAccessKnown = true
         prefs.edit().putBoolean("acces_enseignant_explique", true).apply()
+    }
+
+    // ---------- Sauvegarde (docs/v0/donnees.md § 6) ----------
+
+    private val backupPassword = BackupPassword(prefs)
+    var hasBackupPassword by mutableStateOf(backupPassword.isSet())
+        private set
+    var lastBackup by mutableStateOf(prefs.getLong("derniere_sauvegarde", 0L))
+        private set
+    var backupBusy by mutableStateOf(false)
+        private set
+    var backupMessage by mutableStateOf<String?>(null)
+    private var pendingRestore: BackupContent? = null
+
+    private val restoreStaging get() = File(getApplication<Application>().cacheDir, "restauration")
+
+    fun setBackupPassword(password: String) {
+        backupPassword.save(password)
+        hasBackupPassword = true
+    }
+
+    fun backupFileName(): String {
+        val name = settings.value?.className.orEmpty().replace(Regex("[^\\p{L}\\p{N}]+"), "-").trim('-').ifEmpty { "classe" }
+        val day = java.text.SimpleDateFormat("yyyy-MM-dd", Locale.FRENCH).format(java.util.Date())
+        return "foteli-$name-$day.foteli"
+    }
+
+    /** Écrit la sauvegarde là où l'enseignant l'a choisi (clé USB, dossier de la tablette…). */
+    fun backupTo(uri: android.net.Uri) {
+        val password = backupPassword.read() ?: run { backupMessage = "Choisissez d’abord le mot de passe de sauvegarde."; return }
+        backupBusy = true
+        backupMessage = "Sauvegarde en cours…"
+        viewModelScope.launch {
+            backupMessage = try {
+                val s = dao.settingsNow() ?: Settings()
+                val content = BackupContent(
+                    date = System.currentTimeMillis(),
+                    className = s.className,
+                    freeMode = s.freeMode,
+                    freeModeFrontCamera = s.freeModeFrontCamera,
+                    autoCloseTeacher = s.autoCloseTeacher,
+                    students = dao.studentsNow(),
+                    workshops = dao.workshopsNow(),
+                    traces = dao.tracesNow(),
+                )
+                withContext(Dispatchers.IO) {
+                    val out = getApplication<Application>().contentResolver.openOutputStream(uri) ?: error("Emplacement inaccessible.")
+                    Backup.write(out, password, content, photos)
+                }
+                lastBackup = content.date
+                prefs.edit().putLong("derniere_sauvegarde", content.date).apply()
+                "Sauvegarde terminée (${content.students.size} élèves, ${content.traces.size} photos). Ce fichier contient les photos des élèves : rangez-le en lieu sûr."
+            } catch (e: Exception) {
+                "La sauvegarde a échoué : ${e.message ?: "erreur inconnue"}. Rien n’a été modifié sur la tablette."
+            } finally {
+                backupBusy = false
+            }
+        }
+    }
+
+    /** Ouvre la sauvegarde avec son mot de passe ; rien n'est remplacé avant la confirmation. */
+    suspend fun readBackup(state: Screen.Restore, password: String): Result<BackupContent> {
+        backupBusy = true
+        return try {
+            val content = withContext(Dispatchers.IO) {
+                val input = getApplication<Application>().contentResolver.openInputStream(android.net.Uri.parse(state.uri))
+                    ?: error("Fichier inaccessible.")
+                input.use { Backup.read(it, password, restoreStaging) }
+            }
+            pendingRestore = content
+            Result.success(content)
+        } catch (e: BackupCrypto.WrongPasswordException) {
+            Result.failure(Exception("Mot de passe incorrect, ou fichier abîmé."))
+        } catch (e: BackupCrypto.NotABackupException) {
+            Result.failure(Exception("Ce fichier n’est pas une sauvegarde Foteli."))
+        } catch (e: Exception) {
+            Result.failure(Exception("Lecture impossible : ${e.message ?: "erreur inconnue"}."))
+        } finally {
+            backupBusy = false
+        }
+    }
+
+    /** Remplace toute la classe par la sauvegarde lue. Le PIN et le code de secours ne changent pas. */
+    fun applyRestore(state: Screen.Restore, password: String) {
+        val content = pendingRestore ?: return
+        backupBusy = true
+        viewModelScope.launch {
+            db.withTransaction {
+                dao.deleteAllTraces()
+                dao.deleteAllStudents()
+                dao.deleteAllWorkshops()
+                dao.insertStudents(content.students)
+                dao.insertWorkshops(content.workshops)
+                dao.insertTraces(content.traces)
+                val s = dao.settingsNow() ?: Settings()
+                dao.saveSettings(
+                    s.copy(
+                        className = content.className,
+                        freeMode = content.freeMode,
+                        freeModeFrontCamera = content.freeModeFrontCamera,
+                        autoCloseTeacher = content.autoCloseTeacher,
+                    ),
+                )
+            }
+            customRobots = withContext(Dispatchers.IO) {
+                photos.replaceAllFrom(restoreStaging)
+                photos.customRobotIds()
+            }
+            prefs.edit().putInt("robot_suivant", (customRobots.maxOrNull() ?: (Robots.FIRST_CUSTOM - 1)) + 1).apply()
+            setBackupPassword(password)
+            pendingRestore = null
+            backupBusy = false
+            go(if (state.firstLaunch) Screen.ChoosePin(reset = false) else Screen.Teacher(TeacherTab.CLASS))
+        }
     }
 
     /** Captures automatiques uniquement : recherche déjà tapée à l'ouverture de l'éditeur. */
@@ -211,6 +333,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             is Screen.EditWorkshop -> go(Screen.Teacher(TeacherTab.WORKSHOPS))
             is Screen.WorkshopPhotos, is Screen.StudentPhotos -> go(Screen.Teacher(TeacherTab.PHOTOS))
             is Screen.PhotoView -> go(s.back)
+            is Screen.Restore -> go(if (s.firstLaunch) Screen.Welcome else Screen.Teacher(TeacherTab.SETTINGS))
             is Screen.Teacher -> go(Screen.Home)
             else -> Unit
         }
@@ -246,7 +369,13 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
 
     /** L'enseignant confirme avoir recopié son code de secours. */
     fun rescueNoted(state: Screen.ShowRescue) {
-        go(if (state.reset) Screen.Teacher() else Screen.ClassName)
+        val restoredName = settings.value?.className.orEmpty()
+        when {
+            state.reset -> go(Screen.Teacher())
+            // Classe restaurée au premier lancement : son nom est déjà connu.
+            restoredName.isNotBlank() -> saveClassName(restoredName)
+            else -> go(Screen.ClassName)
+        }
     }
 
     fun saveClassName(name: String) {

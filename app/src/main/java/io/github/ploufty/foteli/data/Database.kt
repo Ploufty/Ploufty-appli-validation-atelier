@@ -151,6 +151,12 @@ interface FoteliDao {
     @Query("SELECT * FROM traces ORDER BY takenAt DESC")
     suspend fun tracesNow(): List<Trace>
 
+    @Insert
+    suspend fun insertWorkshops(workshops: List<Workshop>)
+
+    @Insert
+    suspend fun insertTraces(traces: List<Trace>)
+
     @Query("DELETE FROM traces WHERE id = :id")
     suspend fun deleteTrace(id: Long)
 

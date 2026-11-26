@@ -75,6 +75,22 @@ class PhotoStore(root: File) {
 
     fun deletePhotos(names: List<String>) = names.forEach { photo(it).delete() }
 
+    /** Restauration : les photos, modèles et avatars de la sauvegarde ([staging]) remplacent ceux de la tablette. */
+    fun replaceAllFrom(staging: File) {
+        mapOf("photos" to photos, "modeles" to models, "avatars" to robots).forEach { (from, to) ->
+            to.listFiles()?.forEach { it.delete() }
+            to.mkdirs()
+            File(staging, from).listFiles()?.forEach { f ->
+                val target = File(to, f.name)
+                if (!f.renameTo(target)) {
+                    f.copyTo(target, overwrite = true)
+                    f.delete()
+                }
+            }
+        }
+        staging.deleteRecursively()
+    }
+
     /** « Tout effacer » : plus aucune photo sur la tablette. */
     fun deleteAll() {
         listOf(pending, photos, models).forEach { dir -> dir.listFiles()?.forEach { it.delete() } }
