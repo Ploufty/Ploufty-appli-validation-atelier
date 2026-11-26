@@ -133,14 +133,17 @@ object BackupCrypto {
 
         private fun next(): Boolean {
             if (done) return false
-            val last = try {
-                input.readByte().toInt() == 1
+            val last: Boolean
+            val sealed: ByteArray
+            try {
+                last = input.readByte().toInt() == 1
+                val length = input.readInt()
+                if (length < 0 || length > CHUNK + 16) throw WrongPasswordException()
+                sealed = ByteArray(length).also(input::readFully)
             } catch (e: EOFException) {
+                // Fichier coupé (copie interrompue, clé USB retirée trop tôt).
                 throw WrongPasswordException()
             }
-            val length = input.readInt()
-            if (length < 0 || length > CHUNK + 16) throw WrongPasswordException()
-            val sealed = ByteArray(length).also(input::readFully)
             plain = try {
                 cipher(Cipher.DECRYPT_MODE, key, nonce, index++, header, last).doFinal(sealed)
             } catch (e: AEADBadTagException) {
