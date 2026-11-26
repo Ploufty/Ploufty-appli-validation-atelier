@@ -63,7 +63,7 @@ fun FoteliApp(vm: AppViewModel) {
     // Premier passage dans l'espace enseignant (fin du premier lancement) : Android demande l'autorisation une fois.
     val inTeacherSpace = vm.screen.let {
         it is Screen.Teacher || it is Screen.EditStudent || it is Screen.EditWorkshop || it == Screen.BulkAdd ||
-            it is Screen.WorkshopPhotos || it is Screen.StudentPhotos || it is Screen.PhotoView
+            it is Screen.WorkshopPhotos || it is Screen.StudentPhotos || it is Screen.PhotoView || it == Screen.Help
     }
     LaunchedEffect(inTeacherSpace) {
         if (inTeacherSpace && !allowed && !asked) {
@@ -129,6 +129,7 @@ fun FoteliApp(vm: AppViewModel) {
                     EditStudentScreen(students.firstOrNull { it.id == s.studentId }, traces, vm)
                 }
                 Screen.BulkAdd -> TeacherFrame(settings, TeacherTab.CLASS, vm) { BulkAddScreen(vm) }
+                Screen.Help -> TeacherFrame(settings, null, vm) { HelpScreen() }
                 is Screen.WorkshopPhotos -> TeacherFrame(settings, TeacherTab.PHOTOS, vm) {
                     WorkshopPhotosScreen(s, students, workshops.firstOrNull { it.id == s.workshopId }, traces, vm)
                 }

@@ -62,6 +62,8 @@ android {
 
 val copyReferentiel by tasks.registering(Copy::class) {
     from(rootProject.file("references/referentiel-competences.csv"))
+    // Guide de l'enseignant : un seul texte, affiché dans l'appli et lisible sur GitHub.
+    from(rootProject.file("docs/guide-enseignant.md"))
     into(layout.buildDirectory.dir("generated/referentiel"))
 }
 tasks.named("preBuild") { dependsOn(copyReferentiel) }

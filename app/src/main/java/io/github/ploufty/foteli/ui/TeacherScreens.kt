@@ -91,6 +91,7 @@ fun TeacherFrame(settings: Settings?, tab: TeacherTab?, vm: AppViewModel, scroll
             TabButton("Réglages", tab == TeacherTab.SETTINGS) { vm.go(Screen.Teacher(TeacherTab.SETTINGS)) }
             Spacer(Modifier.width(8.dp))
             // Mode classe : la première fois, la marche à suivre (Réglages) ; ensuite, lancé en un geste.
+            TabButton("?", vm.screen == Screen.Help) { vm.go(Screen.Help) }
             val classMode = LocalClassMode.current
             if (!classMode.active) {
                 TabButton("🔒 Mode classe", selected = false) {

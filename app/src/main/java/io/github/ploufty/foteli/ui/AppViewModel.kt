@@ -77,6 +77,8 @@ sealed interface Screen {
     data class PhotoView(val traceId: Long, val back: Screen) : Screen
     /** Restaurer une sauvegarde choisie par l'enseignant ([firstLaunch] : depuis l'écran de bienvenue). */
     data class Restore(val uri: String, val firstLaunch: Boolean) : Screen
+    /** Aide : le guide de l'enseignant (docs/guide-enseignant.md). */
+    data object Help : Screen
 }
 
 enum class TeacherTab { CLASS, WORKSHOPS, PHOTOS, SETTINGS }
@@ -297,7 +299,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
                     is Screen.ChooseWorkshop, is Screen.Camera, is Screen.Review, is Screen.Bravo, Screen.PinEntry, Screen.RescueEntry ->
                         if (idle > CHILD_IDLE_MS) go(Screen.Home)
                     is Screen.Teacher, is Screen.EditStudent, Screen.BulkAdd, is Screen.EditWorkshop,
-                    is Screen.WorkshopPhotos, is Screen.StudentPhotos, is Screen.PhotoView ->
+                    is Screen.WorkshopPhotos, is Screen.StudentPhotos, is Screen.PhotoView, Screen.Help ->
                         if (settings.value?.autoCloseTeacher != false && idle > TEACHER_IDLE_MS) go(Screen.Home)
                     else -> Unit
                 }
@@ -333,6 +335,7 @@ class AppViewModel(app: Application) : AndroidViewModel(app) {
             is Screen.EditWorkshop -> go(Screen.Teacher(TeacherTab.WORKSHOPS))
             is Screen.WorkshopPhotos, is Screen.StudentPhotos -> go(Screen.Teacher(TeacherTab.PHOTOS))
             is Screen.PhotoView -> go(s.back)
+            Screen.Help -> go(Screen.Teacher())
             is Screen.Restore -> go(if (s.firstLaunch) Screen.Welcome else Screen.Teacher(TeacherTab.SETTINGS))
             is Screen.Teacher -> go(Screen.Home)
             else -> Unit
