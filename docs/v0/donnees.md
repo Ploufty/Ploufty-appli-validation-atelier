@@ -102,6 +102,8 @@ Règles communes :
 
 ## 6. Sauvegarde
 
+> **Décision (novembre 2026)** : format propre à Foteli, sans bibliothèque extérieure (outils Google/Java uniquement). Le fichier `.foteli` est une archive ZIP entièrement chiffrée (AES-256-GCM par blocs de 1 Mo, clé PBKDF2 du mot de passe de sauvegarde). Il **ne s'ouvre pas avec 7-Zip** : il se restaure uniquement dans Foteli. L'export lisible des photos passe par l'export PDF / fiche bilan (`docs/a-faire.md`). Le texte ci-dessous décrit l'idée d'origine.
+
 ### Le principe : un fichier ZIP chiffré, double usage
 
 La sauvegarde est **un seul fichier `.zip` chiffré** (chiffrement AES-256, format ZIP standard), protégé par le **mot de passe de sauvegarde**.
