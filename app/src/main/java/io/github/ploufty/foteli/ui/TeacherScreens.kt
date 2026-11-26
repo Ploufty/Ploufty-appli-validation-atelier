@@ -209,7 +209,7 @@ fun ClassTab(students: List<Student>, traces: List<Trace>, vm: AppViewModel) {
         SecondaryButton("+ Ajouter plusieurs élèves", { vm.go(Screen.BulkAdd) })
     }
     if (students.isEmpty()) {
-        Hint("Commencez par « Ajouter plusieurs élèves » : un prénom par ligne, un robot est attribué automatiquement à chacun.")
+        Hint("Commencez par « Ajouter plusieurs élèves » : un prénom par ligne, un avatar est attribué automatiquement à chacun.")
     }
     students.chunked(3).forEach { row ->
         Row(horizontalArrangement = Arrangement.spacedBy(12.dp)) {
@@ -228,7 +228,7 @@ fun ClassTab(students: List<Student>, traces: List<Trace>, vm: AppViewModel) {
                     StudentFace(s, 56.dp)
                     Column(Modifier.weight(1f)) {
                         Text(s.firstName, color = Navy, fontWeight = FontWeight.Bold, fontSize = 18.sp)
-                        Hint("${if (s.look == StudentLook.ROBOT) "robot" else "prénom en grand"} · ${photos(traces.count { it.studentId == s.id })}")
+                        Hint("${if (s.look == StudentLook.ROBOT) "avatar" else "prénom en grand"} · ${photos(traces.count { it.studentId == s.id })}")
                     }
                     Text("Modifier", color = Blue, fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 }
@@ -263,11 +263,11 @@ fun EditStudentScreen(student: Student?, traces: List<Trace>, vm: AppViewModel) 
         )
         Text("Sur l’accueil, l’élève est représenté par", color = Navy, fontWeight = FontWeight.Bold)
         Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-            Chip("Un robot", look == StudentLook.ROBOT) { look = StudentLook.ROBOT }
+            Chip("Un avatar", look == StudentLook.ROBOT) { look = StudentLook.ROBOT }
             Chip("Son prénom en grand", look == StudentLook.NAME) { look = StudentLook.NAME }
         }
         if (look == StudentLook.ROBOT) {
-            Text("Choisir un robot (ceux déjà donnés sont grisés)", color = Navy, fontWeight = FontWeight.Bold)
+            Text("Choisir un avatar (ceux déjà donnés sont grisés)", color = Navy, fontWeight = FontWeight.Bold)
             ((0 until Robots.COUNT) + vm.customRobots).chunked(8).forEach { line ->
                 Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                     line.forEach { i ->
@@ -342,7 +342,7 @@ fun BulkAddScreen(vm: AppViewModel) {
                 .width(420.dp)
                 .height(260.dp),
         )
-        Hint("Chaque élève reçoit automatiquement un robot différent. Vous pourrez ensuite le changer ou choisir le prénom en grand.")
+        Hint("Chaque élève reçoit automatiquement un avatar différent. Vous pourrez ensuite le changer ou choisir le prénom en grand.")
         PrimaryButton(if (count > 1) "Ajouter ces $count élèves" else "Ajouter", { vm.addStudents(text) }, enabled = count > 0)
     }
 }
@@ -437,9 +437,9 @@ fun SettingsTab(settings: Settings?, students: List<Student>, workshopCount: Int
 private fun RobotsPanel(students: List<Student>, vm: AppViewModel) {
     val picker = rememberLauncherForActivityResult(ActivityResultContracts.PickMultipleVisualMedia(50)) { vm.importRobots(it) }
     WhitePanel {
-        Text("Robots", color = Navy, fontWeight = FontWeight.Bold, fontSize = 17.sp)
-        Hint("${Robots.COUNT} robots intégrés + ${vm.customRobots.size} ajouté${if (vm.customRobots.size > 1) "s" else ""}. Conseil : images carrées en PNG, fond transparent, un robot par image.")
-        PrimaryButton("+ Ajouter des robots (images de la tablette)", {
+        Text("Avatars", color = Navy, fontWeight = FontWeight.Bold, fontSize = 17.sp)
+        Hint("${Robots.COUNT} avatars intégrés + ${vm.customRobots.size} ajouté${if (vm.customRobots.size > 1) "s" else ""}. Conseil : images carrées en PNG, fond transparent, un avatar par image.")
+        PrimaryButton("+ Ajouter des avatars (images de la tablette)", {
             picker.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
         })
         val used = students.filter { it.look == StudentLook.ROBOT }.map { it.robot }.toSet()
